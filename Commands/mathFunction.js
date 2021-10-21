@@ -1,5 +1,4 @@
 function mathFunction(mathString) {
-  var mathArrayValue = 0;
   var mathArray = [];
   var finalMathArray = [];
   var divideLoc = [];
@@ -11,31 +10,30 @@ function mathFunction(mathString) {
   var mathTmp = mathString.split("");
 
   for (var mathCounter = 0; mathCounter < mathTmp.length; mathCounter++) {
-    if (mathTmp[mathArrayValue] == "/") {
+    if (mathTmp[mathCounter] == "/") {
       divideLoc.push(signCount);
       signCount += 1;
 
-      mathArray.push(mathArrayValue);
+      mathArray.push(mathCounter);
     }
-    if (mathTmp[mathArrayValue] == "*") {
+    if (mathTmp[mathCounter] == "*") {
       multiplyLoc.push(signCount);
       signCount += 1;
 
-      mathArray.push(mathArrayValue);
+      mathArray.push(mathCounter);
     }
-    if (mathTmp[mathArrayValue] == "+") {
+    if (mathTmp[mathCounter] == "+") {
       plusLoc.push(signCount);
       signCount += 1;
 
-      mathArray.push(mathArrayValue);
+      mathArray.push(mathCounter);
     }
-    if (mathTmp[mathArrayValue] == "-") {
+    if (mathTmp[mathCounter] == "-") {
       minusLoc.push(signCount);
       signCount += 1;
 
-      mathArray.push(mathArrayValue);
+      mathArray.push(mathCounter);
     }
-    mathArrayValue += 1;
   }
 
   for (var mathArrayMaker = 0; mathArrayMaker < signCount; mathArrayMaker++) {

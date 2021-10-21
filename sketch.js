@@ -15,7 +15,6 @@ var currentLineNumber = 0;
 var highestLineNumber = 0;
 var currentSpaceNumber = 0;
 var highestSpaceNumber = [0];
-var textArrayValue = 0;
 var runCommand = false;
 var scrollPos = 0;
 var maxScrollPos = 0;
@@ -260,7 +259,7 @@ function mouseWheel(event) {
   if (scrollPos > maxScrollPos) {
     scrollPos = maxScrollPos;
   }
-  //return false;
+  return false;
 }
 
 function varMaker() {
@@ -273,29 +272,26 @@ function varMaker() {
 
     varTmp = spaceRemove.split("");
 
-    arrayValue1 = 0;
     for (var varChecker = 0; varChecker < varTmp.length; varChecker++) {
-      if (varTmp[arrayValue1] == "=") {
+      if (varTmp[varChecker] == "=") {
         if (varCommand[lineNumber].indexOf("var") !== -1) {
-          endValue = arrayValue1 - 3;
+          endValue = varChecker - 3;
         } else {
-          endValue = arrayValue1;
+          endValue = varChecker;
         }
       }
-      arrayValue1 += 1;
     }
 
     contentTmp = varCommand[lineNumber].split("");
-    arrayValue1 = 0;
+    
     for (
       var contentChecker = 0;
       contentChecker < contentTmp.length;
       contentChecker++
     ) {
-      if (contentTmp[arrayValue1] == "=") {
-        contentValue = arrayValue1 + 2;
+      if (contentTmp[contentChecker] == "=") {
+        contentValue = contentChecker + 2;
       }
-      arrayValue1 += 1;
     }
 
     if (varCommand[lineNumber].indexOf("var") !== -1) {

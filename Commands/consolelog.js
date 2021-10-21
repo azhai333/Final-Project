@@ -10,19 +10,16 @@ function consoleLogChecker() {
     quoteRemove = varCommand[lineNumber].replace(/"|'/g, "");
     var tmp = quoteRemove.split("");
 
-    arrayValue = 0;
     for (var checker = 0; checker < tmp.length; checker++) {
-      if (tmp[arrayValue] == "(") {
-        startValue = arrayValue + 1;
+      if (tmp[checker] == "(") {
+        startValue = checker + 1;
       }
-      arrayValue += 1;
     }
-    arrayValue = 0;
+
     for (var checker1 = 0; checker1 < tmp.length; checker1++) {
-      if (tmp[arrayValue] == ")") {
-        endValue = arrayValue - startValue;
+      if (tmp[checker1] == ")") {
+        endValue = checker1 - startValue;
       }
-      arrayValue += 1;
     }
     
   intermediateProduct = quoteRemove.substr(startValue, endValue)
