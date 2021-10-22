@@ -34,9 +34,12 @@ var lineNumber = 0;
 var commandRunner = 0;
 var lineArray = [];
 var lastLine = [];
+
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  cursor("text");
+  canvas = createCanvas(windowWidth, windowHeight);
+  canvas.position(0, 0)
+  canvas.style('z-index', '-1')
+  //cursor("text");
   screenMouse = new mouse();
 }
 
@@ -229,20 +232,73 @@ function keyPressed() {
   }
 }
 
-function mouseClicked() {
-  screenMouse.onClick();
-
-  if (
-    mouseX > 42 - 44 / 2 &&
-    mouseX < 42 + 44 / 2 &&
-    mouseY > 74 - 44 / 2 &&
-    mouseY < 74 + 44 / 2
-  ) {
-    runCommand = true;
-  }
-
-  return false;
+$(document).ready(function() {
+  $(".buttons").click(clickFunction)
+  $(".buttons").hover(hoverFunction)
 }
+);
+
+function clickFunction() {
+  if ($(this).hasClass('play')) {
+  if ($('.playCircle').hasClass('clicked')){
+  } else {
+    $(".playCircle").addClass("red");
+    $(".playCircle").removeClass("grey");
+
+    $(".stopCircle").addClass("grey");
+    $(".stopCircle").removeClass("red");
+
+    $(".arrow-right").addClass("whiteTriangle");
+    $(".arrow-right").removeClass("blackTriangle");
+
+    $(".stopsquare").addClass("blackSquare");
+    $(".stopsquare").removeClass("whiteSquare");
+    $(".playCircle").addClass("clicked");
+    $(".stopCircle").removeClass("clicked");
+  }
+} else {
+  if ($('.stopCircle').hasClass('clicked')){
+  } else {
+    $(".stopCircle").addClass("red");
+    $(".stopCircle").removeClass("grey");
+
+    $(".playCircle").addClass("grey");
+    $(".playCircle").removeClass("red");
+
+    $(".arrow-right").removeClass("whiteTriangle");
+    $(".arrow-right").addClass("blackTriangle");
+
+    $(".stopsquare").removeClass("blackSquare");
+    $(".stopsquare").addClass("whiteSquare");
+    $(".playCircle").removeClass("clicked");
+    $(".stopCircle").addClass("clicked");
+  }
+}
+
+};
+
+function hoverFunction() {
+  if ($(this).hasClass('play')) {
+  if ($('.playCircle').hasClass('clicked')){
+  } else {
+    $(".playCircle").toggleClass("red");
+    $(".playCircle").toggleClass("grey");
+  
+    $(".arrow-right").toggleClass("whiteTriangle");
+    $(".arrow-right").toggleClass("blackTriangle");
+  }
+  } else {
+    if ($('.stopCircle').hasClass('clicked')){
+    } else {
+      $(".stopCircle").toggleClass("red");
+      $(".stopCircle").toggleClass("grey");
+    
+      $(".stopsquare").toggleClass("whiteSquare");
+      $(".stopsquare").toggleClass("blackSquare");
+    }
+    }
+    $(this).toggleClass("hover");
+};
 
 function mouseWheel(event) {
   if (event.delta > 0 && scrollPos > minScrollPos) {

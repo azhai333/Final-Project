@@ -56,23 +56,11 @@ function interface() {
   noStroke();
   image(logo, 0, 0, 56, 42);
 
-  fill(238, 0, 92);
-  circle(101, 74, 44);
-  fill(255);
-  rect(93, 66, 16, 16);
-
   fill(217, 217, 217);
-  circle(42, 74, 44);
   rect(20, 109, 49, 25, 2.5)
   fill(48, 48, 48);
   
   image(settings, 1374, 51, 46.5, 46.5)
-
-  push();
-  scale(0.52);
-  translate(29, 81);
-  triangle(40, 46, 71, 62, 40, 77);
-  pop();
 
   menu(85, 11, "File", 66, 25);
   menu(143, 11, "Edit", 121, 25);
