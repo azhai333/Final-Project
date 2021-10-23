@@ -4,23 +4,23 @@ function generalFunction() {
   var valueArray = [];
 
   if (
-    varCommand[lineNumber].indexOf("fill(") !== -1 ||
-    varCommand[lineNumber].indexOf("rect(") !== -1 ||
-    varCommand[lineNumber].indexOf("line(") !== -1 ||
-    varCommand[lineNumber].indexOf("stroke(") !== -1 ||
-    varCommand[lineNumber].indexOf("strokeWeight(") !== -1 ||
-    varCommand[lineNumber].indexOf("colorMode(") !== -1 ||
-    varCommand[lineNumber].indexOf("frameRate(") !== -1
+    currentCommand[lineNumber].indexOf("fill(") !== -1 ||
+    currentCommand[lineNumber].indexOf("rect(") !== -1 ||
+    currentCommand[lineNumber].indexOf("line(") !== -1 ||
+    currentCommand[lineNumber].indexOf("stroke(") !== -1 ||
+    currentCommand[lineNumber].indexOf("strokeWeight(") !== -1 ||
+    currentCommand[lineNumber].indexOf("colorMode(") !== -1 ||
+    currentCommand[lineNumber].indexOf("frameRate(") !== -1
   ) {
-    fillStartValue = varCommand[lineNumber].indexOf("(") + 1;
-    fillEndValue = varCommand[lineNumber].indexOf(")");
+    fillStartValue = currentCommand[lineNumber].indexOf("(") + 1;
+    fillEndValue = currentCommand[lineNumber].indexOf(")");
 
     for (
       var generalMaker = 0;
-      generalMaker < varCommand[lineNumber].length;
+      generalMaker < currentCommand[lineNumber].length;
       generalMaker++
     ) {
-      if (varCommand[lineNumber][generalMaker] === ",") {
+      if (currentCommand[lineNumber][generalMaker] === ",") {
         bracketComma.push(generalMaker);
       }
     }
@@ -35,7 +35,7 @@ function generalFunction() {
           if (
             isNaN(
               parseInt(
-                varCommand[lineNumber].substr(
+                currentCommand[lineNumber].substr(
                   fillStartValue,
                   bracketComma[0] - fillStartValue
                 )
@@ -43,13 +43,13 @@ function generalFunction() {
             )
           ) {
             if (
-              varCommand[lineNumber].substr(
+              currentCommand[lineNumber].substr(
                 fillStartValue,
                 bracketComma[0] - fillStartValue
               ) == "HSL"
             ) {
               valueArray.push(
-                varCommand[lineNumber].substr(
+                currentCommand[lineNumber].substr(
                   fillStartValue,
                   bracketComma[0] - fillStartValue
                 )
@@ -58,7 +58,7 @@ function generalFunction() {
               valueArray.push(
                 parseInt(
                   window[
-                    varCommand[lineNumber].substr(
+                    currentCommand[lineNumber].substr(
                       fillStartValue,
                       bracketComma[0] - fillStartValue
                     )
@@ -69,7 +69,7 @@ function generalFunction() {
           } else {
             valueArray.push(
               parseInt(
-                varCommand[lineNumber].substr(
+                currentCommand[lineNumber].substr(
                   fillStartValue,
                   bracketComma[0] - fillStartValue
                 )
@@ -80,7 +80,7 @@ function generalFunction() {
           if (
             isNaN(
               parseInt(
-                varCommand[lineNumber].substr(
+                currentCommand[lineNumber].substr(
                   fillStartValue,
                   fillEndValue - fillStartValue
                 )
@@ -90,7 +90,7 @@ function generalFunction() {
             valueArray.push(
               parseInt(
                 window[
-                  varCommand[lineNumber].substr(
+                  currentCommand[lineNumber].substr(
                     fillStartValue,
                     fillEndValue - fillStartValue
                   )
@@ -100,7 +100,7 @@ function generalFunction() {
           } else {
             valueArray.push(
               parseInt(
-                varCommand[lineNumber].substr(
+                currentCommand[lineNumber].substr(
                   fillStartValue,
                   fillEndValue - fillStartValue
                 )
@@ -112,7 +112,7 @@ function generalFunction() {
         if (
           isNaN(
             parseInt(
-              varCommand[lineNumber].substr(
+              currentCommand[lineNumber].substr(
                 bracketComma[bracketProcesser - 1] + 2,
                 bracketComma[bracketProcesser] -
                   bracketComma[bracketProcesser - 1] -
@@ -124,7 +124,7 @@ function generalFunction() {
           valueArray.push(
             parseInt(
               window[
-                varCommand[lineNumber].substr(
+                currentCommand[lineNumber].substr(
                   bracketComma[bracketProcesser - 1] + 2,
                   bracketComma[bracketProcesser] -
                     bracketComma[bracketProcesser - 1] -
@@ -136,7 +136,7 @@ function generalFunction() {
         } else {
           valueArray.push(
             parseInt(
-              varCommand[lineNumber].substr(
+              currentCommand[lineNumber].substr(
                 bracketComma[bracketProcesser - 1] + 2,
                 bracketComma[bracketProcesser] -
                   bracketComma[bracketProcesser - 1] -
@@ -149,7 +149,7 @@ function generalFunction() {
         if (
           isNaN(
             parseInt(
-              varCommand[lineNumber].substr(
+              currentCommand[lineNumber].substr(
                 bracketComma[bracketProcesser - 1] + 2,
                 fillEndValue - bracketComma[bracketProcesser - 1] - 2
               )
@@ -159,7 +159,7 @@ function generalFunction() {
           valueArray.push(
             parseInt(
               window[
-                varCommand[lineNumber].substr(
+                currentCommand[lineNumber].substr(
                   bracketComma[bracketProcesser - 1] + 2,
                   fillEndValue - bracketComma[bracketProcesser - 1] - 2
                 )
@@ -169,7 +169,7 @@ function generalFunction() {
         } else {
           valueArray.push(
             parseInt(
-              varCommand[lineNumber].substr(
+              currentCommand[lineNumber].substr(
                 bracketComma[bracketProcesser - 1] + 2,
                 fillEndValue - bracketComma[bracketProcesser - 1] - 2
               )
@@ -179,15 +179,15 @@ function generalFunction() {
       }
     }
 
-    if (varCommand[lineNumber].indexOf("fill(") !== -1) {
+    if (currentCommand[lineNumber].indexOf("fill(") !== -1) {
       if (bracketComma.length == 2) {
         fill(valueArray[0], valueArray[1], valueArray[2]);
       } else {
         fill(valueArray[0]);
       }
-    } else if (varCommand[lineNumber].indexOf("rect(") !== -1) {
+    } else if (currentCommand[lineNumber].indexOf("rect(") !== -1) {
       rect(valueArray[0], valueArray[1], valueArray[2], valueArray[3]);
-    } else if (varCommand[lineNumber].indexOf("line(") !== -1) {
+    } else if (currentCommand[lineNumber].indexOf("line(") !== -1) {
       lineValueArray = [
         valueArray[0],
         valueArray[1],
@@ -208,20 +208,18 @@ function generalFunction() {
         ]);
         doTheThing = true
       }
-    } else if (varCommand[lineNumber].indexOf("stroke(") !== -1) {
+    } else if (currentCommand[lineNumber].indexOf("stroke(") !== -1) {
       if (bracketComma.length == 2) {
         stroke(valueArray[0], valueArray[1], valueArray[2]);
       } else {
         stroke(valueArray[0], valueArray[0], valueArray[0]);
       }
-    } else if (varCommand[lineNumber].indexOf("strokeWeight(") !== -1) {
+    } else if (currentCommand[lineNumber].indexOf("strokeWeight(") !== -1) {
       strokeWeight(valueArray[0]);
-    } else if (varCommand[lineNumber].indexOf("colorMode(") !== -1) {
+    } else if (currentCommand[lineNumber].indexOf("colorMode(") !== -1) {
       if (valueArray[0] == "HSL") {
         colorMode(HSL, valueArray[1]);
       }
-    } else if (varCommand[lineNumber].indexOf("frameRate(") !== -1) {
-      frameRateValue = valueArray[0];
     }
   }
 }

@@ -1,11 +1,15 @@
 function commandRunnerFunction() {
-      while (commandRunner < varCommand.length) {
-      if (varCommand[lineNumber].indexOf("{") !== -1) {
+      while (commandRunner < currentCommand.length) {
+        if (runCommand == true) {
+          firstCondition = "var "
+          firstTime = true
+        }
+      if (currentCommand[lineNumber].indexOf("{") !== -1) {
         bracketScanner();
       }
 
-        firstSpace = varCommand[lineNumber].indexOf(" ");
-      firstWord = varCommand[lineNumber].substr(0, firstSpace);
+        firstSpace = currentCommand[lineNumber].indexOf(" ");
+      firstWord = currentCommand[lineNumber].substr(0, firstSpace);
 
       varMaker();
         

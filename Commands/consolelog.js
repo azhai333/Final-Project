@@ -1,13 +1,13 @@
 var containsQuote = false;
 function consoleLogChecker() {
-  if (varCommand[lineNumber].indexOf("console.log") !== -1) {
+  if (currentCommand[lineNumber].indexOf("console.log") !== -1) {
     if (
-      varCommand[lineNumber].indexOf("'") !== -1 ||
-      varCommand[lineNumber].indexOf('"') !== -1
+      currentCommand[lineNumber].indexOf("'") !== -1 ||
+      currentCommand[lineNumber].indexOf('"') !== -1
     ) {
       containsQuote = true;
     }
-    quoteRemove = varCommand[lineNumber].replace(/"|'/g, "");
+    quoteRemove = currentCommand[lineNumber].replace(/"|'/g, "");
     var tmp = quoteRemove.split("");
 
     for (var checker = 0; checker < tmp.length; checker++) {

@@ -1,69 +1,68 @@
 function frameRateFunction() {
-  function generalFunction() {
-    var bracketComma = [];
-    var valueArray = [];
+    var bracketComma1 = [];
+    var valueArray1 = [];
 
-    if (varCommand[lineNumber].indexOf("frameRate(") !== -1) {
-      fillStartValue = varCommand[lineNumber].indexOf("(") + 1;
-      fillEndValue = varCommand[lineNumber].indexOf(")");
+    if (currentCommand[lineNumber].indexOf("frameRate(") !== -1) {
+      fillStartValue1 = currentCommand[lineNumber].indexOf("(") + 1;
+      fillEndValue1 = currentCommand[lineNumber].indexOf(")");
 
       for (
-        var generalMaker = 0;
-        generalMaker < varCommand[lineNumber].length;
-        generalMaker++
+        var generalMaker1 = 0;
+        generalMaker1 < currentCommand[lineNumber].length;
+        generalMaker1++
       ) {
-        if (varCommand[lineNumber][generalMaker] === ",") {
-          bracketComma.push(generalMaker);
+        if (currentCommand[lineNumber][generalMaker1] === ",") {
+          bracketComma1.push(generalMaker1);
         }
       }
 
       for (
-        var bracketProcesser = 0;
-        bracketProcesser < bracketComma.length + 1;
-        bracketProcesser++
+        var bracketProcesser1 = 0;
+        bracketProcesser1 < bracketComma1.length + 1;
+        bracketProcesser1++
       ) {
-        if (bracketProcesser == 0) {
-          if (bracketComma.length > 0) {
+        if (bracketProcesser1 == 0) {
+          if (bracketComma1.length > 0) {
             if (
               isNaN(
                 parseInt(
-                  varCommand[lineNumber].substr(
-                    fillStartValue,
-                    bracketComma[0] - fillStartValue
+                  currentCommand[lineNumber].substr(
+                    fillStartValue1,
+                    bracketComma1[0] - fillStartValue1
                   )
                 )
               )
             ) {
               if (
-                varCommand[lineNumber].substr(
-                  fillStartValue,
-                  bracketComma[0] - fillStartValue
+                currentCommand[lineNumber].substr(
+                  fillStartValue1,
+                  bracketComma1[0] - fillStartValue1
                 ) == "HSL"
               ) {
-                valueArray.push(
-                  varCommand[lineNumber].substr(
-                    fillStartValue,
-                    bracketComma[0] - fillStartValue
+                valueArray1.push(
+                  currentCommand[lineNumber].substr(
+                    fillStartValue1,
+                    bracketComma1[0] - fillStartValue1
                   )
                 );
               } else {
-                valueArray.push(
+                valueArray1.push(
                   parseInt(
                     window[
-                      varCommand[lineNumber].substr(
-                        fillStartValue,
-                        bracketComma[0] - fillStartValue
+                      currentCommand[lineNumber].substr(
+                        fillStartValue1,
+                        bracketComma1[0] - fillStartValue1
                       )
                     ]
                   )
                 );
               }
             } else {
-              valueArray.push(
+              valueArray1.push(
                 parseInt(
-                  varCommand[lineNumber].substr(
-                    fillStartValue,
-                    bracketComma[0] - fillStartValue
+                  currentCommand[lineNumber].substr(
+                    fillStartValue1,
+                    bracketComma1[0] - fillStartValue1
                   )
                 )
               );
@@ -72,66 +71,66 @@ function frameRateFunction() {
             if (
               isNaN(
                 parseInt(
-                  varCommand[lineNumber].substr(
-                    fillStartValue,
-                    fillEndValue - fillStartValue
+                  currentCommand[lineNumber].substr(
+                    fillStartValue1,
+                    fillEndValue1 - fillStartValue1
                   )
                 )
               )
             ) {
-              valueArray.push(
+              valueArray1.push(
                 parseInt(
                   window[
-                    varCommand[lineNumber].substr(
-                      fillStartValue,
-                      fillEndValue - fillStartValue
+                    currentCommand[lineNumber].substr(
+                      fillStartValue1,
+                      fillEndValue1 - fillStartValue1
                     )
                   ]
                 )
               );
             } else {
-              valueArray.push(
+              valueArray1.push(
                 parseInt(
-                  varCommand[lineNumber].substr(
-                    fillStartValue,
-                    fillEndValue - fillStartValue
+                  currentCommand[lineNumber].substr(
+                    fillStartValue1,
+                    fillEndValue1 - fillStartValue1
                   )
                 )
               );
             }
           }
-        } else if (bracketProcesser < bracketComma.length) {
+        } else if (bracketProcesser1 < bracketComma1.length) {
           if (
             isNaN(
               parseInt(
-                varCommand[lineNumber].substr(
-                  bracketComma[bracketProcesser - 1] + 2,
-                  bracketComma[bracketProcesser] -
-                    bracketComma[bracketProcesser - 1] -
+                currentCommand[lineNumber].substr(
+                  bracketComma1[bracketProcesser1 - 1] + 2,
+                  bracketComma1[bracketProcesser1] -
+                    bracketComma1[bracketProcesser1 - 1] -
                     2
                 )
               )
             )
           ) {
-            valueArray.push(
+            valueArray1.push(
               parseInt(
                 window[
-                  varCommand[lineNumber].substr(
-                    bracketComma[bracketProcesser - 1] + 2,
-                    bracketComma[bracketProcesser] -
-                      bracketComma[bracketProcesser - 1] -
+                  currentCommand[lineNumber].substr(
+                    bracketComma1[bracketProcesser1 - 1] + 2,
+                    bracketComma1[bracketProcesser1] -
+                      bracketComma1[bracketProcesser1 - 1] -
                       2
                   )
                 ]
               )
             );
           } else {
-            valueArray.push(
+            valueArray1.push(
               parseInt(
-                varCommand[lineNumber].substr(
-                  bracketComma[bracketProcesser - 1] + 2,
-                  bracketComma[bracketProcesser] -
-                    bracketComma[bracketProcesser - 1] -
+                currentCommand[lineNumber].substr(
+                  bracketComma1[bracketProcesser1 - 1] + 2,
+                  bracketComma1[bracketProcesser1] -
+                    bracketComma1[bracketProcesser1 - 1] -
                     2
                 )
               )
@@ -141,29 +140,29 @@ function frameRateFunction() {
           if (
             isNaN(
               parseInt(
-                varCommand[lineNumber].substr(
-                  bracketComma[bracketProcesser - 1] + 2,
-                  fillEndValue - bracketComma[bracketProcesser - 1] - 2
+                currentCommand[lineNumber].substr(
+                  bracketComma1[bracketProcesser1 - 1] + 2,
+                  fillEndValue1 - bracketComma1[bracketProcesser1 - 1] - 2
                 )
               )
             )
           ) {
-            valueArray.push(
+            valueArray1.push(
               parseInt(
                 window[
-                  varCommand[lineNumber].substr(
-                    bracketComma[bracketProcesser - 1] + 2,
-                    fillEndValue - bracketComma[bracketProcesser - 1] - 2
+                  currentCommand[lineNumber].substr(
+                    bracketComma1[bracketProcesser1 - 1] + 2,
+                    fillEndValue1 - bracketComma1[bracketProcesser1 - 1] - 2
                   )
                 ]
               )
             );
           } else {
-            valueArray.push(
+            valueArray1.push(
               parseInt(
-                varCommand[lineNumber].substr(
-                  bracketComma[bracketProcesser - 1] + 2,
-                  fillEndValue - bracketComma[bracketProcesser - 1] - 2
+                currentCommand[lineNumber].substr(
+                  bracketComma1[bracketProcesser1 - 1] + 2,
+                  fillEndValue1 - bracketComma1[bracketProcesser1 - 1] - 2
                 )
               )
             );
@@ -171,9 +170,8 @@ function frameRateFunction() {
         }
       }
 
-      if (varCommand[lineNumber].indexOf("frameRate(") !== -1) {
-        frameRateValue = valueArray[0];
+      if (currentCommand[lineNumber].indexOf("frameRate(") !== -1) {
+        frameRateValue = valueArray1[0];
       }
     }
-  }
 }

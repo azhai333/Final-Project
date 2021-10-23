@@ -81,8 +81,7 @@ function mathFunction(mathString) {
         isNaN(
           parseInt(
             mathString.substr(
-              mathArray[mathArrayMaker - 1] + 2,
-              mathString.length - 8
+              mathArray[mathArrayMaker - 1] + 2
             )
           )
         )
@@ -91,8 +90,7 @@ function mathFunction(mathString) {
           parseInt(
             window[
               mathString.substr(
-                mathArray[mathArrayMaker - 1] + 2,
-                mathString.length - 8
+                mathArray[mathArrayMaker - 1] + 2
               )
             ]
           )
@@ -101,8 +99,7 @@ function mathFunction(mathString) {
         finalMathArray.push(
           parseInt(
             mathString.substr(
-              mathArray[mathArrayMaker - 1] + 1,
-              mathString.length
+              mathArray[mathArrayMaker - 1] + 2
             )
           )
         );

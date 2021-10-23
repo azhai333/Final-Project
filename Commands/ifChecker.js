@@ -11,20 +11,20 @@ function ifChecker() {
   var logCount = 0;
   var booleanArray = [];
   //This notation took a bit of research to figure out. indexOf can be used to find the location of a value within a string, so it's basically a string search function. If it fails to find the value you give it, it returns -1. So if the search is not equal to -1, then the line must contain an if statement somewhere in it that must be processed. It then finds the indexOf the opening and closing brackets as these values are important for assessing the if statement. Similar logic is used to check if it contains || or &&.
-  if (varCommand[lineNumber].indexOf("if (") !== -1) {
-    ifStartValue = varCommand[lineNumber].indexOf("(") + 1;
-    ifEndValue = varCommand[lineNumber].indexOf(")");
+  if (currentCommand[lineNumber].indexOf("if (") !== -1) {
+    ifStartValue = currentCommand[lineNumber].indexOf("(") + 1;
+    ifEndValue = currentCommand[lineNumber].indexOf(")");
 
-    if (varCommand[lineNumber].indexOf("|") !== -1) {
-      logCount = (varCommand[lineNumber].split("|").length - 1) / 2;
+    if (currentCommand[lineNumber].indexOf("|") !== -1) {
+      logCount = (currentCommand[lineNumber].split("|").length - 1) / 2;
     }
 
-    if (varCommand[lineNumber].indexOf("&") !== -1) {
-      logCount = (varCommand[lineNumber].split("&").length - 1) / 2;
+    if (currentCommand[lineNumber].indexOf("&") !== -1) {
+      logCount = (currentCommand[lineNumber].split("&").length - 1) / 2;
     }
     //These if statements evaluate whether the string contains logical operators. If it does, it breaks down whole string into an array using the split function and searches for | and &. The locations of these are pushed into ifArray. Use additional conditional with lastOr and lastAnd to ensure that only the location of the first operator is noted, as operators are always in pairs e.g. ||, &&. Everytime an operator is found, it's location in relation to others is noted. Basically if the statement is 1 == 1 && 2 == 2 || 3 == 3, andLoc will contain 1 and orLoc will contain 2 because it is the second operator to appear. This is very important later during the final step of evaluation of the Or and And statements (since they are condensed and funnel down, used to account for frame shift)
     if (logCount > 0) {
-      var ifTmp = varCommand[lineNumber].split("");
+      var ifTmp = currentCommand[lineNumber].split("");
       ifArray.push(ifStartValue);
 
       for (var ifArrayMaker = 0; ifArrayMaker < ifTmp.length; ifArrayMaker++) {
@@ -57,21 +57,21 @@ function ifChecker() {
       ) {
         if (ifArrayValue == 0) {
           ifBoolean.push(
-            varCommand[lineNumber].substr(
+            currentCommand[lineNumber].substr(
               ifArray[ifArrayValue],
               ifArray[ifArrayValue + 1] - ifArray[ifArrayValue] - 1
             )
           );
         } else if (ifArrayValue == ifArray.length - 2) {
           ifBoolean.push(
-            varCommand[lineNumber].substr(
+            currentCommand[lineNumber].substr(
               ifArray[ifArrayValue] + 2,
               ifArray[ifArrayValue + 1] - ifArray[ifArrayValue] - 2
             )
           );
         } else {
           ifBoolean.push(
-            varCommand[lineNumber].substr(
+            currentCommand[lineNumber].substr(
               ifArray[ifArrayValue] + 2,
               ifArray[ifArrayValue + 1] - ifArray[ifArrayValue] - 3
             )
@@ -81,7 +81,7 @@ function ifChecker() {
       }
     } else {
       ifBoolean = [
-        varCommand[lineNumber].substr(ifStartValue, ifEndValue - ifStartValue),
+        currentCommand[lineNumber].substr(ifStartValue, ifEndValue - ifStartValue),
       ];
     }
 
@@ -273,7 +273,7 @@ function ifChecker() {
         booleanArray[orLoc[orProcesser] - (orProcesser + 1)] = false;
       }
     }
-    //Finally! This is what it's all be leading towards. booleanArray now contains either true or false. If it's false we want to not do whatever is in the curly brackets after it. See the bracketScanner function in sketch.js to see how I determined which opening bracket corresponds to which closing bracket. That function creates an array of arrays each containing two values, the start line and end line for each bracket system (line in this case refers to index value in varCommand). This loop searches that array for the one that contains the current lineNumber as it's start value, thus the bracket system that this If statement is part of. After the loop it sets the current lineNumber equal to the line where the closing bracket of the if statement is, so essentially if the statement is false it will skip over what's inside the brackets. To account for this skip in the while loop that runs the overall processing of varCommand, the var the loop uses, commandRunner, must be set equal to the new line number.
+    //Finally! This is what it's all be leading towards. booleanArray now contains either true or false. If it's false we want to not do whatever is in the curly brackets after it. See the bracketScanner function in sketch.js to see how I determined which opening bracket corresponds to which closing bracket. That function creates an array of arrays each containing two values, the start line and end line for each bracket system (line in this case refers to index value in currentCommand). This loop searches that array for the one that contains the current lineNumber as it's start value, thus the bracket system that this If statement is part of. After the loop it sets the current lineNumber equal to the line where the closing bracket of the if statement is, so essentially if the statement is false it will skip over what's inside the brackets. To account for this skip in the while loop that runs the overall processing of currentCommand, the var the loop uses, commandRunner, must be set equal to the new line number.
     if (booleanArray[0] == false) {
       for (
         var bracketSearcher = 0;

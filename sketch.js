@@ -1,30 +1,53 @@
-var varCommand = ["function setup() {", "createCanvas(windowWidth, windowHeight)", "frameRate(12)", "}", "var state = 0", "var lin1x = 0", "var lin1y = 0", "var lin2x = 0", "var lin2y = 0", "var direction = 2", "var verticalGap = 0", "var horizontalGap = 0", "var c = 0", "function draw() {", "if (state == 0) {", "lin1x = width / 2", "lin1y = height / 2 + height / 40", "lin2x = lin1x", "lin2y = lin1y - height / 40", "verticalGap = height / 40", "horizontalGap = width / 40", "state = 1", "}", "colorMode(HSL, 360)", "stroke(200, 200, 200)", "strokeWeight(3)", "line(lin1x, lin1y, lin2x, lin2y)", "lin1x = lin2x", "lin1y = lin2y", "if (direction == 1) {", "verticalGap = verticalGap + windowHeight / 40", "lin2y = lin2y - verticalGap", "}", "if (direction == 2) {", "lin2x = lin2x + horizontalGap", "horizontalGap = horizontalGap + windowWidth / 40", "}", "if (direction == 3) {", "verticalGap = verticalGap + windowHeight / 40", "lin2y = lin2y + verticalGap", "}", "if (direction == 4) {", "lin2x = lin2x - horizontalGap", "horizontalGap = horizontalGap + windowWidth / 40", "direction = 0", "}", "direction = direction + 1", "if (c > 360) {", "c = 0", "}", "if (c <= 360) {", "c += 0", "}", "}"];
+var varCommand = ["function setup() {", "createCanvas(windowWidth, windowHeight)", "frameRate(5)", "}", "var state = 0", "var lin1x = 0", "var lin1y = 0", "var lin2x = 0", "var lin2y = 0", "var direction = 2", "var verticalGap = 0", "var horizontalGap = 0", "var c = 0", "function draw() {", "if (state == 0) {", "lin1x = width / 2", "lin1y = height / 2 + height / 40", "lin2x = lin1x", "lin2y = lin1y - height / 40", "verticalGap = height / 40", "horizontalGap = width / 40", "state = 1", "}", "colorMode(HSL, 360)", "stroke(200, 200, 200)", "strokeWeight(3)", "line(lin1x, lin1y, lin2x, lin2y)", "lin1x = lin2x", "lin1y = lin2y", "if (direction == 1) {", "verticalGap = verticalGap + windowHeight / 40", "lin2y = lin2y - verticalGap", "}", "if (direction == 2) {", "lin2x = lin2x + horizontalGap", "horizontalGap = horizontalGap + windowWidth / 40", "}", "if (direction == 3) {", "verticalGap = verticalGap + windowHeight / 40", "lin2y = lin2y + verticalGap", "}", "if (direction == 4) {", "lin2x = lin2x - horizontalGap", "horizontalGap = horizontalGap + windowWidth / 40", "direction = 0", "}", "direction = direction + 1", "if (c > 360) {", "c = 0", "}", "if (c <= 360) {", "c += 0", "}", "}"];
 var currentCommand = [""]
+
 
 var wordArray = [[[""]]];
 var quoteMode = false;
 var checkStart = 0;
 var commandTmp = [];
 var previousCommand = [""];
-var linePositionArray = [161];
-var horizontalPositionArray = [[74]];
 var currentX = 18;
 var currentY = 14;
 var clickX = 74;
 var clickY = 161;
 var currentLineNumber = 0;
-var highestLineNumber = 0;
+var highestLineNumber = varCommand.length - 1;
+var linePositionArray = []
+
+for (var linePositionArrayMaker = 0; linePositionArrayMaker < varCommand.length; linePositionArrayMaker++) {
+  linePositionArray.push(161 + linePositionArrayMaker * 18)
+}
+
 var currentSpaceNumber = 0;
-var highestSpaceNumber = [0];
+
+var highestSpaceNumber = [];
+var horizontalPositionArray = [];
+
+for (var highestSpaceNumberMaker = 0; highestSpaceNumberMaker < varCommand.length; highestSpaceNumberMaker++) {
+  highestSpaceNumber.push(varCommand[highestSpaceNumberMaker].length)
+  horizontalPositionArray.push([])
+}
+
+for (var horizontalPositionArrayMaker = 0; horizontalPositionArrayMaker < horizontalPositionArray.length; horizontalPositionArrayMaker++) {
+  for (var innerLoop = 0; innerLoop < highestSpaceNumber[horizontalPositionArrayMaker] + 1; innerLoop++) {
+    horizontalPositionArray[horizontalPositionArrayMaker].push(74 + innerLoop * 9)
+  }
+}
+
 var runCommand = false;
 var scrollPos = 0;
 var maxScrollPos = 0;
 var minScrollPos = 0;
-var frameRateValue = 1;
+if (varCommand.length > 25) {
+  minScrollPos = (varCommand.length - 25) * -18
+}
+var frameRateValue = 60;
 var functionState = 1;
 var functionInterval = 0;
 var firstTime = true;
 var firstCondition = "var ";
+var lineValueArray = [];
 
 var term1 = "";
 var term2 = "";
@@ -54,7 +77,7 @@ function preload() {
 }
 
 function draw() {
-  //console.log(lineArray);
+  //console.log(minScrollPos);
   screenMouse.mouseProperties();
   background(250, 250, 250);
   noStroke();
@@ -83,32 +106,39 @@ function draw() {
   fill(0);
   stroke(0);
   if (runCommand == true) {
+    currentCommand = varCommand
     lineNumber = 0;
     for (
       var frameRateChecker = 0;
-      frameRateChecker < varCommand.length;
+      frameRateChecker < currentCommand.length;
       frameRateChecker++
     ) {
       frameRateFunction();
       lineNumber++;
     }
+    console.log(frameRateValue);
 
-    commandRunner = 0;
-    lineNumber = 0;
 
-    functionInterval += 1;
+    lineArray = [];
+    lineValueArray = [];
+    skipFunction = 0;
 
-    if (functionInterval == frameRateValue) {
-      commandRunnerFunction();
-      functionInterval = 0;
-    }
-    //console.log(lineArray);
+  }
 
-    if (firstTime == true) {
-      firstCondition = "d vfaosfvsaodinfvapsdf";
-      firstTime = false;
-    }
-    //runCommand = false
+  commandRunner = 0;
+  lineNumber = 0;
+
+  functionInterval += 1;
+
+  if (functionInterval >= Math.floor(60/frameRateValue)) {
+    commandRunnerFunction();
+    runCommand = false
+    functionInterval = 0;
+  }
+
+  if (firstTime == true) {
+    firstCondition = "d vfaosfvsaodinfvapsdf";
+    firstTime = false;
   }
 
   for (
@@ -257,9 +287,8 @@ function clickFunction() {
     $(".stopsquare").removeClass("whiteSquare");
     $(".playCircle").addClass("clicked");
     $(".stopCircle").removeClass("clicked");
-
-    runCommand = true
   }
+  runCommand = true
 } else {
   if ($('.stopCircle').hasClass('clicked')){
   } else {
@@ -276,6 +305,9 @@ function clickFunction() {
     $(".stopsquare").addClass("whiteSquare");
     $(".playCircle").removeClass("clicked");
     $(".stopCircle").addClass("clicked");
+
+    currentCommand = [""]
+    lineArray = [];
   }
 }
 
@@ -303,6 +335,10 @@ function hoverFunction() {
     }
     $(this).toggleClass("hover");
 };
+
+function mouseClicked() {
+  screenMouse.onClick();
+}
 
 function mouseWheel(event) {
   if (event.delta > 0 && scrollPos > minScrollPos) {
@@ -379,7 +415,7 @@ function varMaker() {
     window[varName] = varContent;
   }
 }
-
+//console.log(varContent)
 function arrayEquals(a, b) {
   return (
     Array.isArray(a) &&
