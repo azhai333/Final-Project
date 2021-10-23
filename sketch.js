@@ -1,4 +1,5 @@
 var varCommand = ["function setup() {", "createCanvas(windowWidth, windowHeight)", "frameRate(12)", "}", "var state = 0", "var lin1x = 0", "var lin1y = 0", "var lin2x = 0", "var lin2y = 0", "var direction = 2", "var verticalGap = 0", "var horizontalGap = 0", "var c = 0", "function draw() {", "if (state == 0) {", "lin1x = width / 2", "lin1y = height / 2 + height / 40", "lin2x = lin1x", "lin2y = lin1y - height / 40", "verticalGap = height / 40", "horizontalGap = width / 40", "state = 1", "}", "colorMode(HSL, 360)", "stroke(200, 200, 200)", "strokeWeight(3)", "line(lin1x, lin1y, lin2x, lin2y)", "lin1x = lin2x", "lin1y = lin2y", "if (direction == 1) {", "verticalGap = verticalGap + windowHeight / 40", "lin2y = lin2y - verticalGap", "}", "if (direction == 2) {", "lin2x = lin2x + horizontalGap", "horizontalGap = horizontalGap + windowWidth / 40", "}", "if (direction == 3) {", "verticalGap = verticalGap + windowHeight / 40", "lin2y = lin2y + verticalGap", "}", "if (direction == 4) {", "lin2x = lin2x - horizontalGap", "horizontalGap = horizontalGap + windowWidth / 40", "direction = 0", "}", "direction = direction + 1", "if (c > 360) {", "c = 0", "}", "if (c <= 360) {", "c += 0", "}", "}"];
+var currentCommand = [""]
 
 var wordArray = [[[""]]];
 var quoteMode = false;
@@ -109,6 +110,7 @@ function draw() {
     }
     //runCommand = false
   }
+
   for (
     var lineArrayDrawer = 0;
     lineArrayDrawer < lineArray.length;
@@ -255,6 +257,8 @@ function clickFunction() {
     $(".stopsquare").removeClass("whiteSquare");
     $(".playCircle").addClass("clicked");
     $(".stopCircle").removeClass("clicked");
+
+    runCommand = true
   }
 } else {
   if ($('.stopCircle').hasClass('clicked')){

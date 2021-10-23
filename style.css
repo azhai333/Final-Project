@@ -6,6 +6,10 @@ canvas {
   display: block;
 }
 
+.buttons {
+  z-index: 0;
+}
+
 .circle {
   position:absolute; 
   width: 44px;
@@ -44,7 +48,7 @@ canvas {
   border-left: 16px solid rgb(250, 250, 250)
 }
 
-.playCircle {
+#play {
   left:20px; 
   top:52px;
 } 
