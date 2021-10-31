@@ -20,7 +20,6 @@ class mouse {
   onClick() {
     var lowestDiff = 100;
     var currentDiff;
-    var mouseArrayValue;
     var goToY;
     var goToX;
     if (mouseY > 161 + highestLineNumber * 18) {
@@ -30,20 +29,18 @@ class mouse {
       this.currentY = 161;
       currentLineNumber = 0;
     } else {
-      mouseArrayValue = 0;
       for (
         var closestLine = 0;
         closestLine < linePositionArray.length;
         closestLine++
       ) {
-        currentDiff = abs((mouseY - 10) - linePositionArray[mouseArrayValue]);
+        currentDiff = abs((mouseY - 10) - linePositionArray [closestLine] - scrollPos);
         if (currentDiff < lowestDiff) {
           lowestDiff = currentDiff;
-          goToY = mouseArrayValue;
+          goToY = closestLine;
         }
-        mouseArrayValue += 1;
       }
-      this.currentY = linePositionArray[goToY] - scrollPos;
+      this.currentY = linePositionArray[goToY];
       currentLineNumber = (this.currentY - 161) / 18;
     }
     lowestDiff = 100;
@@ -55,20 +52,18 @@ class mouse {
       this.currentX = 74;
       currentSpaceNumber = 0;
     } else {
-      mouseArrayValue = 0;
       for (
         var closestXLine = 0;
         closestXLine < horizontalPositionArray[currentLineNumber].length;
         closestXLine++
       ) {
         currentDiff = abs(
-          mouseX - horizontalPositionArray[currentLineNumber][mouseArrayValue]
+          mouseX - horizontalPositionArray[currentLineNumber][closestXLine]
         );
         if (currentDiff < lowestDiff) {
           lowestDiff = currentDiff;
-          goToX = mouseArrayValue;
+          goToX = closestXLine;
         }
-        mouseArrayValue += 1;
       }
       this.currentX = horizontalPositionArray[currentLineNumber][goToX];
       currentSpaceNumber = (this.currentX - 74) / 9;
@@ -168,6 +163,10 @@ class mouse {
     var wasHighest = highestSpaceNumber[currentLineNumber - 1];
 
     if (this.currentX <= 74) {
+      if (minScrollPos < 0) {
+        minScrollPos += 18;
+        scrollPos += 18;
+      }
       if (highestLineNumber == 0) {
         highestLineNumber = 0;
       } else if (currentLineNumber == 0) {

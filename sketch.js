@@ -1,6 +1,5 @@
-var varCommand = ["function setup() {", "createCanvas(windowWidth, windowHeight)", "frameRate(5)", "}", "var state = 0", "var lin1x = 0", "var lin1y = 0", "var lin2x = 0", "var lin2y = 0", "var direction = 2", "var verticalGap = 0", "var horizontalGap = 0", "var c = 0", "function draw() {", "if (state == 0) {", "lin1x = width / 2", "lin1y = height / 2 + height / 40", "lin2x = lin1x", "lin2y = lin1y - height / 40", "verticalGap = height / 40", "horizontalGap = width / 40", "state = 1", "}", "colorMode(HSL, 360)", "stroke(200, 200, 200)", "strokeWeight(3)", "line(lin1x, lin1y, lin2x, lin2y)", "lin1x = lin2x", "lin1y = lin2y", "if (direction == 1) {", "verticalGap = verticalGap + windowHeight / 40", "lin2y = lin2y - verticalGap", "}", "if (direction == 2) {", "lin2x = lin2x + horizontalGap", "horizontalGap = horizontalGap + windowWidth / 40", "}", "if (direction == 3) {", "verticalGap = verticalGap + windowHeight / 40", "lin2y = lin2y + verticalGap", "}", "if (direction == 4) {", "lin2x = lin2x - horizontalGap", "horizontalGap = horizontalGap + windowWidth / 40", "direction = 0", "}", "direction = direction + 1", "if (c > 360) {", "c = 0", "}", "if (c <= 360) {", "c += 0", "}", "}"];
+var varCommand = ["function setup() {", "createCanvas(windowWidth, windowHeight)", "frameRate(12)", "}", "var state = 0", "var lin1x = 0", "var lin1y = 0", "var lin2x = 0", "var lin2y = 0", "var direction = 2", "var verticalGap = 0", "var horizontalGap = 0", "var c = 0", "function draw() {", "if (state == 0) {", "lin1x = width / 2", "lin1y = height / 2 + height / 40", "lin2x = lin1x", "lin2y = lin1y - height / 40", "verticalGap = height / 40", "horizontalGap = width / 40", "state = 1", "}", "colorMode(HSL, 360)", "stroke(200, 200, 200)", "strokeWeight(3)", "line(lin1x, lin1y, lin2x, lin2y)", "lin1x = lin2x", "lin1y = lin2y", "if (direction == 1) {", "verticalGap = verticalGap + windowHeight / 40", "lin2y = lin2y - verticalGap", "}", "if (direction == 2) {", "lin2x = lin2x + horizontalGap", "horizontalGap = horizontalGap + windowWidth / 40", "}", "if (direction == 3) {", "verticalGap = verticalGap + windowHeight / 40", "lin2y = lin2y + verticalGap", "}", "if (direction == 4) {", "lin2x = lin2x - horizontalGap", "horizontalGap = horizontalGap + windowWidth / 40", "direction = 0", "}", "direction = direction + 1", "if (c > 360) {", "c = 0", "}", "if (c <= 360) {", "c += 0", "}", "}"];
 var currentCommand = [""]
-
 
 var wordArray = [[[""]]];
 var quoteMode = false;
@@ -61,6 +60,7 @@ var lastLine = [];
 
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
+  console.log(canvas)
   canvas.position(0, 0)
   canvas.style('z-index', '-1')
   //cursor("text");
@@ -77,7 +77,7 @@ function preload() {
 }
 
 function draw() {
-  //console.log(minScrollPos);
+  //console.log(scrollPos);
   screenMouse.mouseProperties();
   background(250, 250, 250);
   noStroke();
@@ -117,7 +117,6 @@ function draw() {
       lineNumber++;
     }
     console.log(frameRateValue);
-
 
     lineArray = [];
     lineValueArray = [];
@@ -195,7 +194,7 @@ function keyPressed() {
 
     screenMouse.onEnter();
 
-    if (highestLineNumber > 24) {
+    if (highestLineNumber > 24 && currentLineNumber == Math.round(Math.abs(scrollPos)/18) + 25) {
       scrollPos -= 18;
       minScrollPos -= 18;
       //maxScrollPos += 18
@@ -415,7 +414,6 @@ function varMaker() {
     window[varName] = varContent;
   }
 }
-//console.log(varContent)
 function arrayEquals(a, b) {
   return (
     Array.isArray(a) &&
