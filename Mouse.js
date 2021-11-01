@@ -7,7 +7,6 @@ class mouse {
     this.state = 1;
     //this.boxFill = 0
   }
-
   mouseProperties() {
     if (this.currentX <= 74) {
       this.currentX = 74;
@@ -16,7 +15,6 @@ class mouse {
       this.currentY = 161;
     }
   }
-
   onClick() {
     var lowestDiff = 100;
     var currentDiff;
@@ -25,16 +23,13 @@ class mouse {
     if (mouseY > 161 + highestLineNumber * 18) {
       this.currentY = 161 + highestLineNumber * 18;
       currentLineNumber = highestLineNumber;
-    } else if (mouseY < 161) {
-      this.currentY = 161;
-      currentLineNumber = 0;
     } else {
       for (
         var closestLine = 0;
         closestLine < linePositionArray.length;
         closestLine++
       ) {
-        currentDiff = abs((mouseY - 10) - linePositionArray [closestLine] - scrollPos);
+        currentDiff = abs((mouseY - 10) - linePositionArray[closestLine] - scrollPos);
         if (currentDiff < lowestDiff) {
           lowestDiff = currentDiff;
           goToY = closestLine;
@@ -158,24 +153,20 @@ class mouse {
     this.state = 1;
     var combine1;
     var combine2;
-    var n;
     var wasX = this.currentX;
     var wasHighest = highestSpaceNumber[currentLineNumber - 1];
 
     if (this.currentX <= 74) {
-      if (minScrollPos < 0) {
-        minScrollPos += 18;
+      if (currentLineNumber == highestLineNumber || scrollPos == minScrollPos) {
         scrollPos += 18;
       }
+      minScrollPos += 18;
       if (highestLineNumber == 0) {
         highestLineNumber = 0;
-      } else if (currentLineNumber == 0) {
+      } else if (currentLineNumber <= 0) {
         currentLineNumber = 0;
       } else {
-        var goTo =
-          horizontalPositionArray[currentLineNumber - 1][
-            horizontalPositionArray[currentLineNumber - 1].length - 1
-          ];
+        this.currentY -= 18;
         highestLineNumber -= 1;
         linePositionArray.splice(currentLineNumber, 1);
 
@@ -197,46 +188,31 @@ class mouse {
           ];
         horizontalPositionArray.splice(currentLineNumber, 1);
         horizontalPositionArray[currentLineNumber - 1] = [];
-        n = 0;
         for (
           var arrayCombiner = 0;
           arrayCombiner < combine1 + combine2 + 1;
           arrayCombiner++
         ) {
-          horizontalPositionArray[currentLineNumber - 1].push(n * 9 + 74);
-          n += 1;
+          horizontalPositionArray[currentLineNumber - 1].push(arrayCombiner * 9 + 74);
         }
         if (horizontalPositionArray[currentLineNumber - 1] == "") {
           horizontalPositionArray[currentLineNumber - 1].push(74);
         }
         highestSpaceNumber[currentLineNumber - 1] = combine1 + combine2;
         highestSpaceNumber.splice(currentLineNumber, 1);
+
+        currentLineNumber -= 1;
       }
     } else {
       this.currentX -= 9;
     }
 
-    if (wasX == 74) {
-      if (currentLineNumber <= 0) {
-        currentLineNumber = 0;
-      } else {
-        currentLineNumber -= 1;
-      }
-      this.currentY -= 18;
-    }
-    if (this.currentY <= 161) {
-      this.currentY = 161;
-    }
-    if (highestSpaceNumber[currentLineNumber] == 0) {
-      highestSpaceNumber[currentLineNumber] = 0;
-    } else if (currentSpaceNumber == 0) {
-      currentSpaceNumber = 0;
-    } else {
+    // if (this.currentY <= 161) {
+    //   this.currentY = 161;
+    // }
+    if (highestSpaceNumber[currentLineNumber] != 0 && currentSpaceNumber != 0) {
       highestSpaceNumber[currentLineNumber] -= 1;
-      horizontalPositionArray[currentLineNumber].splice(
-        highestSpaceNumber[currentLineNumber],
-        1
-      );
+      horizontalPositionArray[currentLineNumber].pop();
       lineArrayValue = currentSpaceNumber;
       for (
         var arrayRemover2 = 0;
@@ -244,7 +220,6 @@ class mouse {
         horizontalPositionArray[currentLineNumber].length - currentSpaceNumber;
         arrayRemover2++
       ) {
-        horizontalPositionArray[currentLineNumber][lineArrayValue] -= 9;
         lineArrayValue += 1;
       }
     }

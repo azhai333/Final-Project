@@ -1,5 +1,5 @@
-var varCommand = ["function setup() {", "createCanvas(windowWidth, windowHeight)", "frameRate(12)", "}", "var state = 0", "var lin1x = 0", "var lin1y = 0", "var lin2x = 0", "var lin2y = 0", "var direction = 2", "var verticalGap = 0", "var horizontalGap = 0", "var c = 0", "function draw() {", "if (state == 0) {", "lin1x = width / 2", "lin1y = height / 2 + height / 40", "lin2x = lin1x", "lin2y = lin1y - height / 40", "verticalGap = height / 40", "horizontalGap = width / 40", "state = 1", "}", "colorMode(HSL, 360)", "stroke(200, 200, 200)", "strokeWeight(3)", "line(lin1x, lin1y, lin2x, lin2y)", "lin1x = lin2x", "lin1y = lin2y", "if (direction == 1) {", "verticalGap = verticalGap + windowHeight / 40", "lin2y = lin2y - verticalGap", "}", "if (direction == 2) {", "lin2x = lin2x + horizontalGap", "horizontalGap = horizontalGap + windowWidth / 40", "}", "if (direction == 3) {", "verticalGap = verticalGap + windowHeight / 40", "lin2y = lin2y + verticalGap", "}", "if (direction == 4) {", "lin2x = lin2x - horizontalGap", "horizontalGap = horizontalGap + windowWidth / 40", "direction = 0", "}", "direction = direction + 1", "if (c > 360) {", "c = 0", "}", "if (c <= 360) {", "c += 0", "}", "}"];
-var currentCommand = [""]
+var varCommand = ["function setup() {", "createCanvas(windowWidth, windowHeight)", "frameRate(5)", "}", "var state = 0", "var lin1x = 0", "var lin1y = 0", "var lin2x = 0", "var lin2y = 0", "var direction = 2", "var verticalGap = 0", "var horizontalGap = 0", "var c = 0", "function draw() {", "if (state == 0) {", "lin1x = width / 2", "lin1y = height / 2 + height / 40", "lin2x = lin1x", "lin2y = lin1y - height / 40", "verticalGap = height / 40", "horizontalGap = width / 40", "state = 1", "}", "colorMode(HSL, 360)", "stroke(c, 200, 200)", "strokeWeight(3)", "line(lin1x, lin1y, lin2x, lin2y)", "lin1x = lin2x", "lin1y = lin2y", "if (direction == 1) {", "verticalGap = verticalGap + height / 40", "lin2y = lin2y - verticalGap", "}", "if (direction == 2) {", "lin2x = lin2x + horizontalGap", "horizontalGap = horizontalGap + width / 40", "}", "if (direction == 3) {", "verticalGap = verticalGap + height / 40", "lin2y = lin2y + verticalGap", "}", "if (direction == 4) {", "lin2x = lin2x - horizontalGap", "horizontalGap = horizontalGap + width / 40", "direction = 0", "}", "direction = direction + 1", "if (c > 360) {", "c = 0", "}", "if (c <= 360) {", "c = c + 7", "}", "}"];
+var currentCommand = []
 
 var wordArray = [[[""]]];
 var quoteMode = false;
@@ -56,11 +56,12 @@ var finalBracketArray = [];
 var lineNumber = 0;
 var commandRunner = 0;
 var lineArray = [];
-var lastLine = [];
+var rectArray = [];
+var strokeArray = [];
+var mode;
 
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
-  console.log(canvas)
   canvas.position(0, 0)
   canvas.style('z-index', '-1')
   //cursor("text");
@@ -77,7 +78,8 @@ function preload() {
 }
 
 function draw() {
-  //console.log(scrollPos);
+  console.log(scrollPos);
+  console.log(minScrollPos);
   screenMouse.mouseProperties();
   background(250, 250, 250);
   noStroke();
@@ -106,7 +108,10 @@ function draw() {
   fill(0);
   stroke(0);
   if (runCommand == true) {
-    currentCommand = varCommand
+    currentCommand = []
+    for (commandMaker = 0; commandMaker < varCommand.length; commandMaker++) {
+      currentCommand.push(varCommand[commandMaker])
+    }
     lineNumber = 0;
     for (
       var frameRateChecker = 0;
@@ -116,12 +121,11 @@ function draw() {
       frameRateFunction();
       lineNumber++;
     }
-    console.log(frameRateValue);
+    //console.log(frameRateValue);
 
     lineArray = [];
     lineValueArray = [];
     skipFunction = 0;
-
   }
 
   commandRunner = 0;
@@ -140,21 +144,41 @@ function draw() {
     firstTime = false;
   }
 
+  shapeDrawer(lineArray, line)
+  shapeDrawer(rectArray, rect)
+
+  pop();
+}
+
+function shapeDrawer(shapeArray, shape) {
   for (
     var lineArrayDrawer = 0;
-    lineArrayDrawer < lineArray.length;
+    lineArrayDrawer < shapeArray.length;
     lineArrayDrawer++
   ) {
-    stroke(0)
+    if (shapeArray[lineArrayDrawer][0] + 735 > 735 && shapeArray[lineArrayDrawer][1] + 134 > 134) {
+    
+    colorMode(HSL, 360)
+    stroke(strokeArray[lineArrayDrawer][0], strokeArray[lineArrayDrawer][1], strokeArray[lineArrayDrawer][2])
+    fill(strokeArray[lineArrayDrawer][0], strokeArray[lineArrayDrawer][1], strokeArray[lineArrayDrawer][2])
     strokeWeight(3)
-    line(
-      lineArray[lineArrayDrawer][0],
-      lineArray[lineArrayDrawer][1],
-      lineArray[lineArrayDrawer][2],
-      lineArray[lineArrayDrawer][3]
+    if (shape == line) {
+    shape(
+      shapeArray[lineArrayDrawer][0] + 735,
+      shapeArray[lineArrayDrawer][1] + 134,
+      shapeArray[lineArrayDrawer][2] + 735,
+      shapeArray[lineArrayDrawer][3] + 134
     );
+    } else {
+      shape(
+        shapeArray[lineArrayDrawer][0] + 735,
+        shapeArray[lineArrayDrawer][1] + 134,
+        shapeArray[lineArrayDrawer][2],
+        shapeArray[lineArrayDrawer][3]
+      );
+    }
   }
-  pop();
+  }
 }
 
 function keyPressed() {
@@ -194,10 +218,9 @@ function keyPressed() {
 
     screenMouse.onEnter();
 
+    minScrollPos -= 18;
     if (highestLineNumber > 24 && currentLineNumber == Math.round(Math.abs(scrollPos)/18) + 25) {
       scrollPos -= 18;
-      minScrollPos -= 18;
-      //maxScrollPos += 18
     }
   } else if (keyCode == 32) {
     currentSpaceNumber += 1;
@@ -288,6 +311,9 @@ function clickFunction() {
     $(".stopCircle").removeClass("clicked");
   }
   runCommand = true
+  lineArray = [];
+  rectArray = [];
+  strokeArray = [];
 } else {
   if ($('.stopCircle').hasClass('clicked')){
   } else {
@@ -305,8 +331,11 @@ function clickFunction() {
     $(".playCircle").removeClass("clicked");
     $(".stopCircle").addClass("clicked");
 
-    currentCommand = [""]
+    currentCommand = []
     lineArray = [];
+    rectArray = [];
+    strokeArray = [];
+
   }
 }
 
@@ -359,17 +388,17 @@ function mouseWheel(event) {
 
 function varMaker() {
   if (
-    varCommand[lineNumber].indexOf(firstCondition) !== -1 ||
+    currentCommand[lineNumber].indexOf(firstCondition) !== -1 ||
     window[firstWord] != undefined
   ) {
     //quoteRemove1 = varCommand[lineNumber].replace(/"|'/g, "");
-    spaceRemove = varCommand[lineNumber].replace(/ /g, "");
+    spaceRemove = currentCommand[lineNumber].replace(/ /g, "");
 
     varTmp = spaceRemove.split("");
 
     for (var varChecker = 0; varChecker < varTmp.length; varChecker++) {
       if (varTmp[varChecker] == "=") {
-        if (varCommand[lineNumber].indexOf("var") !== -1) {
+        if (currentCommand[lineNumber].indexOf("var") !== -1) {
           endValue = varChecker - 3;
         } else {
           endValue = varChecker;
@@ -377,7 +406,7 @@ function varMaker() {
       }
     }
 
-    contentTmp = varCommand[lineNumber].split("");
+    contentTmp = currentCommand[lineNumber].split("");
     
     for (
       var contentChecker = 0;
@@ -389,17 +418,22 @@ function varMaker() {
       }
     }
 
-    if (varCommand[lineNumber].indexOf("var") !== -1) {
+    if (currentCommand[lineNumber].indexOf("var") !== -1) {
       varName = spaceRemove.substr(3, endValue);
     } else {
       varName = spaceRemove.substr(0, endValue);
     }
 
-    varContent = varCommand[lineNumber].substr(
+    varContent = currentCommand[lineNumber].substr(
       contentValue,
       contentTmp.length - contentValue
     );
-
+    if (varContent.indexOf("width") !== -1) {
+      varContent = varContent.replace("width", "706")
+    }
+    if (varContent.indexOf("height") !== -1) {
+      varContent = varContent.replace("height", "628")
+    }
     if (
       varContent.indexOf("+") !== -1 ||
       varContent.indexOf("-") !== -1 ||

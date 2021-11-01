@@ -8,7 +8,7 @@ function commandRunnerFunction() {
         bracketScanner();
       }
 
-        firstSpace = currentCommand[lineNumber].indexOf(" ");
+      firstSpace = currentCommand[lineNumber].indexOf(" ");
       firstWord = currentCommand[lineNumber].substr(0, firstSpace);
 
       varMaker();

@@ -1,8 +1,9 @@
+var valueArray = [];
+var doTheThing = true
+var bracketComma = [];
 function generalFunction() {
-  var doTheThing = true
-  var bracketComma = [];
-  var valueArray = [];
-
+  valueArray = []
+  bracketComma = []
   if (
     currentCommand[lineNumber].indexOf("fill(") !== -1 ||
     currentCommand[lineNumber].indexOf("rect(") !== -1 ||
@@ -186,40 +187,38 @@ function generalFunction() {
         fill(valueArray[0]);
       }
     } else if (currentCommand[lineNumber].indexOf("rect(") !== -1) {
-      rect(valueArray[0], valueArray[1], valueArray[2], valueArray[3]);
+      shapeArrayMaker(rectArray);
     } else if (currentCommand[lineNumber].indexOf("line(") !== -1) {
-      lineValueArray = [
-        valueArray[0],
-        valueArray[1],
-        valueArray[2],
-        valueArray[3],
-      ];
-      for (var randomName = 0; randomName < lineArray.length; randomName++) {
-        if (arrayEquals(lineValueArray, lineArray[randomName]) == true) {
-          doTheThing = false;
-        }
-      }
-      if (doTheThing == true) {
-        lineArray.push([
-          valueArray[0],
-          valueArray[1],
-          valueArray[2],
-          valueArray[3],
-        ]);
-        doTheThing = true
-      }
+      shapeArrayMaker(lineArray)
     } else if (currentCommand[lineNumber].indexOf("stroke(") !== -1) {
-      if (bracketComma.length == 2) {
-        stroke(valueArray[0], valueArray[1], valueArray[2]);
-      } else {
-        stroke(valueArray[0], valueArray[0], valueArray[0]);
+      strokeArray.push([])
+      for (var i = 0; i < bracketComma.length + 1; i++) {
+        strokeArray[strokeArray.length - 1].push(valueArray[i])
       }
     } else if (currentCommand[lineNumber].indexOf("strokeWeight(") !== -1) {
       strokeWeight(valueArray[0]);
     } else if (currentCommand[lineNumber].indexOf("colorMode(") !== -1) {
       if (valueArray[0] == "HSL") {
-        colorMode(HSL, valueArray[1]);
+        mode = colorMode(HSL, valueArray[1]);
       }
     }
+  }
+}
+
+function shapeArrayMaker(shapeArray) {
+  var tmpArray = []
+  doTheThing = true
+
+  for (var i = 0; i < bracketComma.length + 1; i++) {
+    tmpArray.push(valueArray[i])
+  }
+
+  for (var randomName = 0; randomName < shapeArray.length; randomName++) {
+    if (arrayEquals(tmpArray, shapeArray[randomName]) == true) {
+      doTheThing = false;
+    }
+  }
+  if (doTheThing == true) {
+    shapeArray.push(tmpArray);
   }
 }

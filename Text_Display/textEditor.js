@@ -51,7 +51,8 @@ function textEditor() {
         fill(62, 130, 11);
       } else if (
         wordArray[textPrinter][textPrinter1][0].indexOf("HSL") !== -1 ||
-        wordArray[textPrinter][textPrinter1][0].indexOf("width") !== -1
+        wordArray[textPrinter][textPrinter1][0].indexOf("width") !== -1 ||
+        wordArray[textPrinter][textPrinter1][0].indexOf("height") !== -1
       ) {
         stroke(211, 0, 119);
         fill(211, 0, 119);
