@@ -1,4 +1,4 @@
-function wordArrayCreater() {
+function wordArrayCreator() {
   for (var wordArray2 = 0; wordArray2 < varCommand.length; wordArray2++) {
     if (varCommand.length < previousCommand.length) {
       wordArray.splice(currentLineNumber + 1, 1);
@@ -12,72 +12,12 @@ function wordArrayCreater() {
         wordArrayMaker < commandTmp.length;
         wordArrayMaker++
       ) {
-        if (commandTmp[wordArrayMaker] === ".") {
+        if (commandTmp[wordArrayMaker] === "." || commandTmp[wordArrayMaker] === " " || commandTmp[wordArrayMaker] === "(" || commandTmp[wordArrayMaker] === ")" || commandTmp[wordArrayMaker] === ",") {
           if (quoteMode == true) {
             wordArray[wordArray2][wordArray[wordArray2].length - 1][0] +=
               commandTmp[wordArrayMaker];
           } else {
-            wordArray[wordArray2].push(["."]);
-            wordArray[wordArray2][wordArray[wordArray2].length - 1].push(
-              wordArrayMaker
-            );
-
-            wordArray[wordArray2].push([""]);
-            wordArray[wordArray2][wordArray[wordArray2].length - 1].push(
-              wordArrayMaker + 1
-            );
-          }
-        } else if (commandTmp[wordArrayMaker] === " ") {
-          if (quoteMode == true) {
-            wordArray[wordArray2][wordArray[wordArray2].length - 1][0] +=
-              commandTmp[wordArrayMaker];
-          } else {
-            wordArray[wordArray2].push([" "]);
-            wordArray[wordArray2][wordArray[wordArray2].length - 1].push(
-              wordArrayMaker
-            );
-
-            wordArray[wordArray2].push([""]);
-            wordArray[wordArray2][wordArray[wordArray2].length - 1].push(
-              wordArrayMaker + 1
-            );
-          }
-        } else if (commandTmp[wordArrayMaker] === "(") {
-          if (quoteMode == true) {
-            wordArray[wordArray2][wordArray[wordArray2].length - 1][0] +=
-              commandTmp[wordArrayMaker];
-          } else {
-            wordArray[wordArray2].push(["("]);
-            wordArray[wordArray2][wordArray[wordArray2].length - 1].push(
-              wordArrayMaker
-            );
-
-            wordArray[wordArray2].push([""]);
-            wordArray[wordArray2][wordArray[wordArray2].length - 1].push(
-              wordArrayMaker + 1
-            );
-          }
-        } else if (commandTmp[wordArrayMaker] === ")") {
-          if (quoteMode == true) {
-            wordArray[wordArray2][wordArray[wordArray2].length - 1][0] +=
-              commandTmp[wordArrayMaker];
-          } else {
-            wordArray[wordArray2].push([")"]);
-            wordArray[wordArray2][wordArray[wordArray2].length - 1].push(
-              wordArrayMaker
-            );
-
-            wordArray[wordArray2].push([""]);
-            wordArray[wordArray2][wordArray[wordArray2].length - 1].push(
-              wordArrayMaker + 1
-            );
-          }
-        } else if (commandTmp[wordArrayMaker] === ",") {
-          if (quoteMode == true) {
-            wordArray[wordArray2][wordArray[wordArray2].length - 1][0] +=
-              commandTmp[wordArrayMaker];
-          } else {
-            wordArray[wordArray2].push([","]);
+            wordArray[wordArray2].push([commandTmp[wordArrayMaker]]);
             wordArray[wordArray2][wordArray[wordArray2].length - 1].push(
               wordArrayMaker
             );

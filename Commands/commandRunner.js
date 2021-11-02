@@ -8,6 +8,11 @@ function commandRunnerFunction() {
         bracketScanner();
       }
 
+      if (currentCommand[lineNumber].indexOf("background(") !== -1) {
+        lineArray = [];
+        rectArray = [];
+      }
+
       firstSpace = currentCommand[lineNumber].indexOf(" ");
       firstWord = currentCommand[lineNumber].substr(0, firstSpace);
 

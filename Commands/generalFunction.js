@@ -181,25 +181,28 @@ function generalFunction() {
     }
 
     if (currentCommand[lineNumber].indexOf("fill(") !== -1) {
-      if (bracketComma.length == 2) {
-        fill(valueArray[0], valueArray[1], valueArray[2]);
-      } else {
-        fill(valueArray[0]);
+      lastFill = []
+      for (var i = 0; i < bracketComma.length + 1; i++) {
+        lastFill.push(valueArray[i])
       }
     } else if (currentCommand[lineNumber].indexOf("rect(") !== -1) {
       shapeArrayMaker(rectArray);
     } else if (currentCommand[lineNumber].indexOf("line(") !== -1) {
       shapeArrayMaker(lineArray)
     } else if (currentCommand[lineNumber].indexOf("stroke(") !== -1) {
-      strokeArray.push([])
+      lastStroke = []
       for (var i = 0; i < bracketComma.length + 1; i++) {
-        strokeArray[strokeArray.length - 1].push(valueArray[i])
+        lastStroke.push(valueArray[i])
       }
     } else if (currentCommand[lineNumber].indexOf("strokeWeight(") !== -1) {
-      strokeWeight(valueArray[0]);
+      lastWeight = []
+      lastWeight.push(valueArray[0])
     } else if (currentCommand[lineNumber].indexOf("colorMode(") !== -1) {
       if (valueArray[0] == "HSL") {
-        mode = colorMode(HSL, valueArray[1]);
+        mode = HSL
+        modeValue = valueArray[1]
+      } else {
+        mode = RGB
       }
     }
   }
@@ -219,6 +222,7 @@ function shapeArrayMaker(shapeArray) {
     }
   }
   if (doTheThing == true) {
-    shapeArray.push(tmpArray);
+    shapeArray.push([])
+    shapeArray[shapeArray.length - 1].push(tmpArray, lastStroke, lastFill, lastWeight);
   }
 }
