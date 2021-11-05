@@ -157,7 +157,7 @@ class mouse {
     var wasHighest = highestSpaceNumber[currentLineNumber - 1];
 
     if (this.currentX <= 74) {
-      if (currentLineNumber == highestLineNumber || scrollPos == minScrollPos) {
+      if (highestLineNumber > 24 && currentLineNumber == highestLineNumber || scrollPos == minScrollPos) {
         scrollPos += 18;
       }
       minScrollPos += 18;

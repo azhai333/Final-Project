@@ -21,7 +21,6 @@ function wordArrayCreator() {
             wordArray[wordArray2][wordArray[wordArray2].length - 1].push(
               wordArrayMaker
             );
-
             wordArray[wordArray2].push([""]);
             wordArray[wordArray2][wordArray[wordArray2].length - 1].push(
               wordArrayMaker + 1

@@ -77,3 +77,335 @@ canvas {
   
 }
 
+#messanger {
+  left:1310px; 
+  top:52px;
+}
+
+.rounded-rect {
+  position:absolute; 
+  left:1321px;
+  top:64px;
+  width: 24px;
+  height: 19px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 8px;
+}
+.arrow-up {
+  position:absolute; 
+  transform: rotate(135deg);
+  left:1320px;
+  top:79px;
+  width: 0; 
+  height: 0; 
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+
+  border-left: 8px solid #333333;
+}
+
+.blackMsgTriangle {
+  border-left: 8px solid #333333;
+}
+
+.whiteMsgTriangle {
+  border-left: 8px solid rgb(250, 250, 250);
+}
+
+#msgClose {
+  left:1005px; 
+  top:5px;
+  width: 25px;
+  height: 25px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+  background:rgb(250, 100, 90)
+}
+
+#msgClose:after{
+  content: "\00d7"; /* This will render the 'X' */
+  position:absolute; 
+  left:6px; 
+  top:-2px;
+  font-size:22px;
+}
+
+.exRed {
+  color: rgb(250, 100, 90);
+}
+
+.exBlack {
+  color: black;
+}
+
+.hidden {
+  z-index: -1;
+}
+
+.top {
+  z-index: 2;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: 'Fonts/Montserrat.otf';
+}
+.menu {
+  font-family: 'Montserrat';
+  font-size: 12px;
+  position:absolute; 
+}
+
+.menuGrey {
+  color: rgb(95, 95, 95);
+}
+
+.menuRed {
+  color: rgb(235, 30, 90)
+}
+
+
+#file {
+  left:66px; 
+  top:13px;
+}
+
+#edit {
+  left:121px; 
+  top:13px;
+}
+
+#sketch {
+  left:179px; 
+  top:13px;
+}
+
+#help {
+  left:254px; 
+  top:13px;
+}
+
+#english {
+  left:1246px; 
+  top:13px;
+}
+
+#hello {
+  left:1325px; 
+  top:13px;
+}
+
+.arrow-down {
+  width: 0; 
+  height: 0; 
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  position:absolute; 
+}
+
+.arrow-downGrey {
+  border-top: 6px solid rgb(115, 115, 115);
+}
+
+.arrow-downRed {
+  border-top: 6px solid rgb(235, 30, 90);
+}
+
+#fileT {
+  left:91px; 
+  top:19px;
+}
+
+#editT {
+  left:149px; 
+  top:19px;
+}
+
+#sketchT {
+  left:224px; 
+  top:19px;
+}
+
+#helpT {
+  left:287px; 
+  top:19px;
+}
+
+#englishT {
+  left:1295px; 
+  top:19px;
+}
+
+#helloT {
+  left:1401px; 
+  top:19px;
+}
+
+.menuS {
+  position:absolute; 
+  background: transparent;
+  z-index: 1;
+}
+
+#fileS {
+  left:56px; 
+  top:0px;
+  width: 56px;
+  height: 39px;
+}
+
+#editS {
+  left:112px; 
+  top:0px;
+  width: 59px;
+  height: 39px;
+}
+
+#sketchS {
+  left:171px; 
+  top:0px;
+  width: 75px;
+  height: 39px;
+}
+
+#helpS {
+  left:246px; 
+  top:0px;
+  width: 60px;
+  height: 39px;
+}
+
+#englishS {
+  left:1233px; 
+  top:0px;
+  width: 82px;
+  height: 39px;
+}
+
+#helloS {
+  left:1315px; 
+  top:0px;
+  width: 120px;
+  height: 39px;
+}
+
+.dropdown {
+  position:absolute; 
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgb(160, 160, 160);
+  background: rgb(250, 250, 250);
+}
+
+#fileD {
+  left:55px;
+  top:38px;
+  width: 179px;
+  height: 282px;
+}
+
+#new {
+  left:73px;
+  top:50px;
+  color:rgb(50, 50, 50)
+}
+
+#save {
+  left:73px;
+  top:85px;
+  color:rgb(50, 50, 50)
+}
+
+#duplicate {
+  left:73px;
+  top:120px;
+  color:rgb(50, 50, 50)
+}
+
+#share {
+  left:73px;
+  top:155px;
+  color:rgb(50, 50, 50)
+}
+
+#download {
+  left:73px;
+  top:190px;
+  color:rgb(50, 50, 50)
+}
+
+#open {
+  left:73px;
+  top:225px;
+  color:rgb(50, 50, 50)
+}
+
+#add {
+  left:73px;
+  top:260px;
+  color:rgb(50, 50, 50)
+}
+
+#examples {
+  left:73px;
+  top:295px;
+  color:rgb(50, 50, 50)
+}
+
+#newS {
+  left:56px; 
+  top:39px;
+  width: 179px;
+  height: 39px;
+}
+
+#saveS {
+  left:56px; 
+  top:78px;
+  width: 179px;
+  height: 33px;
+}
+
+#duplicateS {
+  left:56px; 
+  top:111px;
+  width: 179px;
+  height: 35px;
+}
+
+#shareS {
+  left:56px; 
+  top:146px;
+  width: 179px;
+  height: 35px;
+}
+
+#downloadS {
+  left:56px; 
+  top:181px;
+  width: 179px;
+  height: 35px;
+}
+
+#openS {
+  left:56px; 
+  top:216px;
+  width: 179px;
+  height: 35px;
+}
+
+#addS {
+  left:56px; 
+  top:251px;
+  width: 179px;
+  height: 35px;
+}
+
+#examplesS {
+  left:56px; 
+  top:286px;
+  width: 179px;
+  height: 35px;
+}

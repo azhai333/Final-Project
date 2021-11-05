@@ -13,6 +13,9 @@ function commandRunnerFunction() {
         rectArray = [];
       }
 
+      if (level1 == true) {
+      }
+
       firstSpace = currentCommand[lineNumber].indexOf(" ");
       firstWord = currentCommand[lineNumber].substr(0, firstSpace);
 

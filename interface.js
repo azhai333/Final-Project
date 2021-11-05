@@ -62,12 +62,12 @@ function interface() {
   
   image(settings, 1374, 51, 46.5, 46.5)
 
-  menu(85, 11, "File", 66, 25);
-  menu(143, 11, "Edit", 121, 25);
-  menu(218, 11, "Sketch", 179, 25);
-  menu(281, 11, "Help", 254, 25);
-  menu(1289, 11, "English", 1246, 25);
-  menu(1394, 11, "Hello, azhai!", 1325, 25);
+  // menu(85, 11, "File", 66, 25);
+  // menu(143, 11, "Edit", 121, 25);
+  // menu(218, 11, "Sketch", 179, 25);
+  // menu(281, 11, "Help", 254, 25);
+  // menu(1289, 11, "English", 1246, 25);
+  // menu(1394, 11, "Hello, azhai!", 1325, 25);
   
   if (mouseX > 42 - 44/2 && mouseX < 42 + 44/2 && mouseY > 74 - 44/2 && mouseY < 74 + 44/2) {
     cursor('pointer')

@@ -1,4 +1,4 @@
-var varCommand = ["function setup() {", "createCanvas(windowWidth, windowHeight)", "frameRate(5)", "}", "var state = 0", "var lin1x = 0", "var lin1y = 0", "var lin2x = 0", "var lin2y = 0", "var direction = 2", "var verticalGap = 0", "var horizontalGap = 0", "var c = 0", "function draw() {", "if (state == 0) {", "lin1x = width / 2", "lin1y = height / 2 + height / 40", "lin2x = lin1x", "lin2y = lin1y - height / 40", "verticalGap = height / 40", "horizontalGap = width / 40", "state = 1", "}", "colorMode(HSL, 360)", "stroke(c, 200, 200)", "strokeWeight(3)", "line(lin1x, lin1y, lin2x, lin2y)", "lin1x = lin2x", "lin1y = lin2y", "if (direction == 1) {", "verticalGap = verticalGap + height / 40", "lin2y = lin2y - verticalGap", "}", "if (direction == 2) {", "lin2x = lin2x + horizontalGap", "horizontalGap = horizontalGap + width / 40", "}", "if (direction == 3) {", "verticalGap = verticalGap + height / 40", "lin2y = lin2y + verticalGap", "}", "if (direction == 4) {", "lin2x = lin2x - horizontalGap", "horizontalGap = horizontalGap + width / 40", "direction = 0", "}", "direction = direction + 1", "if (c > 360) {", "c = 0", "}", "if (c <= 360) {", "c = c + 7", "}", "}", "fill(200, 200, 200)", "rect(10, 10, 50, 50)"];
+var varCommand = ["function preload() {",'loadSoftware("Brick_Wall.exe")', "}"];
 var currentCommand = []
 
 var wordArray = [[[""]]];
@@ -38,6 +38,9 @@ var runCommand = false;
 var scrollPos = 0;
 var maxScrollPos = 0;
 var minScrollPos = 0;
+var msgScrollPos = 0;
+var msgMaxScrollPos = 0;
+var msgMinScrollPos = 0;
 if (varCommand.length > 25) {
   minScrollPos = (varCommand.length - 25) * -18
 }
@@ -63,6 +66,10 @@ var lastFill;
 var mode;
 var modeValue;
 
+var msgClick = false;
+var msgInterval = 0;
+var level1 = false;
+
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.position(0, 0)
@@ -71,8 +78,9 @@ function setup() {
 }
 
 function preload() {
-  fontCode = loadFont("Inconsolata-Regular.ttf");
-  fontRegular = loadFont("Montserrat.otf");
+  fontCode = loadFont("Fonts/Inconsolata-Regular.ttf");
+  sf = loadFont("Fonts/sf.otf");
+  fontRegular = loadFont("Fonts/Montserrat.otf");
   logo = loadImage("Images/Logo.png");
   settings = loadImage("Images/Settings.png");
   pencil = loadImage("Images/Pencil.png");
@@ -80,7 +88,7 @@ function preload() {
 }
 
 function draw() {
-  console.log(lineArray);
+  //console.log(linePositionArray);
   screenMouse.mouseProperties();
   background(250, 250, 250);
   noStroke();
@@ -90,20 +98,16 @@ function draw() {
   wordArrayCreator();
 
   push();
-  if (scrollPos < 430) {
-    translate(0, scrollPos);
-  }
-
+  translate(0, scrollPos);
   textEditor();
-
   pop();
+  
   screenMouse.flicker();
   pop();
 
   push();
   interface();
   pop();
-  //image(wall, 730, 136, 50, 700);
   push();
   strokeWeight(5);
   fill(0);
@@ -124,8 +128,8 @@ function draw() {
     }
     //console.log(frameRateValue);
 
-    lineArray = [];
-    lineValueArray = [];
+    //lineArray = [];
+    //lineValueArray = [];
     skipFunction = 0;
   }
 
@@ -147,8 +151,13 @@ function draw() {
 
   shapeDrawer(lineArray, line)
   shapeDrawer(rectArray, rect)
+  image(wall, 730, 136, 30, 700);
 
   pop();
+
+  if (msgClick == true) {
+    msgApp()
+  }
 }
 
 function shapeDrawer(shapeArray, shape) {
@@ -342,6 +351,26 @@ function clickFunction() {
   }
 }
 
+if ($(this).hasClass('msg')) {
+  msgClick = true
+  $(".msg").toggleClass("hidden")
+  $("#msgClose").toggleClass("hidden")
+  $("#english").toggleClass("hidden")
+  $("#englishT").toggleClass("hidden")
+  $("#hello").toggleClass("hidden")
+  $("#helloT").toggleClass("hidden")
+}
+
+if ($(this).hasClass('msgClose')) {
+  msgClick = false
+  $(".msg").toggleClass("hidden")
+  $("#msgClose").toggleClass("hidden")
+  $("#english").toggleClass("hidden")
+  $("#englishT").toggleClass("hidden")
+  $("#hello").toggleClass("hidden")
+  $("#helloT").toggleClass("hidden")
+}
+
 };
 
 function hoverFunction() {
@@ -364,14 +393,87 @@ function hoverFunction() {
       $(".stopsquare").toggleClass("blackSquare");
     }
     }
+
+    if ($(this).hasClass('msg')) {
+      $(".rounded-rect").toggleClass("whiteSquare");
+      $(".rounded-rect").toggleClass("blackSquare");
+
+      $(".arrow-up").toggleClass("whiteMsgTriangle");
+      $(".arrow-up").toggleClass("blackMsgTriangle");
+
+      $("#messanger").toggleClass("grey");
+      $("#messanger").toggleClass("red");
+    }
+
+    if ($(this).hasClass('msgClose')) {
+      $('.msgClose').toggleClass('exRed')
+      $('.msgClose').toggleClass('exBlack')
+    }
+
     $(this).toggleClass("hover");
+
+    if ($(this).is("#fileS")) {
+        $("#file").toggleClass('menuGrey')
+        $("#file").toggleClass('menuRed')
+
+        $("#fileT").toggleClass('arrow-downGrey')
+        $("#fileT").toggleClass('arrow-downRed')
+    }
+    
+    if ($(this).is("#editS")) {
+    $("#edit").toggleClass('menuGrey')
+    $("#edit").toggleClass('menuRed')
+
+    $("#editT").toggleClass('arrow-downGrey')
+    $("#editT").toggleClass('arrow-downRed')
+    }
+
+    if ($(this).is("#sketchS")) {
+      $("#sketch").toggleClass('menuGrey')
+      $("#sketch").toggleClass('menuRed')
+  
+      $("#sketchT").toggleClass('arrow-downGrey')
+      $("#sketchT").toggleClass('arrow-downRed')
+      }
+
+    if ($(this).is("#helpS")) {
+      $("#help").toggleClass('menuGrey')
+      $("#help").toggleClass('menuRed')
+  
+      $("#helpT").toggleClass('arrow-downGrey')
+      $("#helpT").toggleClass('arrow-downRed')
+      }
+
+    if ($(this).is("#englishS")) {
+      $("#english").toggleClass('menuGrey')
+      $("#english").toggleClass('menuRed')
+  
+      $("#englishT").toggleClass('arrow-downGrey')
+      $("#englishT").toggleClass('arrow-downRed')
+      }
+
+    if ($(this).is("#helloS")) {
+      $("#hello").toggleClass('menuGrey')
+      $("#hello").toggleClass('menuRed')
+  
+      $("#helloT").toggleClass('arrow-downGrey')
+      $("#helloT").toggleClass('arrow-downRed')
+      }
+
+      
+
+    
+    
 };
 
 function mouseClicked() {
+  if (mouseX > 23 && mouseX < 730 && mouseY > 136 && mouseY < 611) {
   screenMouse.onClick();
+  }
 }
 
 function mouseWheel(event) {
+  if (mouseX > 23 && mouseX < 730 && mouseY > 136 && mouseY < 611) {
   if (event.delta > 0 && scrollPos > minScrollPos) {
     scrollPos -= abs(event.delta);
   }
@@ -386,6 +488,24 @@ function mouseWheel(event) {
   if (scrollPos > maxScrollPos) {
     scrollPos = maxScrollPos;
   }
+}
+
+if (msgClick == true && mouseX > 1000 && mouseY > 102) {
+  if (event.delta > 0 && msgScrollPos > msgMinScrollPos) {
+    msgScrollPos -= abs(event.delta);
+  }
+
+  if (msgScrollPos < msgMinScrollPos) {
+    msgScrollPos = msgMinScrollPos;
+  }
+  if (event.delta < 0 && msgScrollPos < msgMaxScrollPos) {
+    msgScrollPos += abs(event.delta);
+  }
+
+  if (msgScrollPos > msgMaxScrollPos) {
+    msgScrollPos = msgMaxScrollPos;
+  }
+}
   return false;
 }
 
@@ -450,13 +570,4 @@ function varMaker() {
     }
     window[varName] = varContent;
   }
-}
-
-function arrayEquals(a, b) {
-  return (
-    Array.isArray(a) &&
-    Array.isArray(b) &&
-    a.length === b.length &&
-    a.every((val, index) => val === b[index])
-  );
 }
