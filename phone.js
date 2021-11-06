@@ -10,45 +10,72 @@ function msgApp() {
     push()
     translate(0, msgScrollPos)
     strokeWeight(0.1)
-  
-    if (msgInterval < 180) {
-    typingBubble(1016, 145)
+
+
+    for (var i = 0; i < textArray.length; i++) {
+      textBubble(textArray[i][0], 1030, textArray[i][1], textArray[i][2])
     }
 
-    msgInterval++
-
-    if (msgInterval >= 180) {
-        textBubble("Hello! Welcome to your first day as a software developer for Big Tech Inc.! I am Elon Zuckerbezos, the CEO of the company. To streamline our pipeline, we’ve cut out all in-person meetings, and have switched to communicating with employees purely via instant messaging. You will receive your assignment for each day through this app. At the moment, we have disabled communications from your end. While we absolutely value the voice of each and every employee, we have found that the process can be far more streamlined if we maintain a one-way line of communication down the company hierarchy.", 1030, 165, 320)
+    if (msgInterval == 0) {
+      textArray.push(["Hello! Welcome to your first day as a software developer for Big Tech Inc.! I am Elon Zuckerbezos, the CEO of the company. To streamline our pipeline, we’ve cut out all in-person meetings, and have switched to communicating with employees purely via instant messaging. You will receive your assignment for each day through this app. At the moment, we have disabled communications from your end. While we absolutely value the voice of each and every employee, we have found that the process can be far more streamlined if we maintain a one-way line of communication down the company hierarchy.", 165, 320])
       }
-      if (msgInterval >= 300 && msgInterval < 600) {
+
+      msgInterval++
+
+      if (msgInterval >= 120 && msgInterval < 540 && msg1 == false) {
       typingBubble(1016, 475)
       }
 
-      if (msgInterval >= 600) {
-    textBubble("Your task for today is to secure your work environment by installing our propriety Brick Wall firewall software. Security is extremely important to Big Tech Inc, since we collect a lot of sensitive data from our users in order personalize the way their device behaves and create an overall better experience. You can install the program by using the preload function and typing “loadSoftware(“Brick_Wall.exe”).” When you’re done, go to file and hit save to submit your work to your supervisor, who will decide whether to approve it or whether you need to fix something in it.", 1030, 500, 307)
-    msgMinScrollPos = -35
-    }
+      if (msgInterval == 540) {
+        textArray.push(["Your task for today is to secure your work environment by installing our proprietary Brick Wall firewall software. Security is extremely important to Big Tech Inc, since we collect a lot of sensitive data from our users in order personalize the way their device behaves and create an overall better experience. You can install the program by using the preload function and typing “loadSoftware(“Brick_Wall.exe”).” When you’re done, go to file and hit save to submit your work to me, and I'll decide whether to approve it or whether you need to fix something in it.", 500, 307])
 
-    if (msgInterval >= 660 && msgInterval < 780) {
+        if (msgScrollPos > -35 && msgInterval == 540) {
+          msgScrollPos = -35
+          msgMinScrollPos = -35
+      }
+      }
+
+    
+
+    if (msgInterval >= 600 && msgInterval < 720 && msg1 == false) {
         typingBubble(1016, 797)
-        if (msgScrollPos > -90 && msgInterval == 660) {
+        if (msgScrollPos > -90 && msgInterval == 600) {
             msgScrollPos = -90
+            msgMinScrollPos = -90
         }
-        msgMinScrollPos = -90
     }
   
-    if (msgInterval >= 780) {
-    textBubble("OH! As a side note, while users agree to this when they sign the terms and conditions upon receiving their device, we find that people are less likely to purchase our devices if they know we collect their information, therefore we ask all our employees to please keep this strictly confidential.", 1030, 822, 180)
-    if (msgScrollPos > -227 && msgInterval == 780) {
+    if (msgInterval == 720) {
+      textArray.push(["OH! As a side note, while users agree to this when they sign the terms and conditions upon receiving their device, we find that people are less likely to purchase our devices if they know we collect their information, therefore we ask all our employees to please keep this strictly confidential.", 822, 180])
+    if (msgScrollPos > -227 && msgInterval == 720) {
         msgScrollPos = -227
+        msgMinScrollPos = -227
     }
-    msgMinScrollPos = -227
+    msg1 = true
+    }
+
+    if (lvl1Win == true) {
+        msgMinScrollPos -= 183
+        msgScrollPos = msgMinScrollPos
+      textArray.push(["Great job on your first day of work! Now that you’ve properly secured your coding environment, you’ll be able to move on to your first real project tomorrow.  Feel free to spend the rest of your day familiarizing yourself with your code environment.", msgY, 160])
+      msgY += 179
+      lvl1Win = false
+    }
+
+    if (lvl1Lose == true) {
+        msgMinScrollPos -= 223
+        msgScrollPos = msgMinScrollPos
+      textArray.push(["Oh no, looks like something is wrong with your code. We really can’t have you starting any official coding projects with this company before you’ve installed our security program. Make sure you installed it correctly by using “function preload” and “loadSoftware(“Brick_Wall.exe”)”", msgY, 173])
+      lvl1Lose = false
+      msgY += 192
     }
   
     textSize(12)
     stroke(150)
     fill(150)
-    text("Mon, Nov 1, 9:02 AM", 1160, 125)
+    //text("Mon, Nov 1, 9:02 AM", 1160, 125)
+    text("Today 9:02 AM", 1180, 125)
+    text("Today 10:16 AM", 1180, 1008)
     pop()
   
     stroke(0)

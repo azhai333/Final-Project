@@ -69,6 +69,17 @@ var modeValue;
 var msgClick = false;
 var msgInterval = 0;
 var level1 = false;
+var notification = true;
+var printImage = false;
+var start = true;
+var lvl1Win = false;
+var lvl1Lose = false;
+var msg1 = false;
+var skip = true;
+var msgY = 1048
+var msgIndex = 0
+var currentScrollPos = -227
+var textArray = []
 
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
@@ -85,10 +96,11 @@ function preload() {
   settings = loadImage("Images/Settings.png");
   pencil = loadImage("Images/Pencil.png");
   wall = loadImage("Images/wall.jpeg");
+  ding = loadSound("Sounds/Notification.mp3");
 }
 
 function draw() {
-  //console.log(linePositionArray);
+ console.log(msgMinScrollPos);
   screenMouse.mouseProperties();
   background(250, 250, 250);
   noStroke();
@@ -133,6 +145,11 @@ function draw() {
     skipFunction = 0;
   }
 
+  if (printImage == true) {
+    image(wall, 710, 136, 30, 700);
+  }
+
+
   commandRunner = 0;
   lineNumber = 0;
 
@@ -151,7 +168,6 @@ function draw() {
 
   shapeDrawer(lineArray, line)
   shapeDrawer(rectArray, rect)
-  image(wall, 730, 136, 30, 700);
 
   pop();
 
@@ -301,6 +317,11 @@ function keyPressed() {
 }
 
 $(document).ready(function() {
+  $(document.body).click( function() {
+    if (start == true) {
+    $(".notification").toggleClass("hidden")
+    }
+});
   $(".buttons").click(clickFunction)
   $(".buttons").hover(hoverFunction)
 }
@@ -359,6 +380,10 @@ if ($(this).hasClass('msg')) {
   $("#englishT").toggleClass("hidden")
   $("#hello").toggleClass("hidden")
   $("#helloT").toggleClass("hidden")
+  if (notification == true) {
+  $(".notification").toggleClass("hidden")
+  notification = false
+  }
 }
 
 if ($(this).hasClass('msgClose')) {
@@ -371,6 +396,32 @@ if ($(this).hasClass('msgClose')) {
   $("#helloT").toggleClass("hidden")
 }
 
+if ($(this).is("#fileS")) {
+  $(".dropdown").toggleClass('hidden')
+  $(".menuText").toggleClass('top')
+}
+
+if ($(this).is("#saveS") || $(this).is("#save")) {
+  if (printImage == true) {
+    ding.play()
+    $(".notification").toggleClass("hidden")
+    notification = true
+
+    lvl1Win = true
+    lvl1Lose = false
+    skip = true
+  } else {
+    ding.play()
+    $(".notification").toggleClass("hidden")
+    notification = true
+
+    lvl1Lose = true
+    lvl1Win = false
+    skip = true
+  }
+  $(".dropdown").toggleClass('hidden')
+  $(".menuText").toggleClass('top')
+}
 };
 
 function hoverFunction() {
@@ -434,7 +485,7 @@ function hoverFunction() {
   
       $("#sketchT").toggleClass('arrow-downGrey')
       $("#sketchT").toggleClass('arrow-downRed')
-      }
+    }
 
     if ($(this).is("#helpS")) {
       $("#help").toggleClass('menuGrey')
@@ -442,7 +493,7 @@ function hoverFunction() {
   
       $("#helpT").toggleClass('arrow-downGrey')
       $("#helpT").toggleClass('arrow-downRed')
-      }
+    }
 
     if ($(this).is("#englishS")) {
       $("#english").toggleClass('menuGrey')
@@ -450,7 +501,7 @@ function hoverFunction() {
   
       $("#englishT").toggleClass('arrow-downGrey')
       $("#englishT").toggleClass('arrow-downRed')
-      }
+    }
 
     if ($(this).is("#helloS")) {
       $("#hello").toggleClass('menuGrey')
@@ -458,17 +509,72 @@ function hoverFunction() {
   
       $("#helloT").toggleClass('arrow-downGrey')
       $("#helloT").toggleClass('arrow-downRed')
-      }
-
-      
-
+    }
     
-    
+    if ($(this).is("#newS") || $(this).is("#new")) {
+      $("#new").toggleClass('menuBlack')
+      $("#new").toggleClass('menuWhite')
+  
+      $("#newS").toggleClass('red')
+    }
+
+    if ($(this).is("#saveS") || $(this).is("#save")) {
+      $("#save").toggleClass('menuBlack')
+      $("#save").toggleClass('menuWhite')
+  
+      $("#saveS").toggleClass('red')
+    }
+
+    if ($(this).is("#duplicateS") || $(this).is("#duplicate")) {
+      $("#duplicate").toggleClass('menuBlack')
+      $("#duplicate").toggleClass('menuWhite')
+  
+      $("#duplicateS").toggleClass('red')
+    }
+
+    if ($(this).is("#shareS") || $(this).is("#share")) {
+      $("#share").toggleClass('menuBlack')
+      $("#share").toggleClass('menuWhite')
+  
+      $("#shareS").toggleClass('red')
+    }
+
+    if ($(this).is("#downloadS") || $(this).is("#download")) {
+      $("#download").toggleClass('menuBlack')
+      $("#download").toggleClass('menuWhite')
+  
+      $("#downloadS").toggleClass('red')
+    }
+
+    if ($(this).is("#openS") || $(this).is("#open")) {
+      $("#open").toggleClass('menuBlack')
+      $("#open").toggleClass('menuWhite')
+  
+      $("#openS").toggleClass('red')
+    }
+
+    if ($(this).is("#addS") || $(this).is("#add")) {
+      $("#add").toggleClass('menuBlack')
+      $("#add").toggleClass('menuWhite')
+  
+      $("#addS").toggleClass('red')
+    }
+
+    if ($(this).is("#examplesS") || $(this).is("#examples")) {
+      $("#examples").toggleClass('menuBlack')
+      $("#examples").toggleClass('menuWhite')
+  
+      $("#examplesS").toggleClass('red')
+    }
 };
 
 function mouseClicked() {
   if (mouseX > 23 && mouseX < 730 && mouseY > 136 && mouseY < 611) {
   screenMouse.onClick();
+  }
+  if (start == true) {
+  ding.play()
+  start = false
   }
 }
 

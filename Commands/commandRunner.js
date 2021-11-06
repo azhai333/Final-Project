@@ -14,6 +14,9 @@ function commandRunnerFunction() {
       }
 
       if (level1 == true) {
+        if (varCommand[lineNumber].indexOf("loadSoftware") !== -1) {
+          printImage = true
+        }
       }
 
       firstSpace = currentCommand[lineNumber].indexOf(" ");

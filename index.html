@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="style.css"/>
         <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" integrity="sha512-N4kV7GkNv7QR7RX9YF/olywyIgIwNvfEe2nZtfyj73HdjCUkAfOBDbcuJ/cTaN04JKRnw1YG1wnUyNKMsNgg3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.sound.min.js"></script>
         <script src="script.js"></script>
   </head>
   <body>
@@ -37,32 +38,35 @@
     <div class="circle buttons red hidden msgClose exRed" id="msgClose"></div>
     <div class="ex"></div>
 
-    <div class="dropdown" id="fileD"></div>
-    <div class="menu menuGrey top" id="new">New</div>
-    <div class="menu menuGrey top" id="save">Save</div>
-    <div class="menu menuGrey top" id="duplicate">Duplicate</div>
-    <div class="menu menuGrey top" id="share">Share</div>
-    <div class="menu menuGrey top" id="download">Download</div>
-    <div class="menu menuGrey top" id="open">Open</div>
-    <div class="menu menuGrey top" id="add">Add to Collection</div>
-    <div class="menu menuGrey top" id="examples">Examples</div>
+    <div class="notification circle nRed hidden" id="notification"></div>
+    <div class="notification menu menuWhite hidden" id="number">1</div>
 
-    <div class="buttons menu menuS" id="newS"></div>
-    <div class="buttons menu menuS" id="saveS"></div>
-    <div class="buttons menu menuS" id="duplicateS"></div>
-    <div class="buttons menu menuS" id="shareS"></div>
-    <div class="buttons menu menuS" id="downloadS"></div>
-    <div class="buttons menu menuS" id="openS"></div>
-    <div class="buttons menu menuS" id="addS"></div>
-    <div class="buttons menu menuS" id="examplesS"></div>
+    <div class="dropdown hidden" id="fileD"></div>
+    <div class="dropdown buttons menuText menuBlack hidden" id="new">New</div>
+    <div class="dropdown buttons menuText menuBlack hidden" id="save">Save</div>
+    <div class="dropdown buttons menuText menuBlack hidden" id="duplicate">Duplicate</div>
+    <div class="dropdown buttons menuText menuBlack hidden" id="share">Share</div>
+    <div class="dropdown buttons menuText menuBlack hidden" id="download">Download</div>
+    <div class="dropdown buttons menuText menuBlack hidden" id="open">Open</div>
+    <div class="dropdown buttons menuText menuBlack hidden" id="add">Add to Collection</div>
+    <div class="dropdown buttons menuText menuBlack hidden" id="examples">Examples</div>
+
+    <div class="dropdown buttons menuS hidden" id="newS"></div>
+    <div class="dropdown buttons menuS hidden" id="saveS"></div>
+    <div class="dropdown buttons menuS hidden" id="duplicateS"></div>
+    <div class="dropdown buttons menuS hidden" id="shareS"></div>
+    <div class="dropdown buttons menuS hidden" id="downloadS"></div>
+    <div class="dropdown buttons menuS hidden" id="openS"></div>
+    <div class="dropdown buttons menuS hidden" id="addS"></div>
+    <div class="dropdown buttons menuS hidden" id="examplesS"></div>
 
 
-    <div class="buttons menu menuS" id="fileS"></div>
-    <div class="buttons menu menuS" id="editS"></div>
-    <div class="buttons menu menuS" id="sketchS"></div>
-    <div class="buttons menu menuS" id="helpS"></div>
-    <div class="buttons menu menuS" id="englishS"></div>
-    <div class="buttons menu menuS" id="helloS"></div>
+    <div class="buttons top menuS" id="fileS"></div>
+    <div class="buttons top menuS" id="editS"></div>
+    <div class="buttons top menuS" id="sketchS"></div>
+    <div class="buttons top menuS" id="helpS"></div>
+    <div class="buttons top menuS" id="englishS"></div>
+    <div class="buttons top menuS" id="helloS"></div>
     
     <div class="arrow-down arrow-downGrey" id="fileT"></div>
     <div class="arrow-down arrow-downGrey" id="editT"></div>
