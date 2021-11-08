@@ -46,36 +46,47 @@ function msgApp() {
     }
   
     if (msgInterval == 720) {
-      textArray.push(["OH! As a side note, while users agree to this when they sign the terms and conditions upon receiving their device, we find that people are less likely to purchase our devices if they know we collect their information, therefore we ask all our employees to please keep this strictly confidential.", 822, 180])
-    if (msgScrollPos > -227 && msgInterval == 720) {
-        msgScrollPos = -227
-        msgMinScrollPos = -227
+      textArray.push(["OH! As a side note, while users agree to this when they sign the terms and conditions upon receiving their device, we find that people are less likely to purchase our devices if they know we collect their information, therefore we ask all our employees to please keep this strictly confidential.", 822, 178])
+    if (msgScrollPos > -225 && msgInterval == 720) {
+        msgScrollPos = -225
+        msgMinScrollPos = -225
     }
     msg1 = true
     }
 
+    push()
+    textSize(12)
+    stroke(150)
+    fill(150)
+    //text("Mon, Nov 1, 9:02 AM", 1160, 125)
+    text("Today 9:02 AM", 1180, 125)
+    if (dateSwitch == false || lvl1Win == true || lvl1Lose == true) {
+      if (dateSwitch == true) {
+      msgMinScrollPos -= 27
+      msgScrollPos = msgMinScrollPos
+      }
+      text("Today 10:16 AM", 1180, 1008)
+      dateSwitch = false
+      }
+      pop()
+
     if (lvl1Win == true) {
-        msgMinScrollPos -= 183
+        msgMinScrollPos -= 217
         msgScrollPos = msgMinScrollPos
-      textArray.push(["Great job on your first day of work! Now that you’ve properly secured your coding environment, you’ll be able to move on to your first real project tomorrow.  Feel free to spend the rest of your day familiarizing yourself with your code environment.", msgY, 160])
+      textArray.push(["Great job on your first day of work! Now that you’ve properly secured your coding environment, you’ll be able to move on to your first real project tomorrow.  Feel free to spend the rest of your day familiarizing yourself with your code environment. When you're done for the day, you can log out of your account.", msgY, 194])
       msgY += 179
       lvl1Win = false
+      lvl1Done = true
     }
 
     if (lvl1Lose == true) {
-        msgMinScrollPos -= 223
+        msgMinScrollPos -= 196
         msgScrollPos = msgMinScrollPos
       textArray.push(["Oh no, looks like something is wrong with your code. We really can’t have you starting any official coding projects with this company before you’ve installed our security program. Make sure you installed it correctly by using “function preload” and “loadSoftware(“Brick_Wall.exe”)”", msgY, 173])
       lvl1Lose = false
       msgY += 192
     }
   
-    textSize(12)
-    stroke(150)
-    fill(150)
-    //text("Mon, Nov 1, 9:02 AM", 1160, 125)
-    text("Today 9:02 AM", 1180, 125)
-    text("Today 10:16 AM", 1180, 1008)
     pop()
   
     stroke(0)

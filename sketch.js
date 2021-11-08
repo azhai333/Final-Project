@@ -1,4 +1,4 @@
-var varCommand = ["function preload() {",'loadSoftware("Brick_Wall.exe")', "}"];
+var varCommand = ["function preload() {", "loadSoftware('Brick_Wall.exe')", "}"];
 var currentCommand = []
 
 var wordArray = [[[""]]];
@@ -60,11 +60,14 @@ var lineNumber = 0;
 var commandRunner = 0;
 var lineArray = [];
 var rectArray = [];
+var lineArray2 = [];
+var rectArray2 = [];
 var lastStroke;
 var lastWeight;
 var lastFill;
 var mode;
 var modeValue;
+var ifSkip = false;
 
 var msgClick = false;
 var msgInterval = 0;
@@ -80,11 +83,18 @@ var msgY = 1048
 var msgIndex = 0
 var currentScrollPos = -227
 var textArray = []
+var lvl1Scene = true;
+var dateSwitch = true;
+var lvl1Done = false;
+var commandSwitch = true;
+var stop = 0
+var currentShapeArray = 1
+var speechInterval = 0
 
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.position(0, 0)
-  canvas.style('z-index', '-1')
+  canvas.style('z-index', '2')
   screenMouse = new mouse();
 }
 
@@ -100,30 +110,36 @@ function preload() {
 }
 
 function draw() {
- console.log(msgMinScrollPos);
+  //console.log(rectArray);
   screenMouse.mouseProperties();
   background(250, 250, 250);
   noStroke();
   textFont(fontCode);
   textSize(18);
 
-  wordArrayCreator();
-
-  push();
-  translate(0, scrollPos);
-  textEditor();
-  pop();
+  if (lvl1Scene == false) {
+    push();
+    translate(0, scrollPos);
+    textEditor();
+    pop();
+    
+    screenMouse.flicker();
+    pop();
   
-  screenMouse.flicker();
-  pop();
-
-  push();
-  interface();
-  pop();
+    push();
+    interface();
+    pop();
+  
+    if (printImage == true) {
+      image(wall, 710, 136, 30, 700);
+    }
+  }
+  
   push();
   strokeWeight(5);
   fill(0);
   stroke(0);
+
   if (runCommand == true) {
     currentCommand = []
     for (commandMaker = 0; commandMaker < varCommand.length; commandMaker++) {
@@ -143,10 +159,7 @@ function draw() {
     //lineArray = [];
     //lineValueArray = [];
     skipFunction = 0;
-  }
-
-  if (printImage == true) {
-    image(wall, 710, 136, 30, 700);
+    firstTime = true
   }
 
 
@@ -169,20 +182,148 @@ function draw() {
   shapeDrawer(lineArray, line)
   shapeDrawer(rectArray, rect)
 
+  if (lvl1Scene == true) {
+  shapeDrawer2(lineArray2, line)
+  shapeDrawer2(rectArray2, rect)
+  }
+
   pop();
+
+  wordArrayCreator();
+
+  if (lvl1Scene == true) {
+    if (commandSwitch == true) {
+    runCommand = true
+    commandSwitch = false
+    }
+    stroke(0)
+    strokeWeight(2)
+    noFill()
+    rect(width/2, 10, 706/2, 628/2)
+    rect(width/2, 400, 706/2, 628/2)
+
+    fill(250, 250, 250)
+    noStroke()
+    rect(0, 0, 719, height)
+    rect(719, 0, 721, 9)
+    rect(1074, 9, 721, 1000)
+    rect(719, 325, 360, 74)
+    rect(719, 715, 360, 74)
+
+    stroke(0)
+    strokeWeight(1.5)
+    circle(520, 200, 150)
+
+    push()
+    translate(400, 480)
+    scale(1.9)
+    strokeWeight(1)
+    triangle(30, 75, 58, 20, 86, 75)
+    pop()
+
+    strokeWeight(1)
+    speechInterval++
+    if (speechInterval >= 60 && speechInterval <= 360) {
+    speechBubble("I just got my new Big Tech tablet today, I’m so excited!", 200, 110, 60)
+    }
+
+    if (speechInterval >= 420 && speechInterval <= 720) {
+    speechBubble("Awesome! I just got mine last week and it’s been life-changing.", 230, 490, 80)
+    }
+
+    if (speechInterval >= 780 && speechInterval <= 1080) {
+      speechBubble("It’s crazy how it seems to know exactly what I want when I want it.", 200, 110, 75)
+    }
+  }
 
   if (msgClick == true) {
     msgApp()
   }
 }
+function speechBubble(textString, xPos, yPos, height) {
+  noStroke()
+  fill(230)
+  rect(xPos - 15, yPos - 25, 255, height, 20)
+  
+  push()
+  translate(xPos + 219, yPos + height - 58)
+  angleMode(DEGREES)
+  rotate(15)
+  scale(0.4)
+  triangle(30, 75, 58, 20, 86, 75)
+  pop()
+
+  fill(0)
+  stroke(0)
+  strokeWeight(0.1)
+  textSize(15)
+  text(textString, xPos, yPos, 230)
+}
 
 function shapeDrawer(shapeArray, shape) {
+  var shapeX = 726
+  var shapeY = 127
+  var n = 1000
+
+  if (lvl1Scene == true) {
+    shapeX = 716
+    shapeY = -5
+    n = 400
+  }
   for (
     var lineArrayDrawer = 0;
     lineArrayDrawer < shapeArray.length;
     lineArrayDrawer++
   ) {
-    if (shapeArray[lineArrayDrawer][0][0] + 735 > 735 && shapeArray[lineArrayDrawer][0][1] + 134 > 134) {
+    if (shapeArray[lineArrayDrawer][0][0] + 735 > 735 && shapeArray[lineArrayDrawer][0][1] + 134 > 134 && shapeArray[lineArrayDrawer][0][1] < n) {
+    
+    if (mode == HSL) {
+    colorMode(HSL, modeValue)
+    } else {
+    colorMode(RGB, 255)
+    }
+    //stroke(shapeArray[lineArrayDrawer][1][0], shapeArray[lineArrayDrawer][1][1], shapeArray[lineArrayDrawer][1][2])
+    if (lvl1Scene == true) {
+    strokeWeight(shapeArray[lineArrayDrawer][3][0]/2)
+    } else {
+      strokeWeight(1)
+    }
+    if (shape == line) {
+    shape(
+      shapeArray[lineArrayDrawer][0][0] + shapeX,
+      shapeArray[lineArrayDrawer][0][1] + shapeY,
+      shapeArray[lineArrayDrawer][0][2] + shapeX,
+      shapeArray[lineArrayDrawer][0][3] + shapeY
+    );
+    } else {
+      fill(shapeArray[lineArrayDrawer][2][0], shapeArray[lineArrayDrawer][2][1], shapeArray[lineArrayDrawer][2][2])
+      shape(
+        shapeArray[lineArrayDrawer][0][0] + shapeX,
+        shapeArray[lineArrayDrawer][0][1] + shapeY,
+        shapeArray[lineArrayDrawer][0][2],
+        shapeArray[lineArrayDrawer][0][3]
+      );
+    }
+  }
+  }
+}
+
+function shapeDrawer2(shapeArray, shape) {
+  var shapeX = 726
+  var shapeY = 127
+  var n = 0
+
+  if (lvl1Scene == true) {
+    shapeX = 716
+    shapeY = 385
+    n = 400
+  }
+  for (
+    var lineArrayDrawer = 0;
+    lineArrayDrawer < shapeArray.length;
+    lineArrayDrawer++
+  ) {
+    if (shapeArray[lineArrayDrawer][0][0] + 735 > 735 && shapeArray[lineArrayDrawer][0][1] + 134 > 134 && shapeArray[lineArrayDrawer][0][1] < n) {
     
     if (mode == HSL) {
     colorMode(HSL, modeValue)
@@ -190,19 +331,23 @@ function shapeDrawer(shapeArray, shape) {
     colorMode(RGB, 255)
     }
     stroke(shapeArray[lineArrayDrawer][1][0], shapeArray[lineArrayDrawer][1][1], shapeArray[lineArrayDrawer][1][2])
-    strokeWeight(shapeArray[lineArrayDrawer][3][0])
+    if (lvl1Scene == true) {
+    strokeWeight(shapeArray[lineArrayDrawer][3][0]/2)
+    } else {
+      strokeWeight(shapeArray[lineArrayDrawer][3][0])
+    }
     if (shape == line) {
     shape(
-      shapeArray[lineArrayDrawer][0][0] + 735,
-      shapeArray[lineArrayDrawer][0][1] + 134,
-      shapeArray[lineArrayDrawer][0][2] + 735,
-      shapeArray[lineArrayDrawer][0][3] + 134
+      shapeArray[lineArrayDrawer][0][0] + shapeX,
+      shapeArray[lineArrayDrawer][0][1] + shapeY,
+      shapeArray[lineArrayDrawer][0][2] + shapeX,
+      shapeArray[lineArrayDrawer][0][3] + shapeY
     );
     } else {
       fill(shapeArray[lineArrayDrawer][2][0], shapeArray[lineArrayDrawer][2][1], shapeArray[lineArrayDrawer][2][2])
       shape(
-        shapeArray[lineArrayDrawer][0][0] + 735,
-        shapeArray[lineArrayDrawer][0][1] + 134,
+        shapeArray[lineArrayDrawer][0][0] + shapeX,
+        shapeArray[lineArrayDrawer][0][1] + shapeY,
         shapeArray[lineArrayDrawer][0][2],
         shapeArray[lineArrayDrawer][0][3]
       );
@@ -248,9 +393,11 @@ function keyPressed() {
 
     screenMouse.onEnter();
 
-    minScrollPos -= 18;
-    if (highestLineNumber > 24 && currentLineNumber == Math.round(Math.abs(scrollPos)/18) + 25) {
+    if (highestLineNumber > 24) {
+      if (currentLineNumber == Math.round(Math.abs(scrollPos)/18) + 25) {
       scrollPos -= 18;
+      }
+      minScrollPos -= 18;
     }
   } else if (keyCode == 32) {
     currentSpaceNumber += 1;
@@ -401,6 +548,11 @@ if ($(this).is("#fileS")) {
   $(".menuText").toggleClass('top')
 }
 
+if ($(this).is("#helloS")) {
+  $(".hellodropdown").toggleClass('hidden')
+  $(".menuText1").toggleClass('top')
+}
+
 if ($(this).is("#saveS") || $(this).is("#save")) {
   if (printImage == true) {
     ding.play()
@@ -419,6 +571,16 @@ if ($(this).is("#saveS") || $(this).is("#save")) {
     lvl1Win = false
     skip = true
   }
+  $(".dropdown").toggleClass('hidden')
+  $(".menuText").toggleClass('top')
+}
+
+if ($(this).is("#logoutS") || $(this).is("#logout")) {
+  if (lvl1Done == true) {
+    lvl1Scene = true;
+    canvas.style('z-index', '2')
+  }
+
   $(".dropdown").toggleClass('hidden')
   $(".menuText").toggleClass('top')
 }
@@ -566,6 +728,42 @@ function hoverFunction() {
   
       $("#examplesS").toggleClass('red')
     }
+
+    if ($(this).is("#sketchesS") || $(this).is("#sketches")) {
+      $("#sketches").toggleClass('menuBlack')
+      $("#sketches").toggleClass('menuWhite')
+  
+      $("#sketchesS").toggleClass('red')
+    }
+
+    if ($(this).is("#collectionsS") || $(this).is("#collections")) {
+      $("#collections").toggleClass('menuBlack')
+      $("#collections").toggleClass('menuWhite')
+  
+      $("#collectionsS").toggleClass('red')
+    }
+
+    if ($(this).is("#assetsS") || $(this).is("#assets")) {
+      $("#assets").toggleClass('menuBlack')
+      $("#assets").toggleClass('menuWhite')
+  
+      $("#assetsS").toggleClass('red')
+    }
+
+    if ($(this).is("#settingsS") || $(this).is("#settings")) {
+      $("#settings").toggleClass('menuBlack')
+      $("#settings").toggleClass('menuWhite')
+  
+      $("#settingsS").toggleClass('red')
+    }
+
+    if ($(this).is("#logoutS") || $(this).is("#logout")) {
+      $("#logout").toggleClass('menuBlack')
+      $("#logout").toggleClass('menuWhite')
+  
+      $("#logoutS").toggleClass('red')
+    }
+
 };
 
 function mouseClicked() {
@@ -658,11 +856,37 @@ function varMaker() {
       contentTmp.length - contentValue
     );
     if (varContent.indexOf("width") !== -1) {
-      varContent = varContent.replace("width", "706")
+      if (lvl1Scene == true) {
+      varContent = varContent.replace("width", "353")
+      } else {
+        varContent = varContent.replace("width", "706")
+      }
     }
     if (varContent.indexOf("height") !== -1) {
-      varContent = varContent.replace("height", "628")
+      if (lvl1Scene == true) {
+      varContent = varContent.replace("height", "314")
+      } else {
+        varContent = varContent.replace("height", "628")
+      }
     }
+
+    if (varContent.indexOf("random(") !== -1) {
+      randomStartValue = varContent.indexOf("(") + 1;
+      randomEndValue = varContent.indexOf(")");
+      randomValue = varContent.substr(randomStartValue, randomEndValue - randomStartValue)
+      if (
+        varContent.indexOf("+") !== -1 ||
+        varContent.indexOf("-") !== -1 ||
+        varContent.indexOf("*") !== -1 ||
+        varContent.indexOf("/") !== -1
+      ) {
+        varContent = random(mathFunction(randomValue));
+      } else {
+        varContent = random(randomValue);
+      }
+      varContent = varContent.toString()
+    }
+
     if (
       varContent.indexOf("+") !== -1 ||
       varContent.indexOf("-") !== -1 ||
@@ -671,6 +895,7 @@ function varMaker() {
     ) {
       varContent = mathFunction(varContent);
     }
+
     if (window[varContent] != undefined) {
       varContent = window[varContent];
     }

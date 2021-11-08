@@ -142,6 +142,8 @@ canvas {
 
 .hidden {
   z-index: -1;
+  background: transparent;
+  color: transparent;
 }
 
 .top {
@@ -163,11 +165,18 @@ canvas {
   position:absolute; 
 }
 
+.menuText1 {
+  font-family: 'Montserrat';
+  font-size: 12px;
+  position:absolute; 
+}
+
 .menuText {
   font-family: 'Montserrat';
   font-size: 12px;
   position:absolute; 
 }
+
 
 
 .menuGrey {
@@ -317,9 +326,13 @@ canvas {
   height: 282px;
   border-style: solid;
   border-width: 1px;
-  border-color: rgb(160, 160, 160);
-  background: rgb(250, 250, 250);
 }
+
+.dropdownStyle {
+  border-color: rgb(160, 160, 160);
+  background: rgb(240, 240, 240);
+}
+
 
 #new {
   left:73px;
@@ -435,4 +448,74 @@ canvas {
   top: 51px;
   font-size: 14px;
   font-family: 'Inconsolata';
+}
+
+#helloD {
+  position:absolute; 
+  left:1315px;
+  top:40px;
+  width: 123px;
+  height: 175px;
+  border-style: solid;
+  border-width: 1px;
+}
+
+#sketches {
+  left:1332px;
+  top:50px;
+}
+
+#collections {
+  left:1332px;
+  top:85px;
+}
+
+#assets {
+  left:1332px;
+  top:120px;
+}
+
+#settings {
+  left:1332px;
+  top:155px;
+}
+
+#logout {
+  left:1332px;
+  top:190px;
+}
+
+#sketchesS {
+  left:1316px; 
+  top:41px;
+  width: 179px;
+  height: 35px;
+}
+
+#collectionsS {
+  left:1316px; 
+  top:76px;
+  width: 179px;
+  height: 34px;
+}
+
+#assetsS {
+  left:1316px; 
+  top:110px;
+  width: 179px;
+  height: 37px;
+}
+
+#settingsS {
+  left:1316px; 
+  top:147px;
+  width: 179px;
+  height: 34px;
+}
+
+#logoutS {
+  left:1316px; 
+  top:181px;
+  width: 179px;
+  height: 35px;
 }

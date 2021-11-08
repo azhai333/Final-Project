@@ -23,7 +23,6 @@ function consoleLogChecker() {
     }
     
   intermediateProduct = quoteRemove.substr(startValue, endValue)
-
     if (containsQuote == false) {
       printProduct = window[intermediateProduct];
     } else {

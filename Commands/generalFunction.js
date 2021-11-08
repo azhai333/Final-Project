@@ -186,9 +186,17 @@ function generalFunction() {
         lastFill.push(valueArray[i])
       }
     } else if (currentCommand[lineNumber].indexOf("rect(") !== -1) {
+      if (currentShapeArray == 1) {
       shapeArrayMaker(rectArray);
+      } else {
+        shapeArrayMaker(rectArray2);
+      }
     } else if (currentCommand[lineNumber].indexOf("line(") !== -1) {
+      if (currentShapeArray == 1) {
       shapeArrayMaker(lineArray)
+      } else {
+        shapeArrayMaker(lineArray2)
+      }
     } else if (currentCommand[lineNumber].indexOf("stroke(") !== -1) {
       lastStroke = []
       for (var i = 0; i < bracketComma.length + 1; i++) {

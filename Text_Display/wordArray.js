@@ -53,8 +53,8 @@ function wordArrayCreator() {
           wordArray[wordArray2][wordArray[wordArray2].length - 1][0] +=
             commandTmp[wordArrayMaker];
         }
-        previousCommand[wordArray2] = varCommand[wordArray2];
       }
+      previousCommand[wordArray2] = varCommand[wordArray2];
     }
   }
   quoteMode = false;

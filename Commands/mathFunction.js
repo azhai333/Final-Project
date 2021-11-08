@@ -7,6 +7,15 @@ function mathFunction(mathString) {
   var minusLoc = [];
   var signCount = 1;
 
+  if (mathString.indexOf("(") !== -1) {
+    mathStartValue = mathString.indexOf("(") + 1;
+    mathEndValue = mathString.indexOf(")");
+    mathValue = mathString.substr(mathStartValue, mathEndValue - mathStartValue)
+
+    mathString = mathString.replace(mathString.substr(mathStartValue - 1, mathEndValue - mathStartValue + 2), mathFunction(mathValue))
+
+  }
+
   var mathTmp = mathString.split("");
 
   for (var mathCounter = 0; mathCounter < mathTmp.length; mathCounter++) {
