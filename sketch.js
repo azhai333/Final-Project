@@ -71,7 +71,8 @@ var ifSkip = false;
 
 var msgClick = false;
 var msgInterval = 0;
-var level1 = false;
+var level1 = true;
+var level2 = false;
 var notification = true;
 var printImage = false;
 var start = true;
@@ -83,7 +84,7 @@ var msgY = 1048
 var msgIndex = 0
 var currentScrollPos = -227
 var textArray = []
-var lvl1Scene = true;
+var lvl1Scene = false;
 var dateSwitch = true;
 var lvl1Done = false;
 var commandSwitch = true;
@@ -94,8 +95,11 @@ var speechInterval = 0
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.position(0, 0)
-  canvas.style('z-index', '2')
+  canvas.style('z-index', '-1')
   screenMouse = new mouse();
+  scene = new cutscene()
+
+  frameRate(120)
 }
 
 function preload() {
@@ -192,47 +196,15 @@ function draw() {
   wordArrayCreator();
 
   if (lvl1Scene == true) {
-    if (commandSwitch == true) {
-    runCommand = true
-    commandSwitch = false
-    }
-    stroke(0)
-    strokeWeight(2)
-    noFill()
-    rect(width/2, 10, 706/2, 628/2)
-    rect(width/2, 400, 706/2, 628/2)
+    scene.firstScene()
+  }
 
-    fill(250, 250, 250)
-    noStroke()
-    rect(0, 0, 719, height)
-    rect(719, 0, 721, 9)
-    rect(1074, 9, 721, 1000)
-    rect(719, 325, 360, 74)
-    rect(719, 715, 360, 74)
-
-    stroke(0)
-    strokeWeight(1.5)
-    circle(520, 200, 150)
-
-    push()
-    translate(400, 480)
-    scale(1.9)
-    strokeWeight(1)
-    triangle(30, 75, 58, 20, 86, 75)
-    pop()
-
-    strokeWeight(1)
+  if (speechInterval >= 2060) {
     speechInterval++
-    if (speechInterval >= 60 && speechInterval <= 360) {
-    speechBubble("I just got my new Big Tech tablet today, I’m so excited!", 200, 110, 60)
-    }
-
-    if (speechInterval >= 420 && speechInterval <= 720) {
-    speechBubble("Awesome! I just got mine last week and it’s been life-changing.", 230, 490, 80)
-    }
-
-    if (speechInterval >= 780 && speechInterval <= 1080) {
-      speechBubble("It’s crazy how it seems to know exactly what I want when I want it.", 200, 110, 75)
+    if (speechInterval == 2240) {
+    ding.play()
+    $(".notification").toggleClass("hidden")
+    notification = true
     }
   }
 
@@ -579,10 +551,11 @@ if ($(this).is("#logoutS") || $(this).is("#logout")) {
   if (lvl1Done == true) {
     lvl1Scene = true;
     canvas.style('z-index', '2')
+    level1 = false
   }
 
-  $(".dropdown").toggleClass('hidden')
-  $(".menuText").toggleClass('top')
+  $(".hellodropdown").toggleClass('hidden')
+  $(".menuText1").toggleClass('top')
 }
 };
 
