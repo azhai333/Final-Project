@@ -11,7 +11,8 @@ function generalFunction() {
     currentCommand[lineNumber].indexOf("stroke(") !== -1 ||
     currentCommand[lineNumber].indexOf("strokeWeight(") !== -1 ||
     currentCommand[lineNumber].indexOf("colorMode(") !== -1 ||
-    currentCommand[lineNumber].indexOf("frameRate(") !== -1
+    currentCommand[lineNumber].indexOf("frameRate(") !== -1 ||
+    currentCommand[lineNumber].indexOf("noFill(") !== -1
   ) {
     fillStartValue = currentCommand[lineNumber].indexOf("(") + 1;
     fillEndValue = currentCommand[lineNumber].indexOf(")");
@@ -179,12 +180,13 @@ function generalFunction() {
         }
       }
     }
-
     if (currentCommand[lineNumber].indexOf("fill(") !== -1) {
       lastFill = []
       for (var i = 0; i < bracketComma.length + 1; i++) {
         lastFill.push(valueArray[i])
       }
+    } else if (currentCommand[lineNumber].indexOf("noFill(") !== -1) {
+      lastFill = ["NA"]
     } else if (currentCommand[lineNumber].indexOf("rect(") !== -1) {
       if (currentShapeArray == 1) {
       shapeArrayMaker(rectArray);
@@ -202,6 +204,18 @@ function generalFunction() {
       for (var i = 0; i < bracketComma.length + 1; i++) {
         lastStroke.push(valueArray[i])
       }
+
+    //if (level2 == true) {
+        if (userIdentity == '"square"') {
+          if (valueArray[1] >= valueArray[0] + 50 && valueArray[1] >= valueArray[2] + 50) {
+            circleCondition = true
+          }
+        } else  {
+          if (valueArray[0] >= valueArray[1] + 50 && valueArray[0] >= valueArray[2] + 50 ) {
+            squareCondition = true
+          }
+        }
+      //}
     } else if (currentCommand[lineNumber].indexOf("strokeWeight(") !== -1) {
       lastWeight = []
       lastWeight.push(valueArray[0])

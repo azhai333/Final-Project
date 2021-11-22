@@ -1,4 +1,4 @@
-var varCommand = ["function preload() {", "loadSoftware('Brick_Wall.exe')", "}"];
+var varCommand = [""];
 var currentCommand = []
 
 var wordArray = [[[""]]];
@@ -13,6 +13,9 @@ var clickY = 161;
 var currentLineNumber = 0;
 var highestLineNumber = varCommand.length - 1;
 var linePositionArray = []
+var bypass = true
+var next = false
+var dateY;
 
 for (var linePositionArrayMaker = 0; linePositionArrayMaker < varCommand.length; linePositionArrayMaker++) {
   linePositionArray.push(161 + linePositionArrayMaker * 18)
@@ -62,15 +65,16 @@ var lineArray = [];
 var rectArray = [];
 var lineArray2 = [];
 var rectArray2 = [];
-var lastStroke;
-var lastWeight;
-var lastFill;
+var lastStroke = [];
+var lastWeight = [];
+var lastFill = [];
 var mode;
 var modeValue;
 var ifSkip = false;
 
 var msgClick = false;
 var msgInterval = 0;
+var msgInterval2 = 0;
 var level1 = true;
 var level2 = false;
 var notification = true;
@@ -78,7 +82,14 @@ var printImage = false;
 var start = true;
 var lvl1Win = false;
 var lvl1Lose = false;
+
+var lvl2Win = false;
+var lvl2Done = false;
+var circleCondition = false;
+var squareCondition = false
+
 var msg1 = false;
+var msg2 = false;
 var skip = true;
 var msgY = 1048
 var msgIndex = 0
@@ -91,6 +102,7 @@ var commandSwitch = true;
 var stop = 0
 var currentShapeArray = 1
 var speechInterval = 0
+
 
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
@@ -114,7 +126,7 @@ function preload() {
 }
 
 function draw() {
-  //console.log(rectArray);
+  //console.log(circleCondition);
   screenMouse.mouseProperties();
   background(250, 250, 250);
   noStroke();
@@ -170,7 +182,7 @@ function draw() {
   commandRunner = 0;
   lineNumber = 0;
 
-  functionInterval += 1;
+  functionInterval++;
 
   if (functionInterval >= Math.floor(60/frameRateValue)) {
     commandRunnerFunction();
@@ -233,13 +245,13 @@ function speechBubble(textString, xPos, yPos, height) {
 }
 
 function shapeDrawer(shapeArray, shape) {
-  var shapeX = 726
-  var shapeY = 127
+  var shapeX = 734
+  var shapeY = 136
   var n = 1000
 
   if (lvl1Scene == true) {
-    shapeX = 716
-    shapeY = -5
+    shapeX = 721
+    shapeY = 11
     n = 400
   }
   for (
@@ -247,55 +259,7 @@ function shapeDrawer(shapeArray, shape) {
     lineArrayDrawer < shapeArray.length;
     lineArrayDrawer++
   ) {
-    if (shapeArray[lineArrayDrawer][0][0] + 735 > 735 && shapeArray[lineArrayDrawer][0][1] + 134 > 134 && shapeArray[lineArrayDrawer][0][1] < n) {
-    
-    if (mode == HSL) {
-    colorMode(HSL, modeValue)
-    } else {
-    colorMode(RGB, 255)
-    }
-    //stroke(shapeArray[lineArrayDrawer][1][0], shapeArray[lineArrayDrawer][1][1], shapeArray[lineArrayDrawer][1][2])
-    if (lvl1Scene == true) {
-    strokeWeight(shapeArray[lineArrayDrawer][3][0]/2)
-    } else {
-      strokeWeight(1)
-    }
-    if (shape == line) {
-    shape(
-      shapeArray[lineArrayDrawer][0][0] + shapeX,
-      shapeArray[lineArrayDrawer][0][1] + shapeY,
-      shapeArray[lineArrayDrawer][0][2] + shapeX,
-      shapeArray[lineArrayDrawer][0][3] + shapeY
-    );
-    } else {
-      fill(shapeArray[lineArrayDrawer][2][0], shapeArray[lineArrayDrawer][2][1], shapeArray[lineArrayDrawer][2][2])
-      shape(
-        shapeArray[lineArrayDrawer][0][0] + shapeX,
-        shapeArray[lineArrayDrawer][0][1] + shapeY,
-        shapeArray[lineArrayDrawer][0][2],
-        shapeArray[lineArrayDrawer][0][3]
-      );
-    }
-  }
-  }
-}
-
-function shapeDrawer2(shapeArray, shape) {
-  var shapeX = 726
-  var shapeY = 127
-  var n = 0
-
-  if (lvl1Scene == true) {
-    shapeX = 716
-    shapeY = 385
-    n = 400
-  }
-  for (
-    var lineArrayDrawer = 0;
-    lineArrayDrawer < shapeArray.length;
-    lineArrayDrawer++
-  ) {
-    if (shapeArray[lineArrayDrawer][0][0] + 735 > 735 && shapeArray[lineArrayDrawer][0][1] + 134 > 134 && shapeArray[lineArrayDrawer][0][1] < n) {
+    if (shapeArray[lineArrayDrawer][0][0] + shapeX >= shapeX && shapeArray[lineArrayDrawer][0][1] + shapeY >= shapeY && shapeArray[lineArrayDrawer][0][1] < n) {
     
     if (mode == HSL) {
     colorMode(HSL, modeValue)
@@ -316,7 +280,63 @@ function shapeDrawer2(shapeArray, shape) {
       shapeArray[lineArrayDrawer][0][3] + shapeY
     );
     } else {
+      if (shapeArray[lineArrayDrawer][2][0] == "NA") {
+        noFill()
+      } else {
       fill(shapeArray[lineArrayDrawer][2][0], shapeArray[lineArrayDrawer][2][1], shapeArray[lineArrayDrawer][2][2])
+      }
+      shape(
+        shapeArray[lineArrayDrawer][0][0] + shapeX,
+        shapeArray[lineArrayDrawer][0][1] + shapeY,
+        shapeArray[lineArrayDrawer][0][2],
+        shapeArray[lineArrayDrawer][0][3]
+      );
+    }
+  }
+  }
+}
+
+function shapeDrawer2(shapeArray, shape) {
+  var shapeX = 734
+  var shapeY = 136
+  var n = 0
+
+  if (lvl1Scene == true) {
+    shapeX = 721
+    shapeY = 401
+    n = 400
+  }
+  for (
+    var lineArrayDrawer = 0;
+    lineArrayDrawer < shapeArray.length;
+    lineArrayDrawer++
+  ) {
+    if (shapeArray[lineArrayDrawer][0][0] + shapeX > shapeX && shapeArray[lineArrayDrawer][0][1] + shapeY > shapeY && shapeArray[lineArrayDrawer][0][1] < n) {
+    
+    if (mode == HSL) {
+    colorMode(HSL, modeValue)
+    } else {
+    colorMode(RGB, 255)
+    }
+    stroke(shapeArray[lineArrayDrawer][1][0], shapeArray[lineArrayDrawer][1][1], shapeArray[lineArrayDrawer][1][2])
+    if (lvl1Scene == true) {
+    strokeWeight(shapeArray[lineArrayDrawer][3][0]/2)
+    } else {
+      strokeWeight(shapeArray[lineArrayDrawer][3][0])
+    }
+    if (shape == line) {
+    shape(
+      shapeArray[lineArrayDrawer][0][0] + shapeX,
+      shapeArray[lineArrayDrawer][0][1] + shapeY,
+      shapeArray[lineArrayDrawer][0][2] + shapeX,
+      shapeArray[lineArrayDrawer][0][3] + shapeY
+    );
+    } else {
+      if (shapeArray[lineArrayDrawer][2][0] == "NA") {
+        noFill()
+      } else {
+      fill(shapeArray[lineArrayDrawer][2][0], shapeArray[lineArrayDrawer][2][1], shapeArray[lineArrayDrawer][2][2])
+      }
       shape(
         shapeArray[lineArrayDrawer][0][0] + shapeX,
         shapeArray[lineArrayDrawer][0][1] + shapeY,
@@ -433,6 +453,7 @@ function keyPressed() {
       varCommand[currentLineNumber].slice(currentSpaceNumber - 1);
     screenMouse.onSpace();
   }
+  return false
 }
 
 $(document).ready(function() {
@@ -542,6 +563,14 @@ if ($(this).is("#saveS") || $(this).is("#save")) {
     lvl1Lose = true
     lvl1Win = false
     skip = true
+  }
+
+  if (circleCondition == true && squareCondition == true) {
+    ding.play()
+    $(".notification").toggleClass("hidden")
+    notification = true
+
+    lvl2Win = true
   }
   $(".dropdown").toggleClass('hidden')
   $(".menuText").toggleClass('top')
@@ -746,6 +775,8 @@ function mouseClicked() {
   if (start == true) {
   ding.play()
   start = false
+  } else {
+    next = true
   }
 }
 
@@ -768,6 +799,7 @@ function mouseWheel(event) {
 }
 
 if (msgClick == true && mouseX > 1000 && mouseY > 102) {
+  
   if (event.delta > 0 && msgScrollPos > msgMinScrollPos) {
     msgScrollPos -= abs(event.delta);
   }
@@ -873,5 +905,6 @@ function varMaker() {
       varContent = window[varContent];
     }
     window[varName] = varContent;
+    console.log(varContent)
   }
 }

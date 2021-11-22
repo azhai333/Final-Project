@@ -9,7 +9,6 @@ function msgApp() {
     push()
     translate(0, msgScrollPos)
     strokeWeight(0.1)
-
     for (var i = 0; i < textArray.length; i++) {
       textBubble(textArray[i][0], 1030, textArray[i][1], textArray[i][2])
     }
@@ -17,8 +16,6 @@ function msgApp() {
     if (msgInterval == 0 && msg1 == false) {
       textArray.push(["Hello! Welcome to your first day as a software developer for Big Tech Inc.! I am Elon Zuckerbezos, the CEO of the company. To streamline our pipeline, we’ve cut out all in-person meetings, and have switched to communicating with employees purely via instant messaging. You will receive your assignment for each day through this app. At the moment, we have disabled communications from your end. While we absolutely value the voice of each and every employee, we have found that the process can be far more streamlined if we maintain a one-way line of communication down the company hierarchy.", 165, 320])
       }
-
-      msgInterval++
 
       if (msgInterval >= 120 && msgInterval < 540 && msg1 == false) {
       typingBubble(1016, 475)
@@ -52,14 +49,37 @@ function msgApp() {
 
 //Level 2 Messages
     if (msgInterval == 0 && level2 == true && msg2 == false) {
-      textArray.push(["Great work yesterday! Now that you have your work environment set up and secured you can begin working on new features for our devices. As I mentioned before, our number one priority is personalizing the experience that every user has. In order to maintain a neutral environment and prevent employee bias from interfering with our software, we have developed a system that automatically places people into categories of shapes, that way you don’t know exactly what group you are targeting.", 165, 320])
-
-      if (msgScrollPos > -35 && msgInterval == 540) {
-        msgScrollPos = -35
-        msgMinScrollPos = -35
-      }
+      msgMinScrollPos -= 230
+      msgScrollPos = msgMinScrollPos
+      textArray.push(["Great work yesterday! Now that you have your work environment set up and secured you can begin working on new features for our devices. As I mentioned before, our number one priority is personalizing the experience that every user has. In order to maintain a neutral environment and prevent employee bias from interfering with our software, we have developed a system that automatically places people into categories of shapes, that way you don’t know exactly what group you are targeting.", msgY, 275])
+      msgY += 300
       }
 
+      if (msgInterval == 60 && msg2 == false && level2 == true) {
+        msgMinScrollPos -= 50
+        msgScrollPos = msgMinScrollPos
+      }
+
+      if (msgInterval >= 60 && msgInterval < 300 && msg2 == false && level2 == true) {
+        typingBubble(1016, msgY - 30)
+      }
+
+      if (msgInterval == 300 && level2 == true && msg2 == false) {
+        msgMinScrollPos -= 285
+        msgScrollPos = msgMinScrollPos
+        textArray.push(["You will be working on developing code for circles and squares. We’ve done some market research and found that circles tends to prefer having a green border while squares tends to prefer having a red border. Please use the rect(), stroke(), and noFill() functions to create a border around each user’s device. You can tailor the code to a specific group by using the userIdentity variable, which will identify who is using the device, along with conditional statements. For example you could write “if (userIdentity == circle)…” For your own testing, you can set a variable called userIdentity equal to either 'circle' or 'square'. Good luck!", msgY, 321])
+        msgY += 330
+        }
+
+        if (lvl2Win == true) {
+          msgMinScrollPos -= 210
+          msgScrollPos = msgMinScrollPos
+        textArray.push(["Great job! I’m sure our users will greatly appreciate this minute aesthetic change. Feel free to experiment further with the userIdentity stuff, and when you’re done for the day, just like yesterday, you can log out.", msgY, 190])
+        msgY += 204
+        lvl2Win = false
+        lvl2Done = true
+      }
+  
     push()
     textSize(12)
     stroke(150)
@@ -69,8 +89,8 @@ function msgApp() {
       text("Today 9:02 AM", 1180, 125)
     } else if (level2 == true) {
       text("Yesterday 9:02 AM", 1180, 125)
+      text("Today 9:04 AM", 1180, dateY)
     }
-
     if (dateSwitch == false || lvl1Win == true || lvl1Lose == true) {
       if (dateSwitch == true) {
       msgMinScrollPos -= 27
@@ -85,13 +105,14 @@ function msgApp() {
       }
       pop()
 
-    if (lvl1Win == true) {
+    if (lvl1Win == true && level2 !== true) {
         msgMinScrollPos -= 217
         msgScrollPos = msgMinScrollPos
       textArray.push(["Great job on your first day of work! Now that you’ve properly secured your coding environment, you’ll be able to move on to your first real project tomorrow.  Feel free to spend the rest of your day familiarizing yourself with your code environment. When you're done for the day, you can log out of your account.", msgY, 194])
-      msgY += 179
+      msgY += 204
       lvl1Win = false
       lvl1Done = true
+      //bypass = false
     }
 
     if (lvl1Lose == true) {
@@ -101,7 +122,6 @@ function msgApp() {
       lvl1Lose = false
       msgY += 192
     }
-  
     pop()
   
     stroke(0)
@@ -130,6 +150,10 @@ function msgApp() {
     textSize(30)
     text("E", 1231, 50)
     pop()
+    msgInterval++
+    if (level2 == true) {
+      msgInterval2++
+    }
 }
 
 function typingBubble(xPos, yPos) {

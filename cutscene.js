@@ -1,10 +1,6 @@
 class cutscene {
 
     firstScene() {
-        if (commandSwitch == true) {
-            runCommand = true
-            commandSwitch = false
-            }
             stroke(0)
             strokeWeight(2)
             noFill()
@@ -29,6 +25,13 @@ class cutscene {
             strokeWeight(1)
             triangle(30, 75, 58, 20, 86, 75)
             pop()
+            if (commandSwitch == true) {
+                lineArray = [];
+                lineArray2 = [];
+                rectArray = [];
+                runCommand = true
+                commandSwitch = false
+            }
         
             strokeWeight(1)
             speechInterval++
@@ -57,9 +60,16 @@ class cutscene {
             }
         
             if (speechInterval >= 2060) {
-              canvas.style('z-index', '-1')
-              lvl1Scene = false
-              level2 = true
+                lineArray = []
+                lineArray2 = []
+                runCommand = false
+                canvas.style('z-index', '-1')
+                lvl1Scene = false
+                level2 = true
+                msgInterval = 0
+                dateY = msgY
+                msgY += 44
+                msgMinScrollPos -= 110
             }
     }
 }
