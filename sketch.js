@@ -1,4 +1,4 @@
-var varCommand = [""];
+var varCommand = ["function setup() {", "createCanvas(windowWidth, windowHeight)", "frameRate(5)", "}", "var state = 0", "var lin1x = 0", "var lin1y = 0", "var lin2x = 0", "var lin2y = 0", "var direction = 2", "var verticalGap = 0", "var horizontalGap = 0", "var c = 0", "function draw() {", "if (state == 0) {", "lin1x = width / 2", "lin1y = height / 2 + height / 40", "lin2x = lin1x", "lin2y = lin1y - height / 40", "verticalGap = height / 40", "horizontalGap = width / 40", "state = 1", "}", "colorMode(HSL, 360)", "stroke(c, 200, 200)", "strokeWeight(3)", "line(lin1x, lin1y, lin2x, lin2y)", "lin1x = lin2x", "lin1y = lin2y", "if (direction == 1) {", "verticalGap = verticalGap + height / 40", "lin2y = lin2y - verticalGap", "}", "if (direction == 2) {", "lin2x = lin2x + horizontalGap", "horizontalGap = horizontalGap + width / 40", "}", "if (direction == 3) {", "verticalGap = verticalGap + height / 40", "lin2y = lin2y + verticalGap", "}", "if (direction == 4) {", "lin2x = lin2x - horizontalGap", "horizontalGap = horizontalGap + width / 40", "direction = 0", "}", "direction = direction + 1", "if (c > 360) {", "c = 0", "}", "if (c <= 360) {", "c = c + 7", "}", "}", "function preload() {", "loadSoftware('Brick_Wall.exe')", "}"];
 var currentCommand = []
 
 var wordArray = [[[""]]];
@@ -84,7 +84,9 @@ var lvl1Win = false;
 var lvl1Lose = false;
 
 var lvl2Win = false;
+var lvl2Lose = false;
 var lvl2Done = false;
+var lvl2Scene = false;
 var circleCondition = false;
 var squareCondition = false
 
@@ -115,25 +117,25 @@ function setup() {
 }
 
 function preload() {
-  fontCode = loadFont("Fonts/Inconsolata-Regular.ttf");
-  sf = loadFont("Fonts/sf.otf");
-  fontRegular = loadFont("Fonts/Montserrat.otf");
-  logo = loadImage("Images/Logo.png");
-  settings = loadImage("Images/Settings.png");
-  pencil = loadImage("Images/Pencil.png");
-  wall = loadImage("Images/wall.jpeg");
-  ding = loadSound("Sounds/Notification.mp3");
+  fontCode = loadFont("./Fonts/Inconsolata-Regular.ttf");
+  sf = loadFont("./Fonts/SF.otf");
+  fontRegular = loadFont("./Fonts/Montserrat.otf");
+  logo = loadImage("./Images/Logo.png");
+  settings = loadImage("./Images/Settings.png");
+  pencil = loadImage("./Images/Pencil.png");
+  wall = loadImage("./Images/wall.jpeg");
+  ding = loadSound("./Sounds/Notification.mp3");
 }
 
 function draw() {
-  //console.log(circleCondition);
+  //console.log(lineArray);
   screenMouse.mouseProperties();
   background(250, 250, 250);
   noStroke();
   textFont(fontCode);
   textSize(18);
 
-  if (lvl1Scene == false) {
+  if (lvl1Scene == false && lvl2Scene == false) {
     push();
     translate(0, scrollPos);
     textEditor();
@@ -202,13 +204,22 @@ function draw() {
   shapeDrawer2(lineArray2, line)
   shapeDrawer2(rectArray2, rect)
   }
+  if (lvl2Scene == true) {
+    shapeDrawer2(lineArray2, line)
+    shapeDrawer2(rectArray2, rect)
+  }
 
   pop();
 
   wordArrayCreator();
 
   if (lvl1Scene == true) {
+    scene.sceneStyle()
     scene.firstScene()
+  }
+  if (lvl2Scene == true) {
+    scene.sceneStyle()
+    scene.secondScene()
   }
 
   if (speechInterval >= 2060) {
@@ -249,7 +260,7 @@ function shapeDrawer(shapeArray, shape) {
   var shapeY = 136
   var n = 1000
 
-  if (lvl1Scene == true) {
+  if (lvl1Scene == true || lvl2Scene == true) {
     shapeX = 721
     shapeY = 11
     n = 400
@@ -267,7 +278,8 @@ function shapeDrawer(shapeArray, shape) {
     colorMode(RGB, 255)
     }
     stroke(shapeArray[lineArrayDrawer][1][0], shapeArray[lineArrayDrawer][1][1], shapeArray[lineArrayDrawer][1][2])
-    if (lvl1Scene == true) {
+    console.log(shapeArray[lineArrayDrawer][1][0])
+    if (lvl1Scene == true || lvl2Scene == true) {
     strokeWeight(shapeArray[lineArrayDrawer][3][0]/2)
     } else {
       strokeWeight(shapeArray[lineArrayDrawer][3][0])
@@ -301,7 +313,7 @@ function shapeDrawer2(shapeArray, shape) {
   var shapeY = 136
   var n = 0
 
-  if (lvl1Scene == true) {
+  if (lvl1Scene == true || lvl2Scene == true) {
     shapeX = 721
     shapeY = 401
     n = 400
@@ -319,7 +331,7 @@ function shapeDrawer2(shapeArray, shape) {
     colorMode(RGB, 255)
     }
     stroke(shapeArray[lineArrayDrawer][1][0], shapeArray[lineArrayDrawer][1][1], shapeArray[lineArrayDrawer][1][2])
-    if (lvl1Scene == true) {
+    if (lvl1Scene == true || lvl2Scene == true) {
     strokeWeight(shapeArray[lineArrayDrawer][3][0]/2)
     } else {
       strokeWeight(shapeArray[lineArrayDrawer][3][0])
@@ -547,41 +559,60 @@ if ($(this).is("#helloS")) {
 }
 
 if ($(this).is("#saveS") || $(this).is("#save")) {
-  if (printImage == true) {
-    ding.play()
-    $(".notification").toggleClass("hidden")
-    notification = true
-
-    lvl1Win = true
-    lvl1Lose = false
-    skip = true
-  } else {
-    ding.play()
-    $(".notification").toggleClass("hidden")
-    notification = true
-
-    lvl1Lose = true
-    lvl1Win = false
-    skip = true
+  if (level1 == true) {
+    if (printImage == true) {
+      ding.play()
+      $(".notification").toggleClass("hidden")
+      notification = true
+  
+      lvl1Win = true
+      lvl1Lose = false
+      skip = true
+    } else {
+      ding.play()
+      $(".notification").toggleClass("hidden")
+      notification = true
+  
+      lvl1Lose = true
+      lvl1Win = false
+      skip = true
+    }
   }
-
-  if (circleCondition == true && squareCondition == true) {
+  if (level2 == true) {
+  if (circleCondition == true && squareCondition == true)  {
     ding.play()
     $(".notification").toggleClass("hidden")
     notification = true
 
     lvl2Win = true
+  } else {
+    ding.play()
+    $(".notification").toggleClass("hidden")
+    notification = true
+
+    lvl2Lose = true
   }
+}
+
   $(".dropdown").toggleClass('hidden')
   $(".menuText").toggleClass('top')
 }
 
 if ($(this).is("#logoutS") || $(this).is("#logout")) {
-  if (lvl1Done == true) {
-    lvl1Scene = true;
+  if (level1 == true) {
+    if (lvl1Done == true) {
+      lvl1Scene = true;
+      canvas.style('z-index', '2')
+      level1 = false
+    }
+}
+if (level2 == true) {
+  if (lvl2Done == true) {
+    lvl2Scene = true;
     canvas.style('z-index', '2')
-    level1 = false
+    level2 = false
   }
+}
 
   $(".hellodropdown").toggleClass('hidden')
   $(".menuText1").toggleClass('top')
@@ -861,14 +892,14 @@ function varMaker() {
       contentTmp.length - contentValue
     );
     if (varContent.indexOf("width") !== -1) {
-      if (lvl1Scene == true) {
+      if (lvl1Scene == true || lvl2Scene == true) {
       varContent = varContent.replace("width", "353")
       } else {
         varContent = varContent.replace("width", "706")
       }
     }
     if (varContent.indexOf("height") !== -1) {
-      if (lvl1Scene == true) {
+      if (lvl1Scene == true || lvl2Scene == true) {
       varContent = varContent.replace("height", "314")
       } else {
         varContent = varContent.replace("height", "628")
@@ -905,6 +936,6 @@ function varMaker() {
       varContent = window[varContent];
     }
     window[varName] = varContent;
-    console.log(varContent)
+    //console.log(varContent)
   }
 }

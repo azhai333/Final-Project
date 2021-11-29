@@ -205,7 +205,7 @@ function generalFunction() {
         lastStroke.push(valueArray[i])
       }
 
-    //if (level2 == true) {
+    if (level2 == true) {
         if (userIdentity == '"square"') {
           if (valueArray[1] >= valueArray[0] + 50 && valueArray[1] >= valueArray[2] + 50) {
             circleCondition = true
@@ -215,7 +215,7 @@ function generalFunction() {
             squareCondition = true
           }
         }
-      //}
+      }
     } else if (currentCommand[lineNumber].indexOf("strokeWeight(") !== -1) {
       lastWeight = []
       lastWeight.push(valueArray[0])

@@ -1,30 +1,32 @@
 class cutscene {
 
+    sceneStyle() {
+        stroke(0)
+        strokeWeight(2)
+        noFill()
+        rect(width/2, 10, 706/2, 628/2)
+        rect(width/2, 400, 706/2, 628/2)
+    
+        fill(250, 250, 250)
+        noStroke()
+        rect(0, 0, 719, height)
+        rect(719, 0, 721, 9)
+        rect(1074, 9, 721, 1000)
+        rect(719, 325, 360, 74)
+        rect(719, 715, 360, 74)
+    
+        stroke(0)
+        strokeWeight(1.5)
+        circle(520, 200, 150)
+    
+        push()
+        translate(400, 480)
+        scale(1.9)
+        strokeWeight(1)
+        triangle(30, 75, 58, 20, 86, 75)
+        pop()
+    }
     firstScene() {
-            stroke(0)
-            strokeWeight(2)
-            noFill()
-            rect(width/2, 10, 706/2, 628/2)
-            rect(width/2, 400, 706/2, 628/2)
-        
-            fill(250, 250, 250)
-            noStroke()
-            rect(0, 0, 719, height)
-            rect(719, 0, 721, 9)
-            rect(1074, 9, 721, 1000)
-            rect(719, 325, 360, 74)
-            rect(719, 715, 360, 74)
-        
-            stroke(0)
-            strokeWeight(1.5)
-            circle(520, 200, 150)
-        
-            push()
-            translate(400, 480)
-            scale(1.9)
-            strokeWeight(1)
-            triangle(30, 75, 58, 20, 86, 75)
-            pop()
             if (commandSwitch == true) {
                 lineArray = [];
                 lineArray2 = [];
@@ -70,6 +72,18 @@ class cutscene {
                 dateY = msgY
                 msgY += 44
                 msgMinScrollPos -= 110
+                commandSwitch = true
             }
+    }
+    secondScene() {
+        if (commandSwitch == true) {
+            lineArray = [];
+            lineArray2 = [];
+            rectArray = [];
+            runCommand = true
+            commandSwitch = false
+        }
+        strokeWeight(1)
+        speechInterval++
     }
 }

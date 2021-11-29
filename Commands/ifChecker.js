@@ -12,7 +12,7 @@ function ifChecker() {
   var booleanArray = [];
   //This notation took a bit of research to figure out. indexOf can be used to find the location of a value within a string, so it's basically a string search function. If it fails to find the value you give it, it returns -1. So if the search is not equal to -1, then the line must contain an if statement somewhere in it that must be processed. It then finds the indexOf the opening and closing brackets as these values are important for assessing the if statement. Similar logic is used to check if it contains || or &&.
   if (currentCommand[lineNumber].indexOf("if (") !== -1) {
-    if (lvl1Scene == true && currentCommand[lineNumber].indexOf("userIdentity") !== -1) {
+    if ((lvl1Scene == true || lvl2Scene == true) && currentCommand[lineNumber].indexOf("userIdentity") !== -1) {
       if (currentCommand[lineNumber].indexOf("circle") !== -1) {
         currentShapeArray = 1
       } else {
