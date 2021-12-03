@@ -1,4 +1,4 @@
-var varCommand = ["function setup() {", "createCanvas(windowWidth, windowHeight)", "frameRate(5)", "}", "var state = 0", "var lin1x = 0", "var lin1y = 0", "var lin2x = 0", "var lin2y = 0", "var direction = 2", "var verticalGap = 0", "var horizontalGap = 0", "var c = 0", "function draw() {", "if (state == 0) {", "lin1x = width / 2", "lin1y = height / 2 + height / 40", "lin2x = lin1x", "lin2y = lin1y - height / 40", "verticalGap = height / 40", "horizontalGap = width / 40", "state = 1", "}", "colorMode(HSL, 360)", "stroke(c, 200, 200)", "strokeWeight(3)", "line(lin1x, lin1y, lin2x, lin2y)", "lin1x = lin2x", "lin1y = lin2y", "if (direction == 1) {", "verticalGap = verticalGap + height / 40", "lin2y = lin2y - verticalGap", "}", "if (direction == 2) {", "lin2x = lin2x + horizontalGap", "horizontalGap = horizontalGap + width / 40", "}", "if (direction == 3) {", "verticalGap = verticalGap + height / 40", "lin2y = lin2y + verticalGap", "}", "if (direction == 4) {", "lin2x = lin2x - horizontalGap", "horizontalGap = horizontalGap + width / 40", "direction = 0", "}", "direction = direction + 1", "if (c > 360) {", "c = 0", "}", "if (c <= 360) {", "c = c + 7", "}", "}", "function preload() {", "loadSoftware('Brick_Wall.exe')", "}"];
+var varCommand = [""];
 var currentCommand = []
 
 var wordArray = [[[""]]];
@@ -16,6 +16,9 @@ var linePositionArray = []
 var bypass = true
 var next = false
 var dateY;
+var varList = []
+var containsVar = false
+var varName;
 
 for (var linePositionArrayMaker = 0; linePositionArrayMaker < varCommand.length; linePositionArrayMaker++) {
   linePositionArray.push(161 + linePositionArrayMaker * 18)
@@ -128,7 +131,7 @@ function preload() {
 }
 
 function draw() {
-  //console.log(lineArray);
+  console.log(lineArray);
   screenMouse.mouseProperties();
   background(250, 250, 250);
   noStroke();
@@ -193,7 +196,7 @@ function draw() {
   }
 
   if (firstTime == true) {
-    firstCondition = "d vfaosfvsaodinfvapsdf";
+    firstCondition = "dvfaosfvsaodinfvapsdf";
     firstTime = false;
   }
 
@@ -852,17 +855,19 @@ if (msgClick == true && mouseX > 1000 && mouseY > 102) {
 function varMaker() {
   if (
     currentCommand[lineNumber].indexOf(firstCondition) !== -1 ||
-    window[firstWord] != undefined
+    window[firstWord] != undefined || currentCommand[lineNumber].indexOf("++") !== -1
   ) {
-    //quoteRemove1 = varCommand[lineNumber].replace(/"|'/g, "");
     spaceRemove = currentCommand[lineNumber].replace(/ /g, "");
 
     varTmp = spaceRemove.split("");
 
+    varStart = currentCommand[lineNumber].indexOf("var") + 4
+    varEnd = currentCommand[lineNumber].indexOf("=") - 1
+
     for (var varChecker = 0; varChecker < varTmp.length; varChecker++) {
       if (varTmp[varChecker] == "=") {
         if (currentCommand[lineNumber].indexOf("var") !== -1) {
-          endValue = varChecker - 3;
+          endValue = varChecker - 8;
         } else {
           endValue = varChecker;
         }
@@ -870,7 +875,7 @@ function varMaker() {
     }
 
     contentTmp = currentCommand[lineNumber].split("");
-    
+
     for (
       var contentChecker = 0;
       contentChecker < contentTmp.length;
@@ -882,9 +887,9 @@ function varMaker() {
     }
 
     if (currentCommand[lineNumber].indexOf("var") !== -1) {
-      varName = spaceRemove.substr(3, endValue);
+      varName = currentCommand[lineNumber].substr(varStart, varEnd - varStart);
     } else {
-      varName = spaceRemove.substr(0, endValue);
+      varName = currentCommand[lineNumber].substr(0, endValue);
     }
 
     varContent = currentCommand[lineNumber].substr(
@@ -936,6 +941,11 @@ function varMaker() {
       varContent = window[varContent];
     }
     window[varName] = varContent;
-    //console.log(varContent)
+    if (varList.indexOf(varName) == -1) {
+      varList.push(varName)
+    }
+    //console.log(varList)
   }
+  containsVar = false
+  console.log(varName)
 }
