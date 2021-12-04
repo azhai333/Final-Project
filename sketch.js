@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 var varCommand = ["function setup() {", "createCanvas(windowWidth, windowHeight)", "frameRate(20)", "}", "var state = 0", "var lin1x = 0", "var lin1y = 0", "var lin2x = 0", "var lin2y = 0", "var direction = 2", "var verticalGap = 0", "var horizontalGap = 0", "var c = 0", "function draw() {", "if (state == 0) {", "lin1x = (width / 2) - 3", "lin1y = (height / 2 + height / 40) - 20", "lin2x = lin1x", "lin2y = lin1y - height / 40", "verticalGap = height / 40", "horizontalGap = width / 40", "state = 1", "}", "colorMode(HSL, 360)", "stroke(c, 200, 200)", "strokeWeight(3)", "line(lin1x, lin1y, lin2x, lin2y)", "lin1x = lin2x", "lin1y = lin2y", "if (direction == 1) {", "verticalGap = verticalGap + height / 40", "lin2y = lin2y - verticalGap", "}", "if (direction == 2) {", "lin2x = lin2x + horizontalGap", "horizontalGap = horizontalGap + width / 40", "}", "if (direction == 3) {", "verticalGap = verticalGap + height / 40", "lin2y = lin2y + verticalGap", "}", "if (direction == 4) {", "lin2x = lin2x - horizontalGap", "horizontalGap = horizontalGap + width / 40", "direction = 0", "}", "direction = direction + 1", "if (c > 360) {", "c = 0", "}", "if (c <= 360) {", "c = c + 7", "}", "}", "function preload() {", "loadSoftware('Brick_Wall.exe')", "}"];
+=======
+var varCommand = ["function setup() {", "createCanvas(windowWidth, windowHeight)", "frameRate(5)", "}", "var state = 0", "var lin1x = 0", "var lin1y = 0", "var lin2x = 0", "var lin2y = 0", "var direction = 2", "var verticalGap = 0", "var horizontalGap = 0", "var c = 0", "function draw() {", "if (state == 0) {", "lin1x = width / 2", "lin1y = height / 2 + height / 40", "lin2x = lin1x", "lin2y = lin1y - height / 40", "verticalGap = height / 40", "horizontalGap = width / 40", "state = 1", "}", "colorMode(HSL, 360)", "stroke(c, 200, 200)", "strokeWeight(3)", "line(lin1x, lin1y, lin2x, lin2y)", "lin1x = lin2x", "lin1y = lin2y", "if (direction == 1) {", "verticalGap = verticalGap + height / 40", "lin2y = lin2y - verticalGap", "}", "if (direction == 2) {", "lin2x = lin2x + horizontalGap", "horizontalGap = horizontalGap + width / 40", "}", "if (direction == 3) {", "verticalGap = verticalGap + height / 40", "lin2y = lin2y + verticalGap", "}", "if (direction == 4) {", "lin2x = lin2x - horizontalGap", "horizontalGap = horizontalGap + width / 40", "direction = 0", "}", "direction = direction + 1", "if (c > 360) {", "c = 0", "}", "if (c <= 360) {", "c = c + 7", "}", "}", "function preload() {", "loadSoftware('Brick_Wall.exe')", "}"];
+>>>>>>> parent of d6289f1 (Started work on for loops)
 var currentCommand = []
 
 var wordArray = [[[""]]];
@@ -16,8 +20,11 @@ var linePositionArray = []
 var bypass = true
 var next = false
 var dateY;
+<<<<<<< HEAD
 var varList = []
 var containsVar = false
+=======
+>>>>>>> parent of d6289f1 (Started work on for loops)
 
 for (var linePositionArrayMaker = 0; linePositionArrayMaker < varCommand.length; linePositionArrayMaker++) {
   linePositionArray.push(161 + linePositionArrayMaker * 18)
@@ -130,7 +137,11 @@ function preload() {
 }
 
 function draw() {
+<<<<<<< HEAD
   //console.log(wordArray);
+=======
+  //console.log(lineArray);
+>>>>>>> parent of d6289f1 (Started work on for loops)
   screenMouse.mouseProperties();
   background(250, 250, 250);
   noStroke();
@@ -195,7 +206,7 @@ function draw() {
   }
 
   if (firstTime == true) {
-    firstCondition = "dvfaosfvsaodinfvapsdf";
+    firstCondition = "d vfaosfvsaodinfvapsdf";
     firstTime = false;
   }
 
@@ -853,13 +864,32 @@ if (msgClick == true && mouseX > 1000 && mouseY > 102) {
 function varMaker() {
   if (
     currentCommand[lineNumber].indexOf(firstCondition) !== -1 ||
+<<<<<<< HEAD
     containsVar == true || currentCommand[lineNumber].indexOf("++") !== -1
   ) {
     varStart = currentCommand[lineNumber].indexOf("var") + 4
     varEnd = currentCommand[lineNumber].indexOf("=") - 1
+=======
+    window[firstWord] != undefined
+  ) {
+    //quoteRemove1 = varCommand[lineNumber].replace(/"|'/g, "");
+    spaceRemove = currentCommand[lineNumber].replace(/ /g, "");
+
+    varTmp = spaceRemove.split("");
+
+    for (var varChecker = 0; varChecker < varTmp.length; varChecker++) {
+      if (varTmp[varChecker] == "=") {
+        if (currentCommand[lineNumber].indexOf("var") !== -1) {
+          endValue = varChecker - 3;
+        } else {
+          endValue = varChecker;
+        }
+      }
+    }
+>>>>>>> parent of d6289f1 (Started work on for loops)
 
     contentTmp = currentCommand[lineNumber].split("");
-
+    
     for (
       var contentChecker = 0;
       contentChecker < contentTmp.length;
@@ -871,14 +901,18 @@ function varMaker() {
     }
 
     if (currentCommand[lineNumber].indexOf("var") !== -1) {
-      varName = currentCommand[lineNumber].substr(varStart, varEnd - varStart);
+      varName = spaceRemove.substr(3, endValue);
     } else {
+<<<<<<< HEAD
       for (var i=0; i<varList.length; i++) {
         if (currentCommand[lineNumber].indexOf(varList[i]) !== -1) {
           varName = varList[i]
           break
         }
       }
+=======
+      varName = spaceRemove.substr(0, endValue);
+>>>>>>> parent of d6289f1 (Started work on for loops)
     }
 
     varContent = currentCommand[lineNumber].substr(
@@ -931,6 +965,7 @@ function varMaker() {
     }
     varContent = varContent.toString()
     window[varName] = varContent;
+<<<<<<< HEAD
     console.log([varName, varContent])
 
     if (varList.indexOf(varName) == -1) {
@@ -939,3 +974,8 @@ function varMaker() {
   }
   containsVar = false
 }
+=======
+    //console.log(varContent)
+  }
+}
+>>>>>>> parent of d6289f1 (Started work on for loops)

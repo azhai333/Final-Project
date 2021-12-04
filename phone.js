@@ -21,7 +21,7 @@ function msgApp() {
       typingBubble(1016, 475)
       }
 //540
-      if (msgInterval == 540 && msg1 == false) {
+      if (msgInterval == 1 && msg1 == false) {
         textArray.push(["Your task for today is to secure your work environment by installing our proprietary Brick Wall firewall software. Security is extremely important to Big Tech Inc, since we collect a lot of sensitive data from our users in order personalize the way their device behaves and create an overall better experience. You can install the program by using the preload function and typing “loadSoftware(“Brick_Wall.exe”).” When you’re done, go to file and hit save to submit your work to me, and I'll decide whether to approve it or whether you need to fix something in it.", 500, 307])
 
         if (msgScrollPos > -35) {
@@ -38,7 +38,7 @@ function msgApp() {
         }
     }
 //720
-    if (msgInterval == 720 && msg1 == false) {
+    if (msgInterval == 2 && msg1 == false) {
       textArray.push(["OH! As a side note, while users agree to this when they sign the terms and conditions upon receiving their device, we find that people are less likely to purchase our devices if they know we collect their information, therefore we ask all our employees to please keep this strictly confidential.", 822, 178])
     if (msgScrollPos > -225) {
         msgScrollPos = -225
