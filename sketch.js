@@ -1,4 +1,4 @@
-var varCommand = [""];
+var varCommand = ["function setup() {", "createCanvas(windowWidth, windowHeight)", "frameRate(20)", "}", "var state = 0", "var lin1x = 0", "var lin1y = 0", "var lin2x = 0", "var lin2y = 0", "var direction = 2", "var verticalGap = 0", "var horizontalGap = 0", "var c = 0", "function draw() {", "if (state == 0) {", "lin1x = (width / 2) - 3", "lin1y = (height / 2 + height / 40) - 20", "lin2x = lin1x", "lin2y = lin1y - height / 40", "verticalGap = height / 40", "horizontalGap = width / 40", "state = 1", "}", "colorMode(HSL, 360)", "stroke(c, 200, 200)", "strokeWeight(3)", "line(lin1x, lin1y, lin2x, lin2y)", "lin1x = lin2x", "lin1y = lin2y", "if (direction == 1) {", "verticalGap = verticalGap + height / 40", "lin2y = lin2y - verticalGap", "}", "if (direction == 2) {", "lin2x = lin2x + horizontalGap", "horizontalGap = horizontalGap + width / 40", "}", "if (direction == 3) {", "verticalGap = verticalGap + height / 40", "lin2y = lin2y + verticalGap", "}", "if (direction == 4) {", "lin2x = lin2x - horizontalGap", "horizontalGap = horizontalGap + width / 40", "direction = 0", "}", "direction = direction + 1", "if (c > 360) {", "c = 0", "}", "if (c <= 360) {", "c = c + 7", "}", "}", "function preload() {", "loadSoftware('Brick_Wall.exe')", "}"];
 var currentCommand = []
 
 var wordArray = [[[""]]];
@@ -18,7 +18,6 @@ var next = false
 var dateY;
 var varList = []
 var containsVar = false
-var varName;
 
 for (var linePositionArrayMaker = 0; linePositionArrayMaker < varCommand.length; linePositionArrayMaker++) {
   linePositionArray.push(161 + linePositionArrayMaker * 18)
@@ -131,7 +130,7 @@ function preload() {
 }
 
 function draw() {
-  console.log(lineArray);
+  //console.log(wordArray);
   screenMouse.mouseProperties();
   background(250, 250, 250);
   noStroke();
@@ -281,7 +280,6 @@ function shapeDrawer(shapeArray, shape) {
     colorMode(RGB, 255)
     }
     stroke(shapeArray[lineArrayDrawer][1][0], shapeArray[lineArrayDrawer][1][1], shapeArray[lineArrayDrawer][1][2])
-    console.log(shapeArray[lineArrayDrawer][1][0])
     if (lvl1Scene == true || lvl2Scene == true) {
     strokeWeight(shapeArray[lineArrayDrawer][3][0]/2)
     } else {
@@ -855,24 +853,10 @@ if (msgClick == true && mouseX > 1000 && mouseY > 102) {
 function varMaker() {
   if (
     currentCommand[lineNumber].indexOf(firstCondition) !== -1 ||
-    window[firstWord] != undefined || currentCommand[lineNumber].indexOf("++") !== -1
+    containsVar == true || currentCommand[lineNumber].indexOf("++") !== -1
   ) {
-    spaceRemove = currentCommand[lineNumber].replace(/ /g, "");
-
-    varTmp = spaceRemove.split("");
-
     varStart = currentCommand[lineNumber].indexOf("var") + 4
     varEnd = currentCommand[lineNumber].indexOf("=") - 1
-
-    for (var varChecker = 0; varChecker < varTmp.length; varChecker++) {
-      if (varTmp[varChecker] == "=") {
-        if (currentCommand[lineNumber].indexOf("var") !== -1) {
-          endValue = varChecker - 8;
-        } else {
-          endValue = varChecker;
-        }
-      }
-    }
 
     contentTmp = currentCommand[lineNumber].split("");
 
@@ -889,7 +873,12 @@ function varMaker() {
     if (currentCommand[lineNumber].indexOf("var") !== -1) {
       varName = currentCommand[lineNumber].substr(varStart, varEnd - varStart);
     } else {
-      varName = currentCommand[lineNumber].substr(0, endValue);
+      for (var i=0; i<varList.length; i++) {
+        if (currentCommand[lineNumber].indexOf(varList[i]) !== -1) {
+          varName = varList[i]
+          break
+        }
+      }
     }
 
     varContent = currentCommand[lineNumber].substr(
@@ -940,12 +929,13 @@ function varMaker() {
     if (window[varContent] != undefined) {
       varContent = window[varContent];
     }
+    varContent = varContent.toString()
     window[varName] = varContent;
+    console.log([varName, varContent])
+
     if (varList.indexOf(varName) == -1) {
       varList.push(varName)
     }
-    //console.log(varList)
   }
   containsVar = false
-  console.log(varName)
 }

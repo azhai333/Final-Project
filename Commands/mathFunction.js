@@ -7,6 +7,8 @@ function mathFunction(mathString) {
   var minusLoc = [];
   var signCount = 1;
 
+  //console.log(mathString)
+
   if (mathString.indexOf("(") !== -1) {
     mathStartValue = mathString.indexOf("(") + 1;
     mathEndValue = mathString.indexOf(")");
