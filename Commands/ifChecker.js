@@ -1,5 +1,4 @@
 function ifChecker() {
-  var ifContainsQuote = false;
   var andLoc = [];
   var orLoc = [];
   var lastOr = 0;
@@ -101,153 +100,7 @@ function ifChecker() {
       ifBooleanProcesser < ifBoolean.length;
       ifBooleanProcesser++
     ) {
-      if (ifBoolean[ifBooleanProcesser].indexOf(" =") !== -1) {
-        ifStartValue = ifBoolean[ifBooleanProcesser].indexOf("=");
-      }
-      if (ifBoolean[ifBooleanProcesser].indexOf(" <") !== -1) {
-        ifStartValue = ifBoolean[ifBooleanProcesser].indexOf("<");
-      }
-      if (ifBoolean[ifBooleanProcesser].indexOf(" >") !== -1) {
-        ifStartValue = ifBoolean[ifBooleanProcesser].indexOf(">");
-      }
-      if (ifBoolean[ifBooleanProcesser].indexOf(" !") !== -1) {
-        ifStartValue = ifBoolean[ifBooleanProcesser].indexOf("!");
-      }
-
-      operatorLength = 0;
-      operatorTmp = ifStartValue;
-
-      //While loop accounts for === being the only operator that contains 3 characters and therefore must have a higher operatorLength and operatorTmp. Subsequently a variable called operator is declared that will contain a string with just the operator e.g. "===". Note that > and < will end up with a space in their string e.g. "> ", since they are only 1 character, but this is accounted for later in the code when evaluating the statements. After that the two terms are declared, which are the values on either side of the operator. Term 1 always starts at index 0, due to way that statement is extracted, and ifStateValue - represents location of the operator minus the space before it to arrive at the end of the first term. The second term requires a definition of var endpoint where term2 begins, just after the operator taking into account spaces and length of operator. Then must check if statement lacks "=", meaning it is < or >, in which case endpoint must be back by one place.
-      while (ifBoolean[ifBooleanProcesser][operatorTmp + 2] == "=") {
-        operatorTmp += 1;
-        operatorLength += 1;
-      }
-
-      var operator = ifBoolean[ifBooleanProcesser].substr(
-        ifStartValue,
-        operatorLength + 2
-      );
-      var term1 = ifBoolean[ifBooleanProcesser].substr(0, ifStartValue - 1);
-
-      var endPoint =
-        ifBoolean[ifBooleanProcesser].indexOf(operator) + operatorLength + 3;
-
-      if (ifBoolean[ifBooleanProcesser].indexOf("=") == -1) {
-        endPoint -= 1;
-      }
-
-      var term2 = ifBoolean[ifBooleanProcesser].substr(
-        endPoint,
-        ifBoolean[ifBooleanProcesser].length - endPoint
-      );
-
-      //Check if term1 and term2 are a number, string, or variable. If it is a variable, it goes as far as to check whether that variable's value is a number. Anything that is a number must be parsed out of the string using parseInt
-
-      if (
-        term1.indexOf("+") !== -1 ||
-        term1.indexOf("-") !== -1 ||
-        term1.indexOf("*") !== -1 ||
-        term1.indexOf("/") !== -1
-      ) {
-        term1 = mathFunction(term1);
-      }
-
-      if (isNaN(parseInt(term1))) {
-        if (term1.indexOf("'") !== -1 || term1.indexOf('"') !== -1) {
-          ifContainsQuote = true;
-        }
-        if (ifContainsQuote == false) {
-          if (isNaN(parseInt(window[term1]))) {
-            term1 = window[term1];
-          } else {
-            term1 = parseInt(window[term1]);
-          }
-        }
-      } else {
-        term1 = parseInt(term1);
-      }
-
-      if (
-        term2.indexOf("+") !== -1 ||
-        term2.indexOf("-") !== -1 ||
-        term2.indexOf("*") !== -1 ||
-        term2.indexOf("/") !== -1
-      ) {
-        term2 = mathFunction(term2);
-      }
-
-      if (isNaN(parseInt(term2))) {
-        if (term2.indexOf("'") !== -1 || term2.indexOf('"') !== -1) {
-          ifContainsQuote = true;
-        }
-        if (ifContainsQuote == false) {
-          if (isNaN(parseInt(window[term2]))) {
-            term2 = window[term2];
-          } else {
-            term2 = parseInt(window[term2]);
-          }
-        }
-      } else {
-        term2 = parseInt(term2);
-      }
-      //If statements account for all possible operators and then evaluate term1 in relation to term2 based on what operator it finds. Pushes true or false into booleanArray, to be processed further based on if there are && or ||.
-      if (operator == "==") {
-        if (term1 == term2) {
-          termBoolean = true;
-        } else {
-          termBoolean = false;
-        }
-      }
-      if (operator == "===") {
-        if (term1 === term2) {
-          termBoolean = true;
-        } else {
-          termBoolean = false;
-        }
-      }
-      if (operator == ">=") {
-        if (term1 >= term2) {
-          termBoolean = true;
-        } else {
-          termBoolean = false;
-        }
-      }
-      if (operator == "<=") {
-        if (term1 <= term2) {
-          termBoolean = true;
-        } else {
-          termBoolean = false;
-        }
-      }
-      if (operator == "!=") {
-        if (term1 != term2) {
-          termBoolean = true;
-        } else {
-          termBoolean = false;
-        }
-      }
-      if (operator == "!==") {
-        if (term1 !== term2) {
-          termBoolean = true;
-        } else {
-          termBoolean = false;
-        }
-      }
-      if (operator == "< ") {
-        if (term1 < term2) {
-          termBoolean = true;
-        } else {
-          termBoolean = false;
-        }
-      }
-      if (operator == "> ") {
-        if (term1 > term2) {
-          termBoolean = true;
-        } else {
-          termBoolean = false;
-        }
-      }
-      booleanArray.push(termBoolean);
+      booleanArray.push(conditionalProcessor(ifBoolean[ifBooleanProcesser]));
     }
 
     //Processing of multiple statements connnected by logical operators follows what I call a logical order of operations funneling. You must always process && statements first because they are more strict. For loop uses andLoc, the variable that stores whether && is first, second, etc. operator in statement. For example, it if andLoc is 1, it will process whether the first 2 terms in booleanArray are true. If they are, the are condensed into one overall true statement, this is why I call the process funneling, the ultimate goal is to get down to 1 true or false statement. ifArrayValue is used to account for the fact that each loop condenses the array, so the frame of reference is shifting. This is also the function of the orFixer loop, as any || that appear after &&, will have it's location/frame of reference shifted.
@@ -261,12 +114,10 @@ function ifChecker() {
         booleanArray.splice(andLoc[andProcesser] - andProcesser, 1);
         booleanArray[andLoc[andProcesser] - (andProcesser + 1)] = false;
       }
-      orArrayValue = 0;
       for (var orFixer = 0; orFixer < orLoc.length; orFixer++) {
-        if (orLoc[orArrayValue] > andLoc[andProcesser]) {
-          orLoc[orArrayValue] -= 1;
+        if (orLoc[orFixer] > andLoc[andProcesser]) {
+          orLoc[orFixer] -= 1;
         }
-        orArrayValue += 1;
       }
     }
 
@@ -299,4 +150,152 @@ function ifChecker() {
     }
   }
 }
+}
+
+function conditionalProcessor(statement) {
+  var ifContainsQuote = false;
+  var termBoolean
+  if (statement.indexOf(" =") !== -1) {
+    ifStartValue = statement.indexOf("=");
+  }
+  if (statement.indexOf(" <") !== -1) {
+    ifStartValue = statement.indexOf("<");
+  }
+  if (statement.indexOf(" >") !== -1) {
+    ifStartValue = statement.indexOf(">");
+  }
+  if (statement.indexOf(" !") !== -1) {
+    ifStartValue = statement.indexOf("!");
+  }
+
+  operatorLength = 0;
+  operatorTmp = ifStartValue;
+
+  //While loop accounts for === being the only operator that contains 3 characters and therefore must have a higher operatorLength and operatorTmp. Subsequently a variable called operator is declared that will contain a string with just the operator e.g. "===". Note that > and < will end up with a space in their string e.g. "> ", since they are only 1 character, but this is accounted for later in the code when evaluating the statements. After that the two terms are declared, which are the values on either side of the operator. Term 1 always starts at index 0, due to way that statement is extracted, and ifStateValue - represents location of the operator minus the space before it to arrive at the end of the first term. The second term requires a definition of var endpoint where term2 begins, just after the operator taking into account spaces and length of operator. Then must check if statement lacks "=", meaning it is < or >, in which case endpoint must be back by one place.
+  while (statement[operatorTmp + 2] == "=") {
+    operatorTmp += 1;
+    operatorLength += 1;
+  }
+
+  var operator = statement.substr(
+    ifStartValue,
+    operatorLength + 2
+  );
+  var term1 = statement.substr(0, ifStartValue - 1);
+
+  var endPoint = statement.indexOf(operator) + operatorLength + 3;
+
+  if (statement.indexOf("=") == -1) {
+    endPoint -= 1;
+  }
+
+  var term2 = statement.substr(endPoint, statement.length - endPoint);
+
+  //Check if term1 and term2 are a number, string, or variable. If it is a variable, it goes as far as to check whether that variable's value is a number. Anything that is a number must be parsed out of the string using parseInt
+
+  if (
+    term1.indexOf("+") !== -1 ||
+    term1.indexOf("-") !== -1 ||
+    term1.indexOf("*") !== -1 ||
+    term1.indexOf("/") !== -1
+  ) {
+    term1 = mathFunction(term1);
+  }
+
+  if (isNaN(parseInt(term1))) {
+    if (term1.indexOf("'") !== -1 || term1.indexOf('"') !== -1) {
+      ifContainsQuote = true;
+    }
+    if (ifContainsQuote == false) {
+      if (isNaN(parseInt(window[term1]))) {
+        term1 = window[term1];
+      } else {
+        term1 = parseInt(window[term1]);
+      }
+    }
+  } else {
+    term1 = parseInt(term1);
+  }
+
+  if (
+    term2.indexOf("+") !== -1 ||
+    term2.indexOf("-") !== -1 ||
+    term2.indexOf("*") !== -1 ||
+    term2.indexOf("/") !== -1
+  ) {
+    term2 = mathFunction(term2);
+  }
+
+  if (isNaN(parseInt(term2))) {
+    if (term2.indexOf("'") !== -1 || term2.indexOf('"') !== -1) {
+      ifContainsQuote = true;
+    }
+    if (ifContainsQuote == false) {
+      if (isNaN(parseInt(window[term2]))) {
+        term2 = window[term2];
+      } else {
+        term2 = parseInt(window[term2]);
+      }
+    }
+  } else {
+    term2 = parseInt(term2);
+  }
+  //If statements account for all possible operators and then evaluate term1 in relation to term2 based on what operator it finds. Pushes true or false into booleanArray, to be processed further based on if there are && or ||.
+  if (operator == "==") {
+    if (term1 == term2) {
+      termBoolean = true;
+    } else {
+      termBoolean = false;
+    }
+  }
+  if (operator == "===") {
+    if (term1 === term2) {
+      termBoolean = true;
+    } else {
+      termBoolean = false;
+    }
+  }
+  if (operator == ">=") {
+    if (term1 >= term2) {
+      termBoolean = true;
+    } else {
+      termBoolean = false;
+    }
+  }
+  if (operator == "<=") {
+    if (term1 <= term2) {
+      termBoolean = true;
+    } else {
+      termBoolean = false;
+    }
+  }
+  if (operator == "!=") {
+    if (term1 != term2) {
+      termBoolean = true;
+    } else {
+      termBoolean = false;
+    }
+  }
+  if (operator == "!==") {
+    if (term1 !== term2) {
+      termBoolean = true;
+    } else {
+      termBoolean = false;
+    }
+  }
+  if (operator == "< ") {
+    if (term1 < term2) {
+      termBoolean = true;
+    } else {
+      termBoolean = false;
+    }
+  }
+  if (operator == "> ") {
+    if (term1 > term2) {
+      termBoolean = true;
+    } else {
+      termBoolean = false;
+    }
+  }
+  return termBoolean
 }

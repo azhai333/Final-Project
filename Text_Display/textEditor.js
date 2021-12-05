@@ -24,7 +24,9 @@ function textEditor() {
         wordArray[textPrinter][textPrinter1][0] == "-" ||
         wordArray[textPrinter][textPrinter1][0] == "*" ||
         wordArray[textPrinter][textPrinter1][0] == "/" ||
-        wordArray[textPrinter][textPrinter1][0] == "function"
+        wordArray[textPrinter][textPrinter1][0] == "function" ||
+        wordArray[textPrinter][textPrinter1][0] == "<" ||
+        wordArray[textPrinter][textPrinter1][0] == ">"
       ) {
         stroke(115, 90, 60);
         fill(115, 90, 60);
