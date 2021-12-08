@@ -279,7 +279,7 @@ function shapeDrawer(shapeArray, shape) {
     lineArrayDrawer < shapeArray.length;
     lineArrayDrawer++
   ) {
-    if (shapeArray[lineArrayDrawer][0][0] + shapeX >= shapeX && shapeArray[lineArrayDrawer][0][1] + shapeY >= shapeY && shapeArray[lineArrayDrawer][0][1] < n) {
+    //if (shapeArray[lineArrayDrawer][0][0] + shapeX >= shapeX && shapeArray[lineArrayDrawer][0][1] + shapeY >= shapeY && shapeArray[lineArrayDrawer][0][1] < n) {
     
     if (mode == HSL) {
     colorMode(HSL, modeValue)
@@ -312,7 +312,7 @@ function shapeDrawer(shapeArray, shape) {
         shapeArray[lineArrayDrawer][0][3]
       );
     }
-  }
+  //}
   }
 }
 

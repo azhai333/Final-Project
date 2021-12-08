@@ -1,4 +1,5 @@
 function wordArrayCreator() {
+  var quoteMode = false;
   for (var wordArray2 = 0; wordArray2 < varCommand.length; wordArray2++) {
     if (varCommand.length < previousCommand.length) {
       wordArray.splice(currentLineNumber + 1, 1);
