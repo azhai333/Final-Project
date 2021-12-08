@@ -134,7 +134,7 @@ function preload() {
 }
 
 function draw() {
-  //console.log(currentCommand);
+  console.log(wordArray);
   screenMouse.mouseProperties();
   background(250, 250, 250);
   noStroke();
