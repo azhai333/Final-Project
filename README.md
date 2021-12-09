@@ -14,7 +14,8 @@ This is explained in the texts in the game, but to clear a level you must create
 
 I also encourage everyone to try writing programs of their own and testing the limits of the editor (I'm sure you'll end up exposing some flaws in the interpreter). I'd be super curious to see code that I didn't write running in the editor, so feel free to send me screenshots!
 
-Functional Commands
+Functional Commands (spacing is really important due to the way I extract information to process it, so be sure to put spaces on either side of an '=' or any other operator such as "&&", and after the semi-colons in for loops. The demos/cheat codes demonstrate what my editor expects)
+
 - Console.log
 - Declare variables and change their values
 - If statements (including && and ||)
