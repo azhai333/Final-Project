@@ -2,7 +2,6 @@ var varCommand = [""];
 var currentCommand = []
 
 var wordArray = [[[""]]];
-var quoteMode = false;
 var checkStart = 0;
 var commandTmp = [];
 var previousCommand = [""];
@@ -13,7 +12,6 @@ var clickY = 161;
 var currentLineNumber = 0;
 var highestLineNumber = varCommand.length - 1;
 var linePositionArray = []
-var bypass = true
 var next = false
 var dateY;
 var varList = []
@@ -279,7 +277,7 @@ function shapeDrawer(shapeArray, shape) {
     lineArrayDrawer < shapeArray.length;
     lineArrayDrawer++
   ) {
-    //if (shapeArray[lineArrayDrawer][0][0] + shapeX >= shapeX && shapeArray[lineArrayDrawer][0][1] + shapeY >= shapeY && shapeArray[lineArrayDrawer][0][1] < n) {
+    if (shapeArray[lineArrayDrawer][0][0] + shapeX >= shapeX && shapeArray[lineArrayDrawer][0][1] + shapeY >= shapeY && shapeArray[lineArrayDrawer][0][1] < n) {
     
     if (mode == HSL) {
     colorMode(HSL, modeValue)
@@ -312,7 +310,7 @@ function shapeDrawer(shapeArray, shape) {
         shapeArray[lineArrayDrawer][0][3]
       );
     }
-  //}
+  }
   }
 }
 
