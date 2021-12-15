@@ -1,3 +1,4 @@
+//Loops work pretty much the way you'd expect. One challenge was making it so that the variable that is declared in the for loop, gets declared, this involved modifying my varMaker function a bit. When a loop is detected, loopMode is set to 1, which causes commandRunner to continue running until the condition in the forLoop is false. I also take advantage of the conditionalProcessor function in ifChecker.js, which processes individual conditional statements such as "1 == 1", and returns a boolean.
 function forLoop() {
     if (currentCommand[lineNumber].indexOf("for (") !== -1) {
         for (

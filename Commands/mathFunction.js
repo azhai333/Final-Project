@@ -7,8 +7,7 @@ function mathFunction(mathString) {
   var minusLoc = [];
   var signCount = 1;
 
-  //console.log(mathString)
-
+//To take into account order of operations, any parentheses are the first thing that get processed, using recursion. I extract whatever math is in the parentheses and run mathFunction on it. Whatever value that returns get added to the overall mathString in the place of the parentheses. So "(1 + 1) * 3" becomes "2 * 3".
   if (mathString.indexOf("(") !== -1) {
     mathStartValue = mathString.indexOf("(") + 1;
     mathEndValue = mathString.indexOf(")");
@@ -20,6 +19,7 @@ function mathFunction(mathString) {
 
   var mathTmp = mathString.split("");
 
+//Similar to how we needed count how many && and || are in an if statment, we need to know how many math operators there are and what position they are in. 
   for (var mathCounter = 0; mathCounter < mathTmp.length; mathCounter++) {
     if (mathTmp[mathCounter] == "/") {
       divideLoc.push(signCount);
@@ -47,6 +47,7 @@ function mathFunction(mathString) {
     }
   }
 
+//Standard extraction of the numbers in the string to form an array with those numbers. So 6 * 2 + 5 yields an array [6, 2, 5]
   for (var mathArrayMaker = 0; mathArrayMaker < signCount; mathArrayMaker++) {
     if (mathArrayMaker == 0) {
       if (isNaN(parseInt(mathString.substr(0, mathArray[0] - 1)))) {
@@ -118,6 +119,7 @@ function mathFunction(mathString) {
     }
   }
 
+//Multiplication and division are done first due to order of operations. It runs the functions written below, multplier() and divider(). The array multiplyLoc contains the position of each multiply sign in the equation, so if a multiply sign appears before a divide sign, the multiplication gets processed first (so the equation is processed left to right). For example in the equation 5 * 6 / 2, multipleLoc[0] = 1, and divideLoc[0] = 2. 
   multiplyDivideLoop = multiplyLoc.length + divideLoc.length;
   for (
     var multiplyDivide = 0;
@@ -144,8 +146,10 @@ function mathFunction(mathString) {
     }
   }
 
+//finalMathArray will only contain 1 value after processing, which is the final answer that needs to be returned to wherever this function is being called.
   return finalMathArray[0];
 
+//All of the math functions operate in a similar way to how the && and || statements were processed. It performs the relevant math operation on 2 numbers in finalMathArray, then splices out one of the numbers in the array and sets the remaining number equal to whatever answer was yielded from the operation. So 5 * 6 / 2, has an array of [5, 6, 2], the multiply will be processed first so the array becomes [30, 2]. Then all loc function have to be fixed since any operation that appears afterwards will experience a frameshift since a value has been removed from finalMathArray. divideLoc in the previous example will be 2, but now it should be at position 1. 
   function multiplier() {
     multiplyValue =
       finalMathArray[multiplyLoc[0] - 1] * finalMathArray[multiplyLoc[0] - 0];

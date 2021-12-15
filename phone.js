@@ -1,3 +1,4 @@
+//This function controls the timing of the text that is displayed in the phone for the game. I made a function, called textBubble that creates text message bubble that goes around each piece of text. Other than that, I use a fairly standard method of having a variable called msgInterval that increases by 1 each loop, and this is used to create pauses between each text message. 
 function msgApp() {
 
     push()

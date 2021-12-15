@@ -1,3 +1,4 @@
+//I noticed that all p5js function work the same way, it's a command with parentheses that contain the arguments for said command. So I wrote a generalFunction that processes all of these functions. The process of extracting the needed arguments for each command is pretty much the same so that's why this works. This is where the shapeArrays are made that later get printed by the shapeDrawer function.
 var valueArray = [];
 var doTheThing = true
 var bracketComma = [];

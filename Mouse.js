@@ -5,7 +5,6 @@ class mouse {
     this.currentX = 74;
     this.currentY = 161;
     this.state = 1;
-    //this.boxFill = 0
   }
   mouseProperties() {
     if (this.currentX <= 74) {
@@ -16,6 +15,7 @@ class mouse {
     }
   }
   onClick() {
+    //The basic idea is that when you click, it's a bit more chaotic than when you hit an arrow key. The arrow key directly translates to a change in mouse position of 1, either up, down, left or right. You could, however, click anywhere on the screen. What happens if you click somewhere between 2 valid mouse positions? I had to write a series of loops that locate the closest valid position for the mouse within an array that contains all valid mouse positions.
     var lowestDiff = 100;
     var currentDiff;
     var goToY;
@@ -91,7 +91,6 @@ class mouse {
         }
       }
 
-      //horizontalPositionArray.splice(currentLineNumber, 0, [74]);
       highestSpaceNumber.splice(currentLineNumber, 0, 0)
       highestSpaceNumber[currentLineNumber - 1] = horizontalPositionArray[currentLineNumber - 1].length - 1
       highestSpaceNumber[currentLineNumber] = horizontalPositionArray[currentLineNumber].length - 1
@@ -105,8 +104,6 @@ class mouse {
   onSpace() {
     this.state = 1;
     this.currentX += 9;
-    //clickX = this.currentX;
-    // clickY = this.currentY;
   }
   onRightArrow() {
     this.state = 1;
@@ -209,9 +206,6 @@ class mouse {
       this.currentX -= 9;
     }
 
-    // if (this.currentY <= 161) {
-    //   this.currentY = 161;
-    // }
     if (highestSpaceNumber[currentLineNumber] != 0 && currentSpaceNumber != 0) {
       highestSpaceNumber[currentLineNumber] -= 1;
       horizontalPositionArray[currentLineNumber].pop();

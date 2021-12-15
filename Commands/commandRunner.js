@@ -1,3 +1,4 @@
+//The command center of my code, at least when it comes to actually running the program within a program. It goes through currentCommand and runs searches for the cheat codes, if it finds them varCommand is reset to the specified value. This function also runs all the function in the command folder, such as bracketScanner, consolelog, forLoop, etc.
 function commandRunnerFunction() {
   while (commandRunner < currentCommand.length) {
     if (runCommand == true) {
@@ -75,9 +76,6 @@ function commandRunnerFunction() {
     lineNumber++
     commandRunner++
   }
-  //console.log(lineNumber)
-  //console.log("loopMode: " + loopMode)
-  //console.log("")
 }
 }
 

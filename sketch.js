@@ -132,13 +132,12 @@ function preload() {
 }
 
 function draw() {
-  console.log(wordArray);
   screenMouse.mouseProperties();
   background(250, 250, 250);
   noStroke();
   textFont(fontCode);
   textSize(18);
-
+//This is all the code to display the main code editor, and check if the run command button has been pressed. It doesn't run when a cutscene is playing.
   if (lvl1Scene == false && lvl2Scene == false) {
     push();
     translate(0, scrollPos);
@@ -161,6 +160,7 @@ function draw() {
   strokeWeight(5);
   fill(0);
   stroke(0);
+//runCommand is true when the "play" button has been pressed. varCommand is the array that contains all the text that has currently been typed. The array currentCommand is set equal to varCommand. The reason why I don't just do currentCommand = varCommand, and instead use a loop is because I found that Javascript variables reference one array object. So even if I set currentCommand equal to varCommand before I make a change to varCommand, that change will still mutate currentCommand. This loop ensures that a new array object is created that is disconnected from varCommand. This is important because if the program is already running, I don't want it to change the way it runs if the user types a change into the editor, the program should only update once the run button is pressed again. The frameRateFunction searches for frameRate() in the code and extracts whatever number is contains. skipFunction relates to the bracketScanner, I only want to run that one time per run of a program, once it finds all bracket pairs once, it doesn't need to happen again. firstTime relates to the variable declaration process. I only want to declare a variable one time per run, so any "var" lines only get processed once. This is important because my program loops through the code in currentCommand continuously, and if it set "var test = 0 " everytime, and there's another line that is "test++" then test would just fluctuate between 0 and 1, rather than increasing each time through the draw() loop. The code therefore ignores all lines with var after the first scan through the code.
 
   if (runCommand == true) {
     currentCommand = []
@@ -176,10 +176,6 @@ function draw() {
       frameRateFunction();
       lineNumber++;
     }
-    //console.log(frameRateValue);
-
-    //lineArray = [];
-    //lineValueArray = [];
     skipFunction = 0;
     firstTime = true
   }
@@ -188,8 +184,9 @@ function draw() {
   commandRunner = 0;
   lineNumber = 0;
 
-  functionInterval++;
+//Changing frameRate when the program is already running at a fixed frame rate was tricky. I realized that the only thing that is affected by frameRate, at least in the simple programs that I was running in this editor, was the actual drawing of shapes. Here's the basic flow of how a program runs in my editor. A line or other shape gets all its arguments placed into an array of arrays where each array contains the x, y, width, height, fill etc. that is needed to print the shape. I have a function called shapeDrawer that loops through these arrays and prints out each shape that is in them. These shapes immediately get cleared due to the standard background() that is used to refresh the program (this is needed for things like the blinking mouse). However, since they are stored in the array, they can instantly be redrawn (so the user never even notices this happening). Shapes only get added to the array based on the frameRate. Each loop through the code, functionInterval increases by 1. The program is already running at 60 fps, so we need to think of things in proportion to that. For example a program within the program running at 30 fps is running 1/2 the speed of the actual program, so we only want to add shapes to the array every other time (this will give the illusion of a slower framerate). Thus this is why I have the code seen below setup the way it is. commandRunnerFunction() is what I consider the control center of the program, it runs through the code in currentCommand and checks for any command such as if, for, variables by running the relevant functions. Draw mode relates to whether draw() is detected, if there is no draw loop, the program can just reset everytime, and everything I just explained no longer applies.
 
+functionInterval++;
   if (functionInterval >= Math.floor(60/frameRateValue)) {
     if (drawMode == false) {
       firstCondition = "var "
@@ -220,6 +217,7 @@ function draw() {
 
   wordArrayCreator();
 
+//This is the code that checks if you've completed a level, and if so, it runs a cutscene. 
   if (lvl1Scene == true) {
     scene.sceneStyle()
     scene.firstScene()
@@ -262,6 +260,7 @@ function speechBubble(textString, xPos, yPos, height) {
   text(textString, xPos, yPos, 230)
 }
 
+//These are the shapeDrawer function described above. The reason why there are 2 is because in the cutscenes there are 2 tablets, so I envisioned both tablets running whatever program the player makes at the same time, which would required the shapeArray to be drawn two times. If a cutscene is occuring, the positioning of the shapes also changes. 
 function shapeDrawer(shapeArray, shape) {
   var shapeX = 734
   var shapeY = 136
@@ -366,6 +365,7 @@ function shapeDrawer2(shapeArray, shape) {
   }
 }
 
+//This is all the code that controls the text editor. In hindsight, I think I overcomplicated things and there is a lot of redundant code that achieves the same thing in multiple ways. I was able to explain the gist of how it works in class. It just involves meticulously keeping track of how the position of the mouse changes when a letter is typed, or when you move the mouse either by clicking or using the arrow keys. If this is done accurately then the mouse position can be translated to a position in varCommand, thus allowing me to manipulate text in there. The Mouse class contains a series of function such as onBackSpace() and onEnter() that controls most of this.
 function keyPressed() {
   if (keyCode === BACKSPACE) {
     if (currentSpaceNumber == 0 && currentLineNumber != 0) {
@@ -399,7 +399,6 @@ function keyPressed() {
 
     highestLineNumber += 1;
     linePositionArray.push(161 + highestLineNumber * 18);
-    //varCommand[highestLineNumber] = "";
 
     screenMouse.onEnter();
 
@@ -474,6 +473,7 @@ function keyPressed() {
   return false
 }
 
+//This is all the jquery code that controls the menu elements at the top of the screen and all the buttons. 
 $(document).ready(function() {
   $(document.body).click( function() {
     if (start == true) {
@@ -818,23 +818,24 @@ function mouseClicked() {
   }
 }
 
+//Enabling the user the scroll in the editor turned out to be way easier than I thought. It isn't hard in p5 to write some code that causes a shape to translate based on a mouseScroll. The thing that concerned me was what to do with the text that isn't visible to the player. The solution was just to have the text in the editor be the lowest layer on the screen. So there is a white rectangle above the text editor and the grey rectangle of the console below the editor, which both hide all the text that scrolls off the editor. The amount you can scroll is dependent on the number of lines on the editor, and I have 2 variables, minScrollPos and maxScrollPos that keep track of this. 
 function mouseWheel(event) {
   if (mouseX > 23 && mouseX < 730 && mouseY > 136 && mouseY < 611) {
-  if (event.delta > 0 && scrollPos > minScrollPos) {
-    scrollPos -= abs(event.delta);
-  }
+    if (event.delta > 0 && scrollPos > minScrollPos) {
+      scrollPos -= abs(event.delta);
+    }
 
-  if (scrollPos < minScrollPos) {
-    scrollPos = minScrollPos;
-  }
-  if (event.delta < 0 && scrollPos < maxScrollPos) {
-    scrollPos += abs(event.delta);
-  }
+    if (scrollPos < minScrollPos) {
+      scrollPos = minScrollPos;
+    }
+    if (event.delta < 0 && scrollPos < maxScrollPos) {
+      scrollPos += abs(event.delta);
+    }
 
-  if (scrollPos > maxScrollPos) {
-    scrollPos = maxScrollPos;
+    if (scrollPos > maxScrollPos) {
+      scrollPos = maxScrollPos;
+    }
   }
-}
 
 if (msgClick == true && mouseX > 1000 && mouseY > 102) {
   
@@ -856,6 +857,7 @@ if (msgClick == true && mouseX > 1000 && mouseY > 102) {
   return false;
 }
 
+//As explained in class, the main approach to declaring variables was to directly place the variable and it's associated value in the window object. Other than that, it just involves the standard text parsing, substr(), indexOf(), method that I explained in class.
 function varMaker(varValue) {
   let lowest = 10000000
     varStart = varValue.indexOf("var") + 4
@@ -937,4 +939,3 @@ function varMaker(varValue) {
     }
   containsVar = false
 }
-
